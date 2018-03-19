@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Serverless Web App Example</title>
+        <link rel="stylesheet" href="bootstrap.min.css" />
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+        <style>
+            .block {
+                width: 50%;
+                float: left;
+                padding: 10px;
+            }
+
+            .row { 
+                content: " "; 
+                display: block;
+                clear: both;
+            } 
+
+            .row-text {
+                font-family: Courier New, Courier, monospace;
+            }
+
+            .user-msg {
+                margin: 4px;
+                padding: 4px 10px 4px 10px;
+                border-radius: 4px;
+                min-width: 50%;
+                max-width: 85%;
+                float: left;
+			    background-color: #7d7;
+            }
+
+            .lex-msg {
+                margin: 4px;
+                padding: 4px 10px 4px 10px;
+                border-radius: 4px;
+                min-width: 50%;
+                max-width: 85%;
+                float: right;
+                text-align: right;
+			    background-color: #bbf;
+			    font-style: italic;
+            }
+
+            .lex-err {
+                margin: 4px;
+                padding: 4px 10px 4px 10px;
+                border-radius: 4px;
+                min-width: 50%;
+                max-width: 85%;
+                float: right;
+                text-align: right;
+                background-color: #f77;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="max-width:100%; width:50%; margin:auto; display:block; clear:both">
+            <div class="block">
+                <h2 >Manual Request</h2>
+                <hr />
+                <input id="name-input" type="text" size="20" placeholder="Your Name"/>
+                <button id="submit-button">Submit</button>
+                <p id="response"><!-- Autogen content here --></p>
+            </div>
+            <div class="block">
+                <h2>ChatBot Request</h2>
+                <hr />
+                <div id="conversation" style="height: 400px; border: 1px solid #ccc; background-color: #eee; padding: 4px; overflow-y: scroll"></div>
+                <form id="chatform" style="margin-top: 10px" onsubmit="return pushChat();">
+                    <input type="text" id="wisdom" style="width:100%" value="" placeholder="I would like to make a request" onsubmit="">
+                </form>
+            </div>
+            <div class="block">
+                <h2>Existing Requests</h2>
+                <hr />
+                <button id="update-button">Update</button>
+                <div id="request-table" style="padding: 10px;min-height:10px;">
+                    <!-- Autogen content here -->
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="jquery-3.1.0.js"></script>
+        <script type="text/javascript">
+                function submitRequest() {
+                    $.ajax({
+                        method: 'POST',
+                        url: 'https://2evl0dvdv0.execute-api.us-east-1.amazonaws.com/prod/name',
+                        data: JSON.stringify({
+                            'Name': $('#name-input').val()
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (data, status, xhr) {
+                            $('#response').text('Success, your unique id is ' + data.yushengId);
+                            updateTable();
+                        },
+                        error: function (xhr, status, error) {
+                            $('#response').text('Error processing your request ' + status);
+                        }
+                    });
+                }
+
+                function updateTable() {
+                    $.ajax({
+                        method: 'GET',
+                        url: 'https://2evl0dvdv0.execute-api.us-east-1.amazonaws.com/prod/name',
+                        contentType: 'json',
+                        success: function (data, status, xhr) {
+                            $('#request-table').empty();
+                            $.each(data.Items, function (index, value) {
+                                var rowStyle;
+                                if (index % 2 == 0) {
+                                    rowStyle = 'background-color: WhiteSmoke;';
+                                } else {
+                                    rowStyle = 'background-color: White;';
+                                }
+                                $('#request-table').append(
+                                    '<div class="row" style="' + rowStyle + '" >' + '<div class="block row-text">' + value.yushengID + '</div>'
+                                    + '<div class="block">' + value.requestName + '</div>' + '</div>'
+                                    );
+                            });
+                        }
+                    });
+                }
+
+                $('#submit-button').click(function () {
+                    submitRequest();
+                });
+
+                $('#update-button').click(function () {
+                    updateTable();
+                });
+
+                $(document).ready(function () {
+                    updateTable();
+                });
+        </script>
+        <!-- LexBot from amazon blog -->
+        <script type="text/javascript">
+		// set the focus to the input box
+		document.getElementById("wisdom").focus();
+
+		// Initialize the Amazon Cognito credentials provider
+		AWS.config.region = 'us-east-1'; // Region
+		AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+		// Provide your Pool Id here
+			IdentityPoolId: 'us-east-1:6655ed99-76ae-47b1-a88b-6ff8ca5bf37e',
+		});
+
+		var lexruntime = new AWS.LexRuntime();
+		var lexUserId = 'chatbot-demo' + Date.now();
+		var sessionAttributes = {};
+
+		function pushChat() {
+
+			// if there is text to be sent...
+			var wisdomText = document.getElementById('wisdom');
+			if (wisdomText && wisdomText.value && wisdomText.value.trim().length > 0) {
+
+				// disable input to show we're sending it
+				var wisdom = wisdomText.value.trim();
+				wisdomText.value = '...';
+				wisdomText.locked = true;
+
+				// send it to the Lex runtime
+				var params = {
+					botAlias: '$LATEST',
+					botName: 'RequestBot',
+					inputText: wisdom,
+					userId: lexUserId,
+					sessionAttributes: sessionAttributes
+				};
+				showRequest(wisdom);
+				lexruntime.postText(params, function(err, data) {
+					if (err) {
+						console.log(err, err.stack);
+						showError('Error:  ' + err.message + ' (see console for details)')
+					}
+					if (data) {
+						// capture the sessionAttributes for the next cycle
+						sessionAttributes = data.sessionAttributes;
+						// show response and/or error/dialog status
+						showResponse(data);
+					}
+					// re-enable input
+					wisdomText.value = '';
+					wisdomText.locked = false;
+				});
+			}
+			// we always cancel form submission
+			return false;
+		}
+
+		function showRequest(daText) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var requestPara = document.createElement("P");
+			requestPara.className = 'user-msg';
+			requestPara.appendChild(document.createTextNode(daText));
+			conversationDiv.appendChild(requestPara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+
+		function showError(daText) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var errorPara = document.createElement("P");
+			errorPara.className = 'lex-err';
+			errorPara.appendChild(document.createTextNode(daText));
+			conversationDiv.appendChild(errorPara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+
+		function showResponse(lexResponse) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var responsePara = document.createElement("P");
+			responsePara.className = 'lex-msg';
+			if (lexResponse.message) {
+				responsePara.appendChild(document.createTextNode(lexResponse.message));
+				responsePara.appendChild(document.createElement('br'));
+			}
+			if (lexResponse.dialogState === 'ReadyForFulfillment') {
+				responsePara.appendChild(document.createTextNode(
+					'Ready for fulfillment'));
+				// TODO:  show slot values
+			} else {
+				responsePara.appendChild(document.createTextNode(
+					'(' + lexResponse.dialogState + ')'));
+			}
+			conversationDiv.appendChild(responsePara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+        </script>
+    </body>
+
+</html>
