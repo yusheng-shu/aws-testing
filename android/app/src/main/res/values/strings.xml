@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RequestBot</string>
+    <string name="pool_id">us-east-1:4d1c48b1-4a1d-4bdb-81fa-1ca1845122e7</string>
+    <string name="region">us-east-1</string>
+    <string name="bot_name">RequestBot</string>
+    <string name="bot_alias">$LATEST</string>
+</resources>
