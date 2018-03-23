@@ -1,0 +1,1 @@
+A very simple Lex and Lambda app that tells the user the current time.
