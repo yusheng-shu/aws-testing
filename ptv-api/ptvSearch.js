@@ -5,6 +5,7 @@ Important:  Search term should be focused on address, station/stop, or route.
             DO NOT include entire sentences such as "Flinders station myki outlet", 
             instead search for "Flinders" and set categories to "["outlet","station"]" (string array)
             
+The following are applicable categories and route types, these are the default order if order is not specified
 Categories: stops, routes, outlets
 Route types: train, tram, bus, vline, nightbus
 
@@ -38,12 +39,12 @@ Example:
 Expected output:
 {
     best: { [Best fitting result]
-        sentence: [Short sentence summarizing the result]
-        category: [String]
-        routeType: [String]
-        latitude: [Float]
-        longitude: [Float]
-        distsance: [Only applicable if request gave coordinates]
+        sentence: [Short sentence summarizing the result] REQUIRED
+        category: [String] REQUIRED
+        routeType: [String only applicable if category is stop or route] OPTIONAL
+        latitude: [Float only applicable if request gave coordinates] OPTIONAL
+        longitude: [Float only applicable if request gave coordinates] OPTIONAL
+        distsance: [Float only applicable if request gave coordinates] OPTIONAL
     },
     other: { [Other results that fit the criteria]
         stops: [
@@ -109,13 +110,10 @@ Example:
     }
 }
 
-
 Error output:
 {
     error: [Error message] REQUIRED
 }
-
-
 */
 
 const SIG_GEN_FUNC = "ptvSigGen";
@@ -123,7 +121,8 @@ const SIG_GEN_FUNC = "ptvSigGen";
 const SEARCH_ENDPOINT = "/v3/search/";
 const SEARCH_LAT = "&latitude=";
 const SEARCH_LONG = "&longitude=";
-const SEARCH_DIST = "&max_distance="
+const SEARCH_DIST = "&max_distance=";
+const SEARCH_ROUTE_TYPE = "&route_types=";
 const CATEGORIES = ["stops", "routes", "outlets"];
 const ROUTE_TYPES = ["train", "tram", "bus", "vline", "nightbus"];
 
@@ -136,6 +135,12 @@ exports.handler = (event, context, callback) => {
     if (event.latitude != null) {
         request +=  SEARCH_LAT + event.latitude + SEARCH_LONG + event.longitude + SEARCH_DIST + event.maxDistance;
     }
+    if (event.routeType != null) {
+        for (var i = 0; i < event.routeType.length; i++) {
+            request += SEARCH_ROUTE_TYPE + ROUTE_TYPES.indexOf(event.routeType[i]);
+        }
+    }
+    
     console.log("PTV request url: " + request);
     getRequestUrl(request, event, callback);
 };
@@ -262,11 +267,23 @@ function searchAPI(requestUrl, event, callback) {
 function parseResponse(json, event, callback) {
     // Sorts results by distance if applicable
     if (event.latitude != null) {
+        
+        // Make sure sorting order respects specified route type order
+        var routeTypeIds = [];
+        for (var i = 0; i < event.routeType.length; i++) {
+            routeTypeIds.push(ROUTE_TYPES.indexOf(event.routeType[i]));
+        }
         json.stops.sort(function(a, b) {
-            return a.stop_distance - b.stop_distance;
+           if (a.route_type != b.route_type) {
+               return routeTypeIds.indexOf(a.route_type) - routeTypeIds.indexOf(b.route_type);
+           } else {
+               return a.stop_distance - b.stop_distance;
+           }
         });
+        
+        // Sorting outlets
         json.outlets.sort(function(a, b) {
-            return a.outlet_distance = b.outlet_distance;
+            return a.outlet_distance - b.outlet_distance;
         });
     }
     
@@ -279,6 +296,8 @@ function parseResponse(json, event, callback) {
     
     // Remove unspecified route types from results
     // Checks the route_type id against the index of ROUTE_TYPE (e.g. "train" in ROUTE_TYPE is 0, thus route_type: 0 == "train")
+    // NOT IN USE, USING PTV API FILTERING INSTEAD
+    /*
     if (other.stops != null) {
         other.stops = other.stops.filter(function (stop) {
             return event.routeType.indexOf(ROUTE_TYPES[stop.route_type]) != -1;
@@ -289,9 +308,104 @@ function parseResponse(json, event, callback) {
             return event.routeType.indexOf(ROUTE_TYPES[route.route_type]) != -1;
         });
     }
+    */
     
-    console.log(other);
-    callback(null, null);
+    var best = null; // Candidate for best result
+    
+    // Get the best result
+    for (var i = 0; i < event.categories.length; i++) {
+        if (other[event.categories[i]] == null || other[event.categories[i]].length == 0) {
+            continue;
+        }
+        const candidate = other[event.categories[i]][0];
+        best = parseBestResult(event, candidate, event.categories[i]);
+        
+        // Remove best result from other results
+        other[event.categories[i]] = other[event.categories[i]].splice(0, 1);
+        break;
+    }
+    
+    if (best == null) {
+        errorCallback(callback, "There were no results from PTV.");
+    }
+    
+    // Return results
+    callback(null, {
+        best: best,
+        other: other
+    });
+    return;
+}
+
+// Formats best result
+function parseBestResult(event, candidate, category) {
+    var best = null;
+    if (category == "stops") {
+        var sentence = "Were you looking for " + candidate.stop_name + '?';
+        if (event.latitude != null) {
+            sentence += " It's about " + candidate.stop_distance.toFixed(0) + "m " 
+            + getSimpleBearing(event.latitude, event.longitude, candidate.stop_latitude, candidate.stop_latitude)
+            + " of here.";
+        }
+        
+        best = {
+            sentence: sentence,
+            category: category,
+            routeType: ROUTE_TYPES[candidate.route_type],
+            latitude: candidate.stop_latitude,
+            longitude: candidate.stop_longitude,
+            distsance: candidate.stop_distance
+        }
+    } else if (category == "routes") {
+        best = {
+            sentence: "Were you looking for " + candidate.route_name,
+            category: category,
+            routeType: ROUTE_TYPES[candidate.route_type]
+        }
+    } else if (category == "outlets") {
+        var sentence = "Were you looking for " + candidate.outlet_name + '?';
+        if (event.latitude != null) {
+            sentence += " It's about " + candidate.outlet_distance + "m " 
+            + getSimpleBearing(event.latitude, event.longitude, candidate.outlet_latitude, candidate.outlet_latitude)
+            + " of here.";
+        }
+        
+        best = {
+            sentence: sentence,
+            category: category,
+            latitude: candidate.outlet_latitude,
+            longitude: candidate.outlet_longitude,
+            distsance: candidate.outlet_distance
+        }
+    }
+    return best;
+    
+}
+
+// Returns simple compass bearing (e.g North, North East, East, South East ... etc.)
+function getSimpleBearing(userLat, userLong, destLat, destLong) {
+    var ult = toRadians(userLat);
+    var uln = toRadians(userLong);
+    var dlt = toRadians(destLat);
+    var dln = toRadians(destLong);
+    var x = Math.cos(dlt) * Math.sin(dln - uln);
+    var y = Math.cos(ult) * Math.sin(dlt) - Math.sin(ult) * Math.cos(dlt) * Math.cos(dln - uln);
+    var bearing = (Math.atan2(x, y) * (180/Math.PI) + 360) % 360;
+    
+    const compass = [ "North East", "East", "South East", "South", "South West", "West", "North West", "North" ];
+    const step = 45;
+    
+    for (var i = 0, c = 22.5; i < compass.length; i++, c+=step) {
+        if (bearing >= c && bearing < c + step) {
+            return compass[i];
+        }
+    }
+    
+    return '';
+}
+
+function toRadians (angle) {
+  return angle * (Math.PI / 180);
 }
 
 function errorCallback(callback, msg) {
