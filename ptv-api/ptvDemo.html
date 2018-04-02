@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>PTV API Lambda Demo</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+    <style>
+        .block {
+            width: 50%;
+            float: left;
+            padding: 10px;
+        }
+
+        .input {
+            display: block;
+            width: 100%;
+        }
+
+        .code {
+            white-space: pre-wrap;
+        }
+
+        .button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width:100%; width:80%; margin:auto; display:block; clear:both">
+        <div class="block">
+            <h2>Search</h2>
+            <hr />
+            <div>
+                <div class="block">
+                    <h3>Manual</h3>
+                    <input id="search-input" class="input" type="text" size="20" placeholder="Search term" />
+                    <input id="category-input" class="input" type="text" size="20" placeholder="Category" />
+                    <input id="route-input" class="input" type="text" size="20" placeholder="Route types" />
+                    <input id="latitude-input" class="input" type="text" size="20" placeholder="Latitude" />
+                    <input id="longitude-input" class="input" type="text" size="20" placeholder="Longitude" />
+                    <input id="distance-input" class="input" type="text" size="20" placeholder="Max distance" />
+                </div>
+                <div class="block">
+                    <h3>Presets</h3>
+                    <button type="button" id="autofill0" class="button">Simple Search</button>
+                    <button type="button" id="autofill1" class="button">Location Surroundings</button>
+                    <button type="button" id="autofill2" class="button">Category Priority Outlet</button>
+                    <button type="button" id="autofill3" class="button">Category Priority Stops</button>
+                    <button type="button" id="autofill4" class="button">Route Priority Train</button>
+                    <button type="button" id="autofill5" class="button">Route Priority Bus</button>
+                    <button type="button" id="autofill6" class="button">Bearing &amp; Distance 1</button>
+                    <button type="button" id="autofill7" class="button">Bearing &amp; Distance 2</button>
+                </div>
+            </div>
+            <p></p>
+            <button id="search-button" class="input">Search</button>
+            <p id="search-response" class="code"><!-- Autogen content here --></p>
+        </div>
+    </div>
+    <script type="text/javascript" src="jquery-3.1.0.js"></script>
+    <script type="text/javascript">
+        const autoFillArray = [
+            {
+                search: "Flinders"
+            },
+            {
+                search: "Flinders",
+                lat: -37.81831,
+                long: 144.966965,
+                dist: 100
+            },
+            {
+                search: "Flinders",
+                lat: -37.81828,
+                long: 144.966968,
+                dist: 100,
+                cat: "outlets,stops"
+            },
+            {
+                search: "Flinders",
+                lat: -37.81850,
+                long: 144.966959,
+                dist: 100,
+                cat: "stops,outlets"
+            },
+            {
+                search: "Flinders",
+                route: "train,bus",
+                lat: -37.81831,
+                long: 144.966965,
+                dist: 500,
+                cat: "stops"
+            },
+            {
+                search: "Flinders",
+                route: "bus,train",
+                lat: -37.81831,
+                long: 144.966965,
+                dist: 500,
+                cat: "stops"
+            },
+            {
+                search: "Flinders Station",
+                lat: -37.81841,
+                long: 144.966975,
+                dist: 100,
+                cat: "stops"
+            },
+            {
+                search: "Flinders Station",
+                lat: -37.81825,
+                long: 144.966952,
+                dist: 100,
+                cat: "stops"
+            },
+        ];
+
+        function autoFill(id) {
+            if (id >= autoFillArray.length) {
+                return;
+            }
+            const from = autoFillArray[id];
+
+            $('#search-input').val(from.search);
+            $('#category-input').val(from.cat);
+            $('#route-input').val(from.route);
+            $('#latitude-input').val(from.lat);
+            $('#longitude-input').val(from.long);
+            $('#distance-input').val(from.dist);
+
+            console.log(from);
+        }
+
+        function autoFillCallback(id) {
+            return function () {
+                autoFill(id);
+            }
+        }
+
+        for (var i = 0; i < autoFillArray.length; i++) {
+            $('#autofill' + i).click(autoFillCallback(i));
+        }
+
+        function submitSearch() {
+            var data = {};
+
+            if ($('#search-input').val()) {
+                data.searchTerm = $('#search-input').val();
+            } else {
+                return;
+            }
+            
+            if ($('#category-input').val()) {
+                data.categories = $('#category-input').val().split(',');
+            }
+            if ($('#route-input').val()) {
+                data.routeType = $('#route-input').val().split(',');
+            }
+            if ($('#latitude-input').val() && $('#longitude-input').val() && $('#distance-input').val()) {
+                data.latitude = $('#latitude-input').val();
+                data.longitude = $('#longitude-input').val();
+                data.maxDistance = $('#distance-input').val();
+            }
+
+            $.ajax({
+                method: 'POST',
+                url: 'https://af9vbnvefk.execute-api.us-east-1.amazonaws.com/dev/search',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (data, status, xhr) {
+                    if (data.best != null) {
+                        $('#search-response').text(data.best.sentence + '\n' + JSON.stringify(data, null, 4));
+                    } else if (data.error != null) {
+                        $('#search-response').text("Error response from lambda: " + data.error);
+                    } else {
+                        $('#search-response').text("Empty response from lambda");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#search-response').text('Error processing your search request: ' + status);
+                }
+            });
+        }
+
+        $('#search-button').click(function () {
+            submitSearch();
+        });
+    </script>
+</body>
+
+</html>

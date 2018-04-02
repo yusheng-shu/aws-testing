@@ -126,7 +126,14 @@ const SEARCH_ROUTE_TYPE = "&route_types=";
 const CATEGORIES = ["stops", "routes", "outlets"];
 const ROUTE_TYPES = ["train", "tram", "bus", "vline", "nightbus"];
 
+var isGateway = false;
+
 exports.handler = (event, context, callback) => {
+    if (event.body != null) {
+        event = JSON.parse(event.body);
+        isGateway = true;
+    }
+    
     if (!validateInput(event, callback)) {
         return;
     }
@@ -152,6 +159,8 @@ function validateInput(event, callback) {
         errorCallback(callback, "You did not provide a search term string");
         return false;
     }
+    
+    event.searchTerm = event.searchTerm.replace(/\s/g, "%20");
     
     // All coordinates must be present, unless none is present
     const hasLat = event.longitude != null;
@@ -321,30 +330,42 @@ function parseResponse(json, event, callback) {
         best = parseBestResult(event, candidate, event.categories[i]);
         
         // Remove best result from other results
-        other[event.categories[i]] = other[event.categories[i]].splice(0, 1);
+        other[event.categories[i]].shift();
         break;
     }
     
     if (best == null) {
-        errorCallback(callback, "There were no results from PTV.");
+        errorCallback(callback, "There were no applicable results from PTV.");
     }
     
     // Return results
-    callback(null, {
-        best: best,
-        other: other
-    });
-    return;
+    if (isGateway) {
+        callback(null, {
+            statusCode: 200,
+            body: JSON.stringify({
+                best: best,
+                other: other,
+            }),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
+    } else {
+        callback(null, {
+            best: best,
+            other: other
+        });
+    }
 }
 
 // Formats best result
 function parseBestResult(event, candidate, category) {
     var best = null;
     if (category == "stops") {
-        var sentence = "Were you looking for " + candidate.stop_name + '?';
+        var sentence = "Were you looking for the " + ROUTE_TYPES[candidate.route_type] + " stop: " + candidate.stop_name.trim() + '?';
         if (event.latitude != null) {
             sentence += " It's about " + candidate.stop_distance.toFixed(0) + "m " 
-            + getSimpleBearing(event.latitude, event.longitude, candidate.stop_latitude, candidate.stop_latitude)
+            + getSimpleBearing(event.latitude, event.longitude, candidate.stop_latitude, candidate.stop_longitude)
             + " of here.";
         }
         
@@ -358,15 +379,15 @@ function parseBestResult(event, candidate, category) {
         }
     } else if (category == "routes") {
         best = {
-            sentence: "Were you looking for " + candidate.route_name,
+            sentence: "Were you looking for the " + ROUTE_TYPES[candidate.route_type] + " route:  " + candidate.route_name.trim() + '?',
             category: category,
             routeType: ROUTE_TYPES[candidate.route_type]
         }
     } else if (category == "outlets") {
-        var sentence = "Were you looking for " + candidate.outlet_name + '?';
+        var sentence = "Were you looking for the outlet at: " + candidate.outlet_name.trim() + '?';
         if (event.latitude != null) {
-            sentence += " It's about " + candidate.outlet_distance + "m " 
-            + getSimpleBearing(event.latitude, event.longitude, candidate.outlet_latitude, candidate.outlet_latitude)
+            sentence += " It's about " + candidate.outlet_distance.toFixed(0) + "m " 
+            + getSimpleBearing(event.latitude, event.longitude, candidate.outlet_latitude, candidate.outlet_longitude)
             + " of here.";
         }
         
@@ -400,8 +421,7 @@ function getSimpleBearing(userLat, userLong, destLat, destLong) {
             return compass[i];
         }
     }
-    
-    return '';
+    return compass[7];
 }
 
 function toRadians (angle) {
