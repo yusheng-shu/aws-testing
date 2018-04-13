@@ -1,0 +1,168 @@
+*{padding:0;margin:0;}
+div,dl,dt,dd,form,h1,h2,h3,h4,h5,h6,img,ol,ul,li,table,th,td,p,span,a{border:0;}
+img,input{border:none;vertical-align:middle;}
+body{font-family:Helvetica, Arial, sans-serif;font-size:14px;background:#fff;color:#444;}
+body{overflow:scroll;}
+ul,ol{list-style-type:none;}
+th,td,input{font-size:14px;}
+h3{font-size:14px;}
+button{border:none;cursor:pointer;font-size:14px;background-color:transparent;}
+select{border-width:1px;_zoom:1;border-style:solid;padding-top:2px;font-size:12px;}
+input, button {font-family:Helvetica, Arial, sans-serif;outline: 0;border: 0; color:#666;}
+.clear{clear:both;font-size:1px;height:0;visibility:hidden;line-height:0;}
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+a{text-decoration:none;}
+a:link,a:visited{text-decoration:none;color:#444;}
+a:hover,a:active{text-decoration:underline;color:#3db1fa;}
+
+.footer{
+	width:100%;
+	height:100%;
+	background:#000;
+}
+.toppicture1{
+	width:100%;
+	height:75%;
+}
+.mainclick{
+	position: absolute;
+	margin-top: 30%;
+	margin-left: 45%;
+}
+.toptitle{
+	width:100%;
+	height:15%;
+}
+.imgtoppicture1{
+ 	width:100%;
+	height:100%;
+}
+.box{width:100%; overflow:hidden;}
+.box-3 dl{
+	display: table;
+	position: fixed;
+	bottom: 5px;
+	right: 74px;
+	width: 400px;
+	background: #cbcbcb;
+	box-shadow: 0 0 0px rgba(0,0,0,.3);
+	border-radius: 3px;
+}
+.box-3 dl dd{height: 40px;line-height: 40px; color:#fff; font-size: 16px;position: relative;padding-left: 10px; background:#d92c27; border-radius:0px 0px 0 0;}
+.box-3 dl dd b{
+	display: block;
+	height: 40px;
+	width: 42px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+}
+.box-3 dl dd b.up{ background:url(../images/up.png) center center no-repeat;}
+.box-3 dl dd b.down{ background:url(../images/down.png) center center no-repeat;}
+.box-3 dl ul{padding:0 0px; height:425px;background: #cbcbcb;}
+.box-3 dl ul li{ height:40px; line-height:40px; border-top: 1px dashed #EDEDED;background: #cbcbcb;}
+.box-3 dl ul li span{ display:inline-block; width:70px; text-align:right;background: #cbcbcb;}
+.box-3 dl ul li i{ font-style:normal; margin-left:10px;background: #cbcbcb;}
+requestTitle {
+			height: 20px;
+			size: 10px;
+			font-size:10px;
+			}
+p.userRequest {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+		}
+p.userRequestI {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 65%;
+			float: right;
+			color:#fff;
+			background-color: #d92c27;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		p.lexResponse {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: left;
+			min-width: 50%;
+			max-width: 85%;
+			float: left;
+		}
+		p.lexResponseI {
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		p.lexResponseDialog {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: left;
+			min-width: 50%;
+			max-width: 65%;
+			float: left;
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		p.lexError {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+			background-color: #f77;
+		}
+		.responseButtontext{
+			border:1px solid #d92c27;
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+			width:180px;
+			color:#d92c27;
+		}
+		button{
+			padding: 2px 4px 2px 4px;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		input#wisdom {
+			padding: 5px;
+			font-size: 1em;
+			width: 295px
+		}
+		input#wissdomsubmit{
+			padding: 0px;
+			float:left;
+			background-color: #cbcbcb;
+		}
+
+		input::placeholder {
+			color: #ccc;
+		}
+		.align-center{ 
+		margin:0 auto;
+		padding: 10px,0px,10px,0px;
+		width:380px; 
+		text-align:center;  
+		} 
