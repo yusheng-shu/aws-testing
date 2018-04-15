@@ -1,0 +1,3493 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home - Public Transport Victoria</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+<script type="text/javascript">var blinkingCircle;</script>
+
+    <base href="https://www.ptv.vic.gov.au/"><!--[if lte IE 6]></base><![endif]-->
+		<meta charset="utf-8">
+                    <script type="text/javascript">
+                        window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var o=t[n]={exports:{}};e[n][0].call(o.exports,function(t){var o=e[n][1][t];return r(o||t)},o,o.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(e,t,n){function r(){}function o(e,t,n){return function(){return i(e,[f.now()].concat(u(arguments)),t?null:this,n),t?void 0:this}}var i=e("handle"),a=e(2),u=e(3),c=e("ee").get("tracer"),f=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,t){s[t]=o(d+t,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,o="function"==typeof t;return i(l+"tracer",[f.now(),e,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return t.apply(this,arguments)}catch(e){throw c.emit("fn-err",[arguments,this,e],n),e}finally{c.emit("fn-end",[f.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=o(l+t)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,f.now()])}},{}],2:[function(e,t,n){function r(e,t){var n=[],r="",i=0;for(r in e)o.call(e,r)&&(n[i]=t(r,e[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],3:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,o=n-t||0,i=Array(o<0?0:o);++r<o;)i[r]=e[t+r];return i}t.exports=r},{}],4:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function o(e){function t(e){return e&&e instanceof r?e:e?c(e,u,i):i()}function n(n,r,o,i){if(!d.aborted||i){e&&e(n,r,o);for(var a=t(o),u=m(n),c=u.length,f=0;f<c;f++)u[f].apply(a,r);var p=s[y[n]];return p&&p.push([b,n,r,a]),a}}function l(e,t){v[e]=m(e).concat(t)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(n)}function g(e,t){f(e,function(e,n){t=t||"feature",y[n]=t,t in s||(s[t]=[])})}var v={},y={},b={on:l,emit:n,get:w,listeners:m,context:t,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",c=e("gos"),f=e(2),s={},p={},d=t.exports=o();d.backlog=s},{}],gos:[function(e,t,n){function r(e,t,n){if(o.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[t]=r,r}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){o.buffer([e],r),o.emit(e,t,n)}var o=e("ee").get("handle");t.exports=r,r.ee=o},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=h.info=NREUM.info,t=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return s.abort();f(y,function(t,n){e[t]||(e[t]=n)}),c("mark",["onload",a()+h.offset],null,"api");var n=d.createElement("script");n.src="https://"+e.agent,t.parentNode.insertBefore(n,t)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),c=e("handle"),f=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1071.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=t.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),c("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);
+                                            </script>
+		
+		<meta name="DCTERMS.title" content="Home" />
+<meta name="DCTERMS.description" content="Welcome to Public Transport Victoria, your guide to public transport in metropolitan Melbourne and regional Victoria." />
+<meta name="keywords" content="PTV, public transport melbourne, metlink, metro trains, yarra trams, train, trains, tram, trams, bus, buses, vline, v line timetable, metcard, public transport, fares, australia, Melbourne, Victoria, rail, journey planner, guide, route, reservation, vacation, holiday" />
+<meta name="DCTERMS.modified" content="2018-02-13 13:05:18" />
+<meta name="DCTERMS.created" content="2011-10-06 14:17:33" />
+<meta name="DC.Title" content="Home" />
+<meta name="DC.Date.Created" content="2011-10-06 14:17:33" />
+<meta name="DC.Date.Modified" content="$Modified" />
+<meta name="DC.Format" content="HTML" />
+<meta name="DC.Type.DocumentType" content="$MediaType" />
+<meta name="DC.Language" content="English" />
+<meta name="google-site-verification" content="Rgn_Ltjj25Txcb-7Hg5ZdHHpwOhF3oczyJ9BfUa5Ics" />
+		<meta name="description" content="" />
+
+		
+        
+        
+		
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38618871-1']);
+  _gaq.push(['_setDomainName', 'ptv.vic.gov.au']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <link rel="stylesheet" type="text/css" href="/themes/transport-site/css/combined_all_site.min.css?m=1519964121" />
+<link rel="stylesheet" type="text/css" href="/themes/transport-site/css/jquery-ui-1.8rc3.custom.css?m=1519964121" />
+<link rel="stylesheet" type="text/css" media="print" href="/themes/transport-site/css/print.css?m=1519964121" />
+<link rel="stylesheet" type="text/css" href="/themes/transport-site/css/home.css?m=1519964121" />
+<link rel="stylesheet" type="text/css" href="/sabot/css/sabot.css?m=1519964137" />
+<link rel="stylesheet" type="text/css" href="/themes/transport-site/css/journey-planner.css?m=1519964121" />
+
+</head>
+<body id="layout-2-1" class=" HomePage" onload="showStartResponse()">
+    		
+<!-- ClickTale Top part -->
+<script type="text/javascript">
+var WRInitTime=(new Date()).getTime();
+</script>
+<!-- ClickTale end of Top part -->
+
+
+		<div id="main-skip-block" role="navigation">
+	
+		
+		<a href="/#main-navigation" title="Skip to primary navigation">Skip to primary navigation</a>
+		
+		<a href="/#main-content" title="Skip to content">Skip to content</a>
+		
+		<a href="journey#main-content" title="Go to the journey planner">Go to the journey planner</a>
+		
+		<a href="timetables#mode-search" title="Go to the timetables search">Go to the timetables search</a>
+		
+		<a href="next5#mode-search" title="Go to the Next 5 departures page">Go to the Next 5 departures page</a>
+		
+	
+</div>
+		
+		<input id="ParentChain" type="hidden" value="12284,1" />
+		<div id='bg'>
+			<div id='main-border-wrap' class="has-side-banner">
+				
+					
+					<div id="right-border"><a href="https://www.ptv.vic.gov.au/getting-around/night-network/"><img src="https://static.ptv.vic.gov.au/page-side-images/1516331681/MPTV0745_Owned_115x944_01_Web-Side-Skin2.jpg" alt="Explore the Night Web Side Skin2" /></a></div>
+					<div id="left-border"><a href="https://www.ptv.vic.gov.au/getting-around/night-network/"><img src="https://static.ptv.vic.gov.au/page-side-images/1516331681/MPTV0745_Owned_115x944_02_Web-Side-Skin1.jpg" alt="Explore the NIght Web Side Skin1" /></a></div>	
+					
+				
+
+				<div id="main" class="clearfix">
+					
+					<div id="header" role="banner">
+						<div class="wrapper clearfix">
+							<div id="logo-container">
+	<div id="nav-pull" class="mobile-only">
+		<a href="/#" id="MobileMainMenu">Menu</a>
+	</div>
+	
+	<a href="" id="head-logo" title="PTV home page">
+		PTV home page
+	</a>
+	
+</div>
+<div id="MobileNavContainer">
+</div>
+
+
+	<div id="home-slideshow-mobile" class="mobile-only">
+		
+		<div class="slideshow-item">
+			<a href="/getting-around/network-changes/autumn-construction-blitz/" title="Link to view Plan ahead before you travel this autumn">
+				<img alt="Plan ahead before you travel this autumn"
+					
+					src="assets/Images/AA-Web-banners/Autumn-construction-blitz-2018.jpg" 
+					
+				/>
+			</a>
+			<p class="caption"><a href="/getting-around/network-changes/autumn-construction-blitz/" title="Link to view Plan ahead before you travel this autumn">Plan ahead before you travel this autumn</a></p>
+		</div>
+		
+		<div class="slideshow-item">
+			<a href="/anzac-day/" title="Link to view Free shuttle bus to the Dawn Service">
+				<img alt="Free shuttle bus to the Dawn Service"
+					
+					src="assets/Images/AA-Web-banners/ANZAC-Day-2018.jpg" 
+					
+				/>
+			</a>
+			<p class="caption"><a href="/anzac-day/" title="Link to view Free shuttle bus to the Dawn Service">Free shuttle bus to the Dawn Service</a></p>
+		</div>
+		
+		<div class="slideshow-item">
+			<a href="http://www.bigbuild.vic.gov.au" title="Link to view Big Projects. Big Overhaul. Victoria&#039;s Big Build.">
+				<img alt="Big Projects. Big Overhaul. Victoria&#039;s Big Build."
+					
+					src="assets/Images/AA-Web-banners/Big-Build.jpg" 
+					
+				/>
+			</a>
+			<p class="caption"><a href="http://www.bigbuild.vic.gov.au" title="Link to view Big Projects. Big Overhaul. Victoria&#039;s Big Build.">Big Projects. Big Overhaul. Victoria&#039;s Big Build.</a></p>
+		</div>
+		
+		<div class="slideshow-item">
+			<a href="/getting-around/network-changes/wallanbus/" title="Link to view New Wallan bus network from Monday 30 April">
+				<img alt="New Wallan bus network from Monday 30 April"
+					
+					src="assets/Images/AA-Web-banners/Wallan-Bus-Campaign.JPG" 
+					
+				/>
+			</a>
+			<p class="caption"><a href="/getting-around/network-changes/wallanbus/" title="Link to view New Wallan bus network from Monday 30 April">New Wallan bus network from Monday 30 April</a></p>
+		</div>
+		
+		<div class="slideshow-controls-holder">
+			<ul class="controls">
+				<li><a href="/#" class="slideshow-pause" title="Pause slideshow">||</a></li>
+				
+				<li><a href="/#" class="slideshow-trigger" id="mobile-trigger-1" title="Show mobile slideshow item 1">1</a></li>
+				
+				<li><a href="/#" class="slideshow-trigger" id="mobile-trigger-2" title="Show mobile slideshow item 2">2</a></li>
+				
+				<li><a href="/#" class="slideshow-trigger" id="mobile-trigger-3" title="Show mobile slideshow item 3">3</a></li>
+				
+				<li><a href="/#" class="slideshow-trigger" id="mobile-trigger-4" title="Show mobile slideshow item 4">4</a></li>
+				
+			</ul>
+		</div>
+	</div>
+
+
+<div id="textsize-search">
+	
+	
+	<form id="SearchForm_getSearchForm" action="/search/getSearchForm" method="get" enctype="application/x-www-form-urlencoded" role="search">
+		<label for="txtSearch">Search</label>
+		<input id="txtSearch" type="text" placeholder="Search this site..." name="Search">
+		<div id="SearchDropDown">
+			<ul id="UserFilter" class="optionset checkboxset nolabel" >
+	
+		
+			<li class="odd val0">
+				<input id="UserFilter_0" class="checkbox" name="UserFilter[0]" type="checkbox" value="0" checked="checked" />
+				<label for="UserFilter_0">Timetables</label>
+			</li> 
+		
+			<li class="even val1">
+				<input id="UserFilter_1" class="checkbox" name="UserFilter[1]" type="checkbox" value="1" checked="checked" />
+				<label for="UserFilter_1">Information</label>
+			</li> 
+		
+	
+</ul>
+			<div class="clear"><!-- //--></div>
+		</div>
+		<input type="image" src="themes/transport-site/images/btnSearch.png" value="Search" alt="Search" name="action_getSearchResults">
+	</form>
+							
+	
+</div>
+
+<div class="page-tools mobile-hidden">
+	<div id="text-resizer" aria-hidden="true">
+		<span class="label">Adjust text size:</span>
+		<a id="text-increase" tabindex="0" title="Increase text size" href="/#">+</a> / 
+		<a id="text-decrease" tabindex="0" title="Decrease text size" href="/#">&minus;</a>
+	</div>
+	<a id="print-page" href="/home/?print=1" title="Print this page">
+		<span class="label">Print page</span><span class="icon"></span>
+	</a>
+	
+	<a id="head-fav" href="myway" title="View your favourites">
+		<span class="label">Favourites</span><span class="icon"></span>
+	</a>
+	
+</div>
+<a id="main-navigation" name="main-navigation" tabindex="-1"></a>
+
+<ul id="nav">
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-home" class="topNav-1">
+			<a href="https://www.ptv.vic.gov.au/home/">Home</a>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-tickets" class="topNav-7604">
+			<a href="https://www.ptv.vic.gov.au/tickets/">Tickets</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/tickets/myki/">myki</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/tickets/fares/">Fares</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/tickets/ticketing-for-travel-in-regional-victoria/">Ticketing for travel in regional Victoria</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/tickets/general-information/">General information</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-getting-around" class="topNav-34">
+			<a href="https://www.ptv.vic.gov.au/getting-around/">Getting around</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/maps/">Maps</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/stations-and-stops/">Stations and stops</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/metro-local-areas/">Melbourne local areas</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/accessible-transport/">Accessible transport</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/mobile-apps/">Mobile apps</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/visiting-melbourne/">Visiting Melbourne</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/lost-property/">Lost property</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/airport-buses/">Airport buses</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/network-changes/">Network changes</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/night-network/">Night Network</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/school-buses/">School buses</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/luggage-bikes-and-animals/">Luggage, bikes and animals</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/travelling-safely/">Travelling safely</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/ferries/">Ferries</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/interstate-travel/">Interstate travel</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/melbourne-bike-share/">Melbourne Bike Share</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/getting-around/digital/">Digital</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-news-and-events" class="topNav-12934">
+			<a href="https://www.ptv.vic.gov.au/news-and-events/">News and events</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/news-and-events/news/">News</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/news-and-events/events/">Events</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-projects" class="topNav-1269">
+			<a href="https://www.ptv.vic.gov.au/projects/">Projects</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/projects/rail-projects/">Rail projects</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/projects/railway-stations/">Railway stations</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/projects/railway-crossings/">Railway crossings </a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/projects/tram-projects/">Tram projects</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/projects/bus-projects/">Bus projects</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-about-ptv" class="topNav-1271">
+			<a href="https://www.ptv.vic.gov.au/about-ptv/">About PTV</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/public-transport-victoria/">Public Transport Victoria</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/victorias-public-transport-network/">Victoria&#039;s public transport network</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/data-and-reports/">Data and reports</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/media-centre/">Media Centre</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/employment/">Employment</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/about-ptv/ptv-latest-campaigns/">PTV Latest campaigns</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+		<li id="nav-https:--www.ptv.vic.gov.au-customer-service" class="topNav-1562">
+			<a href="https://www.ptv.vic.gov.au/customer-service/">Customer service</a>
+			
+				<div class="sub sub-cols-1">
+					<div>
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/customer-service/feedback-and-complaints/">Feedback and complaints</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/customer-service/ptv-hubs/">PTV Hubs</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/customer-service/public-transport-call-centre/">Public transport call centre</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/customer-service/operator-contacts/">Operator contacts</a></div>
+								
+					
+								
+									<div class="second-level"><a href="https://www.ptv.vic.gov.au/customer-service/reporting-a-railway-crossing-fault/">Reporting a railway crossing fault</a></div>
+								
+					
+					</div>
+				</div>
+			
+		</li>
+	
+</ul>
+						</div>		
+					</div>
+					
+					<!-- close header -->
+					
+
+						
+						<div id="servicesNav">
+							<div class="wrapper">
+								
+<ul>
+
+	
+	<li class="mobile-only"><a href="next5">Next 5 Services</a></li>
+	
+
+	
+		
+	<li class="mobile-only"><a href="journey" id="mobile-journey">Plan Journey</a></li>
+	<div id="journey-holder">
+	</div>
+		
+	
+
+
+	<li id="navMapJourney"><a href="journey"><span>Journey planner</span></a></li>
+
+	<li id="navTimetables"><a href="timetables"><span>Timetables</span></a></li>
+
+	<li id="navNextFive"><a href="next5"><span>Next 5 departures</span></a></li>
+
+	<li id="navDisruptions"><a href="live-travel-updates/"><span>Live travel updates</span></a></li>
+
+	<li id="navMyki"><a href="tickets/myki"><span>myki</span></a></li>
+
+</ul>
+
+							</div>
+						</div>
+						
+						
+
+					
+<div id="container">
+	<p id="tagline"></p>
+	<div id="content" role="main">
+		<a id="main-content" tabindex="-1"></a>
+		<h1 class="hidden">PTV Home Page</h1>
+		
+		<div id="home-slideshow">
+			
+			<div class="slideshow-item">
+				<img alt="Plan ahead before you travel this autumn"
+					
+					src="https://static.ptv.vic.gov.au/Images/AA-Web-banners/1520314861/PTVH2297-V_PTV-Website-banner-635x280px_v1_FA.jpg" 
+					
+				/>
+				<p class="caption"><a href="/getting-around/network-changes/autumn-construction-blitz/" title="Link to view Plan ahead before you travel this autumn">Plan ahead before you travel this autumn</a></p>
+			</div>
+			
+			<div class="slideshow-item">
+				<img alt="Free shuttle bus to the Dawn Service"
+					
+					src="https://static.ptv.vic.gov.au/Images/AA-Web-banners/1521079444/ANZAC-Day-2018.jpg" 
+					
+				/>
+				<p class="caption"><a href="/anzac-day/" title="Link to view Free shuttle bus to the Dawn Service">Free shuttle bus to the Dawn Service</a></p>
+			</div>
+			
+			<div class="slideshow-item">
+				<img alt="Big Projects. Big Overhaul. Victoria&#039;s Big Build."
+					
+					src="https://static.ptv.vic.gov.au/Images/AA-Web-banners/1522912173/MOCG0022_635x280_02-2-_v2.jpg" 
+					
+				/>
+				<p class="caption"><a href="http://www.bigbuild.vic.gov.au" title="Link to view Big Projects. Big Overhaul. Victoria&#039;s Big Build.">Big Projects. Big Overhaul. Victoria&#039;s Big Build.</a></p>
+			</div>
+			
+			<div class="slideshow-item">
+				<img alt="New Wallan bus network from Monday 30 April"
+					
+					src="https://static.ptv.vic.gov.au/Images/AA-Web-banners/1522209762/PTVH2821-Wallan-Bus-Campaign_Website-Banner-635x280px_v1.JPG" 
+					
+				/>
+				<p class="caption"><a href="/getting-around/network-changes/wallanbus/" title="Link to view New Wallan bus network from Monday 30 April">New Wallan bus network from Monday 30 April</a></p>
+			</div>
+			
+			<div class="slideshow-controls-holder">
+				<ul class="controls">
+					<li><a href="/#" class="slideshow-pause" title="Pause slideshow">||</a></li>
+					
+					<li><a href="/#" class="slideshow-trigger" id="trigger-1" title="Show slideshow item 1">1</a></li>
+					
+					<li><a href="/#" class="slideshow-trigger" id="trigger-2" title="Show slideshow item 2">2</a></li>
+					
+					<li><a href="/#" class="slideshow-trigger" id="trigger-3" title="Show slideshow item 3">3</a></li>
+					
+					<li><a href="/#" class="slideshow-trigger" id="trigger-4" title="Show slideshow item 4">4</a></li>
+					
+				</ul>
+			</div>
+		</div>
+		
+		
+		<div id="quickpicks" class="panel mobile-hidden">
+			<div class="panel-content">
+				<h2>Quick picks</h2>
+				<ul>
+					
+					<li><a href="/getting-around/digital/social-media/">Join us on social media!</a></li>
+					
+					<li><a href="/about-ptv/data-and-reports/operational-performance/">Operational performance</a></li>
+					
+					<li><a href="/getting-around/network-changes/">Discover your network changes</a></li>
+					
+					<li><a href="/news-and-events/events/">Get to events with public transport</a></li>
+					
+				</ul>
+			</div>
+		</div>
+		
+		<div id="disruptions-panel" class="panel">
+			
+			<a href="https://www.ptv.vic.gov.au/live-travel-updates" title="Navigate to Live travel updates">
+				<span>Live travel updates</span>
+				
+				<img src="https://static.ptv.vic.gov.au/siteassets/Uploads/live-travel-updates2.jpg" alt="Navigate to Live travel updates" />
+				
+			</a>
+			
+		</div>
+		
+		
+
+		<div class="clearfix"></div>
+		
+		<div class="clear-row function-panels mobile-hidden">
+			<div class="function-panels-inner">
+				<div class="jp-headingbanner jp-headingbanner--connector">
+					<div class="jp-inner">
+						<i class="jp-icon jp-icon-marker"></i>
+						<h2 class="jp-heading jp-heading-connector">
+							Plan your journey
+						</h2>
+					</div>
+				</div>
+
+				
+				<section class="functional-panel first home-journey-planner">
+					<form class="jpform jp-background" id="locationSelector" action="https://www.ptv.vic.gov.au/journey" data-js-action="https://www.ptv.vic.gov.au/journey" method="post">
+	<div class="jp-block">
+		<div>
+			<div>
+				<div class="jpform--mask">
+					<div class="jp-headingbanner jp-inner">
+	<div class="jp-row">
+		<div class="jp-col-xs-8">
+			<h2 class="jp-heading">Journey planner</h2>
+		</div>
+		<div class="jp-col-xs-4 jp-u-align-right">
+                            <i class="jp-icon jp-icon-marker">&nbsp;</i>
+            		</div>
+	</div>
+</div>					<div class="jp-background jp-panel-main">
+						<section class="jp-body-panel-main jp-body jp-inner js-jp-panel-main">
+							<div class="jp-body-panel-main-inner">
+								<div class="jp-fromto">
+                                    									<div class="jp-block">
+	                                    <input type="hidden" name="anyObjFilter_origin" value="63"/>
+<input type="hidden" name="type_origin" value="any">
+<label for="name_origin" class="jp-u-visuallyhidden">From Station, stop, landmark or address</label>
+        <span id="jInput_origin" title=""></span>
+    <input type="hidden" id="nameInput_origin" name="nameInput_origin" value="" />
+            <input type="text" class="jp-input-text jp-input-text-location transportAutocomplete" placeholder="From: Station, stop, landmark or address" id="name_origin" name="name_origin" autocomplete="off" data-autocompletesource="stopfinder">
+    									</div>
+									<div class="jp-swap">
+																				<button type="button" class="js-jp-destinationswitch jp-u-reset-button">
+											<i class="jp-icon jp-icon-swap"></i>
+											<span class="jp-u-visuallyhidden">Swap from and To fields</span>
+										</button>
+									</div>
+									<div class="jp-block">
+	                                    <input type="hidden" name="anyObjFilter_destination" value="63"/>
+<input type="hidden" name="type_destination" value="any">
+<label for="name_destination" class="jp-u-visuallyhidden">To Station, stop, landmark or address</label>
+        <span id="jInput_destination" title=""></span>
+    <input type="hidden" id="nameInput_destination" name="nameInput_destination" value="" />
+            <input type="text" class="jp-input-text jp-input-text-location transportAutocomplete" placeholder="To: Station, stop, landmark or address" id="name_destination" name="name_destination" autocomplete="off" data-autocompletesource="stopfinder">
+    									</div>
+								</div>
+								<div class="jp-block">
+									<p class="jp-depart">
+										<span class="jp-depart-col jp-depart-col-icon"><i class="jp-icon jp-icon-clock"></i></span>
+										<span class="jp-depart-col">
+											<span class="js-jp-depart--text">Departing</span>
+											<strong><span class="js-jp-depart--value">now</span></strong>
+										</span>
+									</p>
+								</div>
+								<div class="jp-optionsubmitbuttons">
+																			<button type="button" class="jpform-button jp-button jp-button--full-width jp-button-secondary js-jp-panel-button-open" data-target=".js-jp-panel-date">
+											<span>Change date and time</span>
+										</button>
+																												<button type="button" class="jpform-button jp-button jp-button--full-width jp-button-secondary js-jp-panel-button-open" data-target=".js-jp-panel-options">
+											<span>More journey options</span>
+										</button>
+																		<div class="jp-block">
+																				<button name="jpSubmit" type="submit" class="jp-button jp-button--full-width jp-button-primary">
+											<span>Plan my journey</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</section>
+													<section class="jp-panel js-jp-panel-date is-ontop ">
+	<div class="jp-panel-headingbanner jp-inner">
+	<button type="button" class="jp-panel-button-back js-jp-panel-button-close jp-u-reset-button" data-target=".js-jp-panel-date">
+		<i class="jp-icon jp-icon-arrow-left"></i>
+		<span class="jp-u-visuallyhidden">Go back</span>
+	</button>
+	<h2 class="jp-panel-heading">
+		Change date and time
+	</h2>
+</div>	<div class="jp-body has-footer jp-inner">
+		<div>
+			<div class="jp-block">
+				<label for="itdTripDateTimeDepArr" class="jp-u-visuallyhidden">Depart or arrive</label>
+				<select name="itdTripDateTimeDepArr" class="no-enhance js-jp-select" id="itdTripDateTimeDepArr">
+					<option selected="selected" value="dep">Depart</option>
+					<option value="arr">Arrive</option>
+				</select>
+			</div>
+			<div class="jp-block">
+				<div class="jp-row jp-row-smallgap">
+					<div class="jp-col-xs-6">
+						<label for="date" class="jp-u-visuallyhidden">Date</label>
+						<input type="date" name="date" class="jp-input-text"/>
+					</div>
+					<div class="jp-col-xs-6">
+						<label for="time" class="jp-u-visuallyhidden">Time</label>
+												<select name="time" class="no-enhance js-jp-time jp-input-text jp-date-text">
+															<option value="00:00">12:00 am</option>
+															<option value="00:05">12:05 am</option>
+															<option value="00:10">12:10 am</option>
+															<option value="00:15">12:15 am</option>
+															<option value="00:20">12:20 am</option>
+															<option value="00:25">12:25 am</option>
+															<option value="00:30">12:30 am</option>
+															<option value="00:35">12:35 am</option>
+															<option value="00:40">12:40 am</option>
+															<option value="00:45">12:45 am</option>
+															<option value="00:50">12:50 am</option>
+															<option value="00:55">12:55 am</option>
+															<option value="01:00">1:00 am</option>
+															<option value="01:05">1:05 am</option>
+															<option value="01:10">1:10 am</option>
+															<option value="01:15">1:15 am</option>
+															<option value="01:20">1:20 am</option>
+															<option value="01:25">1:25 am</option>
+															<option value="01:30">1:30 am</option>
+															<option value="01:35">1:35 am</option>
+															<option value="01:40">1:40 am</option>
+															<option value="01:45">1:45 am</option>
+															<option value="01:50">1:50 am</option>
+															<option value="01:55">1:55 am</option>
+															<option value="02:00">2:00 am</option>
+															<option value="02:05">2:05 am</option>
+															<option value="02:10">2:10 am</option>
+															<option value="02:15">2:15 am</option>
+															<option value="02:20">2:20 am</option>
+															<option value="02:25">2:25 am</option>
+															<option value="02:30">2:30 am</option>
+															<option value="02:35">2:35 am</option>
+															<option value="02:40">2:40 am</option>
+															<option value="02:45">2:45 am</option>
+															<option value="02:50">2:50 am</option>
+															<option value="02:55">2:55 am</option>
+															<option value="03:00">3:00 am</option>
+															<option value="03:05">3:05 am</option>
+															<option value="03:10">3:10 am</option>
+															<option value="03:15">3:15 am</option>
+															<option value="03:20">3:20 am</option>
+															<option value="03:25">3:25 am</option>
+															<option value="03:30">3:30 am</option>
+															<option value="03:35">3:35 am</option>
+															<option value="03:40">3:40 am</option>
+															<option value="03:45">3:45 am</option>
+															<option value="03:50">3:50 am</option>
+															<option value="03:55">3:55 am</option>
+															<option value="04:00">4:00 am</option>
+															<option value="04:05">4:05 am</option>
+															<option value="04:10">4:10 am</option>
+															<option value="04:15">4:15 am</option>
+															<option value="04:20">4:20 am</option>
+															<option value="04:25">4:25 am</option>
+															<option value="04:30">4:30 am</option>
+															<option value="04:35">4:35 am</option>
+															<option value="04:40">4:40 am</option>
+															<option value="04:45">4:45 am</option>
+															<option value="04:50">4:50 am</option>
+															<option value="04:55">4:55 am</option>
+															<option value="05:00">5:00 am</option>
+															<option value="05:05">5:05 am</option>
+															<option value="05:10">5:10 am</option>
+															<option value="05:15">5:15 am</option>
+															<option value="05:20">5:20 am</option>
+															<option value="05:25">5:25 am</option>
+															<option value="05:30">5:30 am</option>
+															<option value="05:35">5:35 am</option>
+															<option value="05:40">5:40 am</option>
+															<option value="05:45">5:45 am</option>
+															<option value="05:50">5:50 am</option>
+															<option value="05:55">5:55 am</option>
+															<option value="06:00">6:00 am</option>
+															<option value="06:05">6:05 am</option>
+															<option value="06:10">6:10 am</option>
+															<option value="06:15">6:15 am</option>
+															<option value="06:20">6:20 am</option>
+															<option value="06:25">6:25 am</option>
+															<option value="06:30">6:30 am</option>
+															<option value="06:35">6:35 am</option>
+															<option value="06:40">6:40 am</option>
+															<option value="06:45">6:45 am</option>
+															<option value="06:50">6:50 am</option>
+															<option value="06:55">6:55 am</option>
+															<option value="07:00">7:00 am</option>
+															<option value="07:05">7:05 am</option>
+															<option value="07:10">7:10 am</option>
+															<option value="07:15">7:15 am</option>
+															<option value="07:20">7:20 am</option>
+															<option value="07:25">7:25 am</option>
+															<option value="07:30">7:30 am</option>
+															<option value="07:35">7:35 am</option>
+															<option value="07:40">7:40 am</option>
+															<option value="07:45">7:45 am</option>
+															<option value="07:50">7:50 am</option>
+															<option value="07:55">7:55 am</option>
+															<option value="08:00">8:00 am</option>
+															<option value="08:05">8:05 am</option>
+															<option value="08:10">8:10 am</option>
+															<option value="08:15">8:15 am</option>
+															<option value="08:20">8:20 am</option>
+															<option value="08:25">8:25 am</option>
+															<option value="08:30">8:30 am</option>
+															<option value="08:35">8:35 am</option>
+															<option value="08:40">8:40 am</option>
+															<option value="08:45">8:45 am</option>
+															<option value="08:50">8:50 am</option>
+															<option value="08:55">8:55 am</option>
+															<option value="09:00">9:00 am</option>
+															<option value="09:05">9:05 am</option>
+															<option value="09:10">9:10 am</option>
+															<option value="09:15">9:15 am</option>
+															<option value="09:20">9:20 am</option>
+															<option value="09:25">9:25 am</option>
+															<option value="09:30">9:30 am</option>
+															<option value="09:35">9:35 am</option>
+															<option value="09:40">9:40 am</option>
+															<option value="09:45">9:45 am</option>
+															<option value="09:50">9:50 am</option>
+															<option value="09:55">9:55 am</option>
+															<option value="10:00">10:00 am</option>
+															<option value="10:05">10:05 am</option>
+															<option value="10:10">10:10 am</option>
+															<option value="10:15">10:15 am</option>
+															<option value="10:20">10:20 am</option>
+															<option value="10:25">10:25 am</option>
+															<option value="10:30">10:30 am</option>
+															<option value="10:35">10:35 am</option>
+															<option value="10:40">10:40 am</option>
+															<option value="10:45">10:45 am</option>
+															<option value="10:50">10:50 am</option>
+															<option value="10:55">10:55 am</option>
+															<option value="11:00">11:00 am</option>
+															<option value="11:05">11:05 am</option>
+															<option value="11:10">11:10 am</option>
+															<option value="11:15">11:15 am</option>
+															<option value="11:20">11:20 am</option>
+															<option value="11:25">11:25 am</option>
+															<option value="11:30">11:30 am</option>
+															<option value="11:35">11:35 am</option>
+															<option value="11:40">11:40 am</option>
+															<option value="11:45">11:45 am</option>
+															<option value="11:50">11:50 am</option>
+															<option value="11:55">11:55 am</option>
+															<option value="12:00">12:00 pm</option>
+															<option value="12:05">12:05 pm</option>
+															<option value="12:10">12:10 pm</option>
+															<option value="12:15">12:15 pm</option>
+															<option value="12:20">12:20 pm</option>
+															<option value="12:25">12:25 pm</option>
+															<option value="12:30">12:30 pm</option>
+															<option value="12:35">12:35 pm</option>
+															<option value="12:40">12:40 pm</option>
+															<option value="12:45">12:45 pm</option>
+															<option value="12:50">12:50 pm</option>
+															<option value="12:55">12:55 pm</option>
+															<option value="13:00">1:00 pm</option>
+															<option value="13:05">1:05 pm</option>
+															<option value="13:10">1:10 pm</option>
+															<option value="13:15">1:15 pm</option>
+															<option value="13:20">1:20 pm</option>
+															<option value="13:25">1:25 pm</option>
+															<option value="13:30">1:30 pm</option>
+															<option value="13:35">1:35 pm</option>
+															<option value="13:40">1:40 pm</option>
+															<option value="13:45">1:45 pm</option>
+															<option value="13:50">1:50 pm</option>
+															<option value="13:55">1:55 pm</option>
+															<option value="14:00">2:00 pm</option>
+															<option value="14:05">2:05 pm</option>
+															<option value="14:10">2:10 pm</option>
+															<option value="14:15">2:15 pm</option>
+															<option value="14:20">2:20 pm</option>
+															<option value="14:25">2:25 pm</option>
+															<option value="14:30">2:30 pm</option>
+															<option value="14:35">2:35 pm</option>
+															<option value="14:40">2:40 pm</option>
+															<option value="14:45">2:45 pm</option>
+															<option value="14:50">2:50 pm</option>
+															<option value="14:55">2:55 pm</option>
+															<option value="15:00">3:00 pm</option>
+															<option value="15:05">3:05 pm</option>
+															<option value="15:10">3:10 pm</option>
+															<option value="15:15">3:15 pm</option>
+															<option value="15:20">3:20 pm</option>
+															<option value="15:25">3:25 pm</option>
+															<option value="15:30">3:30 pm</option>
+															<option value="15:35">3:35 pm</option>
+															<option value="15:40">3:40 pm</option>
+															<option value="15:45">3:45 pm</option>
+															<option value="15:50">3:50 pm</option>
+															<option value="15:55">3:55 pm</option>
+															<option value="16:00">4:00 pm</option>
+															<option value="16:05">4:05 pm</option>
+															<option value="16:10">4:10 pm</option>
+															<option value="16:15">4:15 pm</option>
+															<option value="16:20">4:20 pm</option>
+															<option value="16:25">4:25 pm</option>
+															<option value="16:30">4:30 pm</option>
+															<option value="16:35">4:35 pm</option>
+															<option value="16:40">4:40 pm</option>
+															<option value="16:45">4:45 pm</option>
+															<option value="16:50">4:50 pm</option>
+															<option value="16:55">4:55 pm</option>
+															<option value="17:00">5:00 pm</option>
+															<option value="17:05">5:05 pm</option>
+															<option value="17:10">5:10 pm</option>
+															<option value="17:15">5:15 pm</option>
+															<option value="17:20">5:20 pm</option>
+															<option value="17:25">5:25 pm</option>
+															<option value="17:30">5:30 pm</option>
+															<option value="17:35">5:35 pm</option>
+															<option value="17:40">5:40 pm</option>
+															<option value="17:45">5:45 pm</option>
+															<option value="17:50">5:50 pm</option>
+															<option value="17:55">5:55 pm</option>
+															<option value="18:00">6:00 pm</option>
+															<option value="18:05">6:05 pm</option>
+															<option value="18:10">6:10 pm</option>
+															<option value="18:15">6:15 pm</option>
+															<option value="18:20">6:20 pm</option>
+															<option value="18:25">6:25 pm</option>
+															<option value="18:30">6:30 pm</option>
+															<option value="18:35">6:35 pm</option>
+															<option value="18:40">6:40 pm</option>
+															<option value="18:45">6:45 pm</option>
+															<option value="18:50">6:50 pm</option>
+															<option value="18:55">6:55 pm</option>
+															<option value="19:00">7:00 pm</option>
+															<option value="19:05">7:05 pm</option>
+															<option value="19:10">7:10 pm</option>
+															<option value="19:15">7:15 pm</option>
+															<option value="19:20">7:20 pm</option>
+															<option value="19:25">7:25 pm</option>
+															<option value="19:30">7:30 pm</option>
+															<option value="19:35">7:35 pm</option>
+															<option value="19:40">7:40 pm</option>
+															<option value="19:45">7:45 pm</option>
+															<option value="19:50">7:50 pm</option>
+															<option value="19:55">7:55 pm</option>
+															<option value="20:00">8:00 pm</option>
+															<option value="20:05">8:05 pm</option>
+															<option value="20:10">8:10 pm</option>
+															<option value="20:15">8:15 pm</option>
+															<option value="20:20">8:20 pm</option>
+															<option value="20:25">8:25 pm</option>
+															<option value="20:30">8:30 pm</option>
+															<option value="20:35">8:35 pm</option>
+															<option value="20:40">8:40 pm</option>
+															<option value="20:45">8:45 pm</option>
+															<option value="20:50">8:50 pm</option>
+															<option value="20:55">8:55 pm</option>
+															<option value="21:00">9:00 pm</option>
+															<option value="21:05">9:05 pm</option>
+															<option value="21:10">9:10 pm</option>
+															<option value="21:15">9:15 pm</option>
+															<option value="21:20">9:20 pm</option>
+															<option value="21:25">9:25 pm</option>
+															<option value="21:30">9:30 pm</option>
+															<option value="21:35">9:35 pm</option>
+															<option value="21:40">9:40 pm</option>
+															<option value="21:45">9:45 pm</option>
+															<option value="21:50">9:50 pm</option>
+															<option value="21:55">9:55 pm</option>
+															<option value="22:00">10:00 pm</option>
+															<option value="22:05">10:05 pm</option>
+															<option value="22:10">10:10 pm</option>
+															<option value="22:15">10:15 pm</option>
+															<option value="22:20">10:20 pm</option>
+															<option value="22:25">10:25 pm</option>
+															<option value="22:30">10:30 pm</option>
+															<option value="22:35">10:35 pm</option>
+															<option value="22:40">10:40 pm</option>
+															<option value="22:45">10:45 pm</option>
+															<option value="22:50">10:50 pm</option>
+															<option value="22:55">10:55 pm</option>
+															<option value="23:00">11:00 pm</option>
+															<option value="23:05">11:05 pm</option>
+															<option value="23:10">11:10 pm</option>
+															<option value="23:15">11:15 pm</option>
+															<option value="23:20">11:20 pm</option>
+															<option value="23:25">11:25 pm</option>
+															<option value="23:30">11:30 pm</option>
+															<option value="23:35">11:35 pm</option>
+															<option value="23:40">11:40 pm</option>
+															<option value="23:45">11:45 pm</option>
+															<option value="23:50">11:50 pm</option>
+															<option value="23:55">11:55 pm</option>
+													</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="jp-panel-footer jp-inner">
+		<button type="button" class="jp-button jp-button-primary jp-button-close-panel js-jp-panel-button-close" data-target=".js-jp-panel-date">
+		<span>Done</span>
+	</button>
+</div></section>																			<section class="jp-panel js-jp-panel-options is-ontop ">
+	<div class="jp-panel-headingbanner jp-inner">
+	<button type="button" class="jp-panel-button-back js-jp-panel-button-close jp-u-reset-button" data-target=".js-jp-panel-options">
+		<i class="jp-icon jp-icon-arrow-left"></i>
+		<span class="jp-u-visuallyhidden">Go back</span>
+	</button>
+	<h2 class="jp-panel-heading">
+		More journey options
+	</h2>
+</div>	<div class="jp-body has-footer jp-inner">
+		<fieldset class="jp-u-reset-fieldset jp-block" id="selectPreferences">
+			<div class="jp-block">
+				<legend class="jp-u-visuallyhidden">Preferences</legend>
+
+				<label for="routeType" class="jp-u-visuallyhidden">Route Type</label>
+				<select id="routeType" class="no-enhance js-jp-select" name="routeType">
+					<option value="LEASTTIME" selected>Earliest arrival</option>
+					<option value="LEASTINTERCHANGE">Fewest changes</option>
+					<option value="LEASTWALKING">Least walking</option>
+				</select>
+			</div>
+			<div class="jp-block">
+				<label for="trITDepMOTvalue" class="jp-u-visuallyhidden">Max walking time</label>
+				<select id="trITDepMOTvalue" class="no-enhance js-jp-select" name="trITDepMOTvalue">
+					<option value="5">Max walking time: 5 min</option>
+					<option value="10">Max walking time: 10 min</option>
+					<option value="15">Max walking time: 15 min</option>
+					<option value="20" selected>Max walking time: 20 min</option>
+					<option value="25">Max walking time: 25 min</option>
+					<option value="30">Max walking time: 30 min</option>
+				</select>
+			</div>
+		</fieldset>
+		<fieldset class="jp-u-reset-fieldset jp-block" id="walkingDriving">
+			<legend class="jp-block-heading">Walking and Driving</legend>
+			<div class="jp-block">
+				<select name="trITDepMOT" class="no-enhance js-jp-select" id="trITDepMOT">
+					<option selected="selected" value="100">Walking only</option>
+					<option value="102">Cycle and Ride</option>
+					<option value="104">Park and Ride</option>
+				</select>
+			</div>
+						<div class="jp-block">
+				<label for="changeSpeed" class="jp-u-visuallyhidden">Walking speed</label>
+				<select id="changeSpeed" class="no-enhance js-jp-select" name="changeSpeed">
+					<option value="slow">Walking Speed: Slow (2 km/hr)</option>
+					<option selected value="normal">Walk Speed: Average (4 km/hr)</option>
+					<option value="fast">Walking Speed: Fast (6 km/hr)</option>
+				</select>
+			</div>
+		</fieldset>
+		<fieldset class="jp-u-reset-fieldset jp-block js-jp-selectall-container" id="typeOfTransport">
+			<legend class="jp-block-heading">Refine modes of transport</legend>
+			<div class="jp-block jp-u-align-right">
+				<button type="button" class="jp-checkbox-bulkaction js-jp-selectall jp-u-reset-button">Select all</button>
+				|
+				<button type="button" class="jp-checkbox-bulkaction js-jp-deselectall jp-u-reset-button">Deselect all</button>
+			</div>
+			<div class="jp-block">
+                <!--
+                These do _not_ need to be displayed as the backend handles their inclusion
+                <input type="hidden" name="inclMOT_8" value="on" />
+                <input type="hidden" name="inclMOT_7" value="on" />
+                <input type="hidden" name="inclMOT_2" value="on" />
+                <input type="hidden" name="inclMOT_10" value="on" />
+                -->
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_1" id="inclMOT_1" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_1">
+					<i class="jp-icon-transport jp-icon-transport--train"></i>
+				<span class="jp-checkbox--label-text"><span class="jp-u-visuallyhidden">Metro</span> Train</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_4" id="inclMOT_4" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_4">
+					<i class="jp-icon-transport jp-icon-transport--tram"></i>
+				<span class="jp-checkbox--label-text"><span class="jp-u-visuallyhidden">Metro</span> Tram</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_5" id="inclMOT_5" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_5">
+					<i class="jp-icon-transport jp-icon-transport--bus"></i>
+				<span class="jp-checkbox--label-text"><span class="jp-u-visuallyhidden">Metro</span> Bus</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_0" id="inclMOT_0" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_0">
+					<i class="jp-icon-transport jp-icon-transport--regional-train"></i>
+				<span class="jp-checkbox--label-text">Regional Train</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_6" id="inclMOT_6" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_6">
+					<i class="jp-icon-transport jp-icon-transport--regional-coach"></i>
+				<span class="jp-checkbox--label-text">Regional Coach</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+				<div class="jp-block jp-block--small">
+					<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="inclMOT_3" id="inclMOT_3" checked="checked"/>
+	<label class="jp-checkbox--label" for="inclMOT_3">
+					<i class="jp-icon-transport jp-icon-transport--skybus"></i>
+				<span class="jp-checkbox--label-text">Melbourne Airport (Skybus)</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>				</div>
+			</div>
+		</fieldset>
+		<fieldset class="jp-u-reset-fieldset jp-block" id="specialRequirements">
+			<legend class="jp-block-heading">Special Requirements</legend>
+			<div class="jp-block">
+				<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="wheelchair" id="wheelchair" />
+	<label class="jp-checkbox--label" for="wheelchair">
+				<span class="jp-checkbox--label-text">Only use services with wheelchair access</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>			</div>
+			<div class="jp-block">
+				<div class="jp-checkbox">
+	<input class="jp-checkbox--input" type="checkbox" name="noSolidStairs" id="noSolidStairs" />
+	<label class="jp-checkbox--label" for="noSolidStairs">
+				<span class="jp-checkbox--label-text">Only use stations/stops with wheelchair access</span>
+	</label>
+	<div class="jp-checkbox--box"></div>
+</div>			</div>
+		</fieldset>
+	</div>
+		<div class="jp-panel-footer jp-inner">
+		<button type="button" class="jp-button jp-button-primary jp-button-close-panel js-jp-panel-button-close" data-target=".js-jp-panel-options">
+		<span>Done</span>
+	</button>
+</div></section>											</div>
+				</div>
+			</div>
+			<div>
+				<div class="js-jp-panel-journeyoptions js-jp-panel-container">
+												</div>
+			</div>
+		</div>
+	</div>
+			<input type="hidden" name="sessionID" value="0">
+		
+<input type="hidden" id="locationServerActive" name="locationServerActive" value="1">
+<input type="hidden" id="ptOptionsActive" name="ptOptionsActive" value="1">
+<input type="hidden" id="itOptionsActive" name="itOptionsActive" value="1">
+<input type="hidden" id="imparedOptionsActive" name="imparedOptionsActive" value="1">
+<input type="hidden" id="useProxFootSearch" name="useProxFootSearch" value="1">
+<input type="hidden" id="anySigWhenPerfectNoOtherMatches" name="anySigWhenPerfectNoOtherMatches" value="1">
+<input type="hidden" id="includedMeans" name="includedMeans" value="1">
+<input type="hidden" id="execInst" name="execInst" value="">
+<input type="hidden" id="coordOutputFormat" name="coordOutputFormat" value="WGS84[DD.DDDDD]">
+<input type="hidden" id="language" name="language" value="en" />
+
+<input type="hidden" id="coordListOutputFormat" name="coordListOutputFormat" value="string">
+<input type="hidden" id="requestID" name="requestID" value="0">
+	</form>
+				</section>
+				
+				
+				
+				<section id="next5" class="jpnext5 functional-panel modesearchable-panel">
+    <a id="mode-search" tabindex="-1" aria-label="Next 5 search. Use left and right arrow keys to select a mode. Press space to begin searching that mode."></a>
+    <div class="jp-headingbanner jp-inner">
+        <div class="jp-row">
+            <div class="jp-col-xs-8">
+                <h2 class="jp-heading">Next 5 departures</h2>
+            </div>
+        </div>
+    </div>
+    <div class="panel-content">
+        <div class="js-hidden">
+            <a href="next5/standard" title="Link to view the non-javascript Next5 interface">
+                Non-JavaScript Next5 Departures
+            </a>
+        </div>
+        <div class="js-shown">
+            <div class="jp-next5-tabs js-next5-tabs jp-inner tabs">
+                <h3 class="js-next5-tab-button">
+                    <i class="jp-icon-transport jp-icon-transport-active jp-icon-transport--train"></i>
+                    <i class="jp-icon-transport jp-icon-transport-inactive jp-icon-transport--train--inactive"></i>
+                    <br/>
+                    Train
+                </h3>
+                <div class="jp-next5-tabbody traintab">
+                    <div class="jp-next5-tabbody-inner">
+                        <div class="jp-next5-tabbody-innerinner">
+                            <div id="timetableNav">
+	<div class="modeSearchContainer">
+		<form id="Form_ModeSearchForm" action="/next5/ModeSearchForm" method="get" enctype="application/x-www-form-urlencoded" data-stop-link="next5/diva/%s/" 
+			data-line-link="" 
+			data-search-for="stops">
+			
+				
+				<!-- specifically for train -->
+				<input name="Mode" type="hidden" value="1" />
+					
+						<label for="Form_ModeSearchForm_Search">Search for a station or stop</label>
+						<input id="Form_ModeSearchForm_Search" placeholder="Search for a station or stop" class="text TextField FormField RequestHandler transportAutocomplete jp-input-text-next5" type="text" value=""  name="Search" >
+					
+				
+				
+				<p class="homeOnly">Next five metropolitan services departing from your station or stop.</p>
+
+				
+				<div class="Actions">
+					<button id="Form_ModeSearchForm_action_doModeSearch" class="jp-next5-submit jp-button jp-button--full-width jp-button-primary" type="submit" name="action_findstop">
+                            <span>Show departure times</span>
+                    </button>
+				</div>
+				
+			
+		</form>
+	</div>
+</div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="js-next5-tab-button">
+                    <i class="jp-icon-transport jp-icon-transport-active jp-icon-transport--tram"></i>
+                    <i class="jp-icon-transport jp-icon-transport-inactive jp-icon-transport--tram--inactive"></i>
+                    <br/>
+                    Tram
+                </h3>
+                <div class="jp-next5-tabbody selectboxtab">
+                    <div class="jp-next5-tabbody-inner">
+                        <div class="jp-next5-tabbody-innerinner">
+                            
+                            <form id="Form_Next5Form" action="/next5/Next5Form" method="get" enctype="application/x-www-form-urlencoded" class="next5TabForm clearfix">
+                                <!-- tram mode 3 -->
+                                <input name="Mode" type="hidden" value="3" />
+                                
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_TramLineMainID" class="jp-u-visuallyhidden">Select Line</label>
+                                        <select name="TramLineMainID" class="dropdown selectBox" id="Form_Next5Form_TramLineMainID">
+
+	<option value="" selected="selected">(Select route)</option>
+
+	<option value="721">1 - East Coburg - South Melbourne Beach</option>
+
+	<option value="761">3/3a - Melbourne University - East Malvern</option>
+
+	<option value="1083">5 - Melbourne University - Malvern</option>
+
+	<option value="11544">6 - Moreland - Glen Iris</option>
+
+	<option value="3343">11 - West Preston - Victoria Harbour Docklands</option>
+
+	<option value="8314">12 - Victoria Gardens - St Kilda</option>
+
+	<option value="724">16 - Melbourne University - Kew via St Kilda Beach</option>
+
+	<option value="725">19 - North Coburg - Flinders Street Station, City</option>
+
+	<option value="1880">30 - St Vincents Plaza - Docklands via La Trobe St</option>
+
+	<option value="1112">35 - City Circle (Free Tourist Tram)</option>
+
+	<option value="2903">48 - North Balwyn - Victoria Harbour Docklands</option>
+
+	<option value="887">57 - West Maribyrnong - Flinders Street Station, City</option>
+
+	<option value="11529">58 - West Coburg - Toorak</option>
+
+	<option value="897">59 - Airport West - Flinders Street Station, City</option>
+
+	<option value="909">64 - Melbourne University - East Brighton</option>
+
+	<option value="913">67 - Melbourne University - Carnegie</option>
+
+	<option value="940">70 - Waterfront City Docklands -  Wattle Park</option>
+
+	<option value="947">72 - Melbourne University - Camberwell</option>
+
+	<option value="958">75 - Etihad Stadium Docklands - Vermont South</option>
+
+	<option value="976">78 - North Richmond - Balaclava via Prahran</option>
+
+	<option value="1002">82 - Moonee Ponds - Footscray</option>
+
+	<option value="1881">86 - Bundoora RMIT - Waterfront City Docklands</option>
+
+	<option value="1041">96 - East Brunswick - St Kilda Beach</option>
+
+	<option value="722">109 - Box Hill - Port Melbourne</option>
+
+</select>
+                                    </div>
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_TramLineID" class="jp-u-visuallyhidden">Select Direction</label>
+                                        <select name="TramLineID" class="dependentdropdown dependent-dropdown dropdown selectBox lineDirection" id="Form_Next5Form_TramLineID" data-link="/next5/Next5Form/field/TramLineID/load" data-depends="TramLineMainID" data-empty="Please select a direction" data-unselected="(Select a route first)">
+
+	<option value="" selected="selected">Please select a direction</option>
+
+	<option value="" selected="selected">Please select a direction</option>
+
+</select>
+                                    </div>
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_TramDivaID" class="jp-u-visuallyhidden">Select Stop</label>
+                                        <select name="TramDivaID" class="dependentdropdown dependent-dropdown dropdown selectBox divaSelect" id="Form_Next5Form_TramDivaID" data-link="/next5/Next5Form/field/TramDivaID/load" data-depends="TramLineID" data-empty="Please select a stop" data-unselected="(Select a direction first)">
+
+	<option value="" selected="selected">Please select a stop</option>
+
+	<option value="" selected="selected">Please select a stop</option>
+
+</select>
+                                    </div>
+
+                                    <div class="Actions">
+                                        <button class="jp-next5-submit jp-button jp-button--full-width jp-button-primary" type="submit" name="action_findstop">
+                                            <span>Show departure times</span>
+                                        </button>
+                                    </div>
+                                
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="js-next5-tab-button">
+                    <i class="jp-icon-transport jp-icon-transport-active jp-icon-transport--bus"></i>
+                    <i class="jp-icon-transport jp-icon-transport-inactive jp-icon-transport--bus--inactive"></i>
+                    <br/>
+                    Bus
+                </h3>
+                <div class="jp-next5-tabbody selectboxtab">
+                    <div class="jp-next5-tabbody-inner">
+                        <div class="jp-next5-tabbody-innerinner">
+                            
+                            <!-- avoiding duplicate IDs by outputting form attributes directly -->
+                            <form class="next5TabForm clearfix" enctype="application/x-www-form-urlencoded" method="get" action="next5/Next5Form">
+                                <!-- bus mode 1 -->
+                                <input name="Mode" type="hidden" value="2" />
+                                
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_BusLineMainID" class="jp-u-visuallyhidden">Select Line</label>
+                                        <select name="BusLineMainID" class="dropdown selectBox" id="Form_Next5Form_BusLineMainID">
+
+	<option value="" selected="selected">(Select route)</option>
+
+	<option value="8485">150 - Williams Landing Station - Tarneit Station via Sayers Rd</option>
+
+	<option value="8490">151 - Williams Landing Station - Tarneit Station via Westmeadows La</option>
+
+	<option value="8488">153 - Williams Landing Station - Werribee Station via Princes Hwy</option>
+
+	<option value="8486">160 - Hoppers Crossing Station - Tarneit Station via Morris Rd</option>
+
+	<option value="8489">161 - Hoppers Crossing Station - Werribee Station via Werribee Plaza SC</option>
+
+	<option value="8484">166 - Hoppers Crossing Station - Wyndham Vale Station via Werribee Plaza SC</option>
+
+	<option value="8483">167 - Hoppers Crossing Station - Tarneit Station via Werribee Plaza SC</option>
+
+	<option value="8452">170 - Werribee Station - Tarneit Station via Werribee Plaza SC</option>
+
+	<option value="8462">180 - Werribee Station - Tarneit Station via Tarneit Rd</option>
+
+	<option value="8482">181 - Werribee Station - Hoppers Crossing Station via Werribee Plaza SC</option>
+
+	<option value="8457">190 - Werribee Station - Wyndham Vale Station via Ballan Rd</option>
+
+	<option value="8507">191 - Werribee Station - Manor Lakes via Greaves St</option>
+
+	<option value="8487">192 - Werribee Station - Wyndham Vale Station via Black Forest Rd</option>
+
+	<option value="8114">200 - City (Queen St) - Bulleen</option>
+
+	<option value="5537">200-207 combined - City - Bulleen - Doncaster SC via Kew Junction</option>
+
+	<option value="10864">201 - Box Hill Station - Deakin University</option>
+
+	<option value="8142">207 - City - Doncaster SC via Kew Junction</option>
+
+	<option value="7440">215 - Caroline Springs - Highpoint SC</option>
+
+	<option value="11694">216 - Sunshine Station - Brighton Beach</option>
+
+	<option value="8272">219 - Sunshine South - Gardenvale</option>
+
+	<option value="7441">220 - Sunshine - City - Gardenvale</option>
+
+	<option value="7442">223 - Yarraville - Highpoint SC</option>
+
+	<option value="8122">232 - Altona North - City (Queen Victoria Market)</option>
+
+	<option value="8118">234 - Garden City - City (Queen Victoria Market)</option>
+
+	<option value="8174">235 - City - Fishermans Bend via Williamstown Road</option>
+
+	<option value="8263">236 - Garden City - Queen Victoria Market via City</option>
+
+	<option value="8177">237 - City - Fishermans Bend via Lorimer Street</option>
+
+	<option value="8074">246 - Elsternwick - Clifton Hill via St Kilda</option>
+
+	<option value="8135">250 - City (Queen St) - La Trobe University</option>
+
+	<option value="3448">250-251 combined - City - La Trobe University/Northland SC</option>
+
+	<option value="8139">251 - City (Queen St) - Northland SC</option>
+
+	<option value="8128">270 - Box Hill - Mitcham via Blackburn North</option>
+
+	<option value="8399">271 - Box Hill - Ringwood via Park Orchards</option>
+
+	<option value="7445">273 - The Pines - Nunawading</option>
+
+	<option value="7446">279 - Box Hill - Doncaster SC via Middleborough Rd</option>
+
+	<option value="7462">280 - Manningham Loop via Tunstall Square SC, Doncaster SC</option>
+
+	<option value="8275">281 - Templestowe - Deakin University</option>
+
+	<option value="7461">282 - Manningham Loop via Templestowe Village SC, Doncaster SC</option>
+
+	<option value="8080">284 - Doncaster Park &amp; Ride - Box Hill via Union Road</option>
+
+	<option value="8243">285 - Doncaster Park &amp; Ride - Camberwell via North Balwyn</option>
+
+	<option value="7522">293 - Box Hill - Greensborough via Doncaster SC</option>
+
+	<option value="8084">295 - Doncaster SC - The Pines SC via Templestowe</option>
+
+	<option value="10952">301 - Reservoir Station - La Trobe University (Bundoora Campus)</option>
+
+	<option value="8700">302 - City - Box Hill via Belmore Rd and Eastern Fwy</option>
+
+	<option value="8681">303 - City - Ringwood North via Park Rd</option>
+
+	<option value="8682">304 - City - Doncaster SC via Belmore Rd and Eastern Fwy</option>
+
+	<option value="8680">305 - City - The Pines SC via Eastern Fwy</option>
+
+	<option value="8677">309 - City - Donvale via Reynolds Rd</option>
+
+	<option value="8615">318 - City - Deep Creek</option>
+
+	<option value="11575">343 - Hurstbridge - Greensborough via Diamond Creek Station</option>
+
+	<option value="8606">350 - City - La Trobe University via Eastern Fwy</option>
+
+	<option value="10830">356 - Epping Station - Wollert East via Hayston Bvd</option>
+
+	<option value="10958">357 - Wollert West - Thomastown Station via Epping Station</option>
+
+	<option value="10842">358 - Epping Station - Wollert via Epping Plaza SC</option>
+
+	<option value="7891">364 - Warrandyte - Ringwood Station via Croydon, Warrandyte Rd, Eastland SC</option>
+
+	<option value="8125">370 - Mitcham - Ringwood via Ringwood North</option>
+
+	<option value="8132">380 - Ringwood - Croydon Loop</option>
+
+	<option value="11123">381 - South Morang Station - Diamond Creek Station via Doreen</option>
+
+	<option value="11143">381-382 combined - Whittlesea/Diamond Creek Station - South Morang Station - Northland SC</option>
+
+	<option value="11115">382 - Whittlesea - Northland SC via South Morang Station</option>
+
+	<option value="11112">383 - Palisades - University Hill</option>
+
+	<option value="11109">384 - Kinglake - Whittlesea via Humevale</option>
+
+	<option value="11698">385 - Whittlesea/Mernda North - Greensborough</option>
+
+	<option value="11102">386 - Mernda North - Bundoora RMIT via Cravens Rd &amp; South Morang</option>
+
+	<option value="11205">386-387 combined - Mernda North - Bundoora RMIT</option>
+
+	<option value="11099">387 - Mernda North - Bundoora RMIT via Hawkstowe Pde &amp; South Morang</option>
+
+	<option value="8308">400 - Sunshine Station - Laverton Station via Robinsons Road</option>
+
+	<option value="11700">401 - North Melbourne Station - Melbourne University Loop via Royal Melbourne Hospital</option>
+
+	<option value="11702">402 - Footscray Station - East Melbourne via North Melbourne</option>
+
+	<option value="11703">403 - Footscray Station - Melbourne University via Royal Melbourne Hospital</option>
+
+	<option value="10927">404 - Footscray - Moonee Ponds via Newmarket</option>
+
+	<option value="785">406 - Keilor East - Footscray via Avondale Heights and Maribyrnong</option>
+
+	<option value="786">407 - Highpoint SC - Avondale Heights via Maribyrnong</option>
+
+	<option value="11510">408 - St Albans Station - Highpoint SC via Sunshine Station</option>
+
+	<option value="10964">409 - Yarraville to Highpoint SC via Footscray</option>
+
+	<option value="789">410 - Sunshine Station - Footscray via Ballarat Road</option>
+
+	<option value="10900">411 - Laverton Station - Footscray via Altona Meadows, Altona, Millers Rd</option>
+
+	<option value="11121">411-412 combined - Laverton - Footscray via Altona Meadows, Altona, Altona Gate SC</option>
+
+	<option value="10903">412 - Laverton Station - Footscray via Altona Meadows, Altona, Mills St</option>
+
+	<option value="10917">414 - Laverton Station - Footscray via Geelong Rd</option>
+
+	<option value="5671">415 - Laverton Station - Williamstown via Altona</option>
+
+	<option value="3469">417 - Laverton Station - Laverton North</option>
+
+	<option value="11507">418 - St Albans Station - Caroline Springs via Keilor Plains Station</option>
+
+	<option value="11513">419 - St Albans Station - Watergardens Station via Keilor Downs</option>
+
+	<option value="8710">420 - Sunshine Station - Watergardens Station via Deer Park</option>
+
+	<option value="11516">421 - St Albans Station - Watergardens Station via Keilor Plains Station</option>
+
+	<option value="11664">422 - Sunshine Station - Brimbank Central SC via Deer Park</option>
+
+	<option value="11323">423 - St Albans Station - Brimbank Central SC via Cairnlea</option>
+
+	<option value="11523">424 - St Albans Station - Brimbank Central SC via Albanvale</option>
+
+	<option value="11519">425 - St Albans Station - Watergardens Station via Delahey</option>
+
+	<option value="11697">426 - Caroline Springs - Sunshine Station</option>
+
+	<option value="8306">427 - Sunshine Station - Sunshine West via Forrest St</option>
+
+	<option value="8307">428 - Sunshine Station - Sunshine West via Wright St</option>
+
+	<option value="1664">431 - Yarraville - Kingsville via Somerville Road</option>
+
+	<option value="1665">432 - Newport - Yarraville via Altona Gate Shopping Centre</option>
+
+	<option value="8708">439 - Werribee Station - Werribee South via Werribee Park Mansion</option>
+
+	<option value="8224">441 - Werribee Station - Westleigh Gardens via Geelong Rd</option>
+
+	<option value="8517">443 - Werribee Station - Southern Loop via South Werribee</option>
+
+	<option value="4757">453 - Melton - Melton Station via Brookfield</option>
+
+	<option value="4758">455 - Micasa Rise/Roslyn Park - Melton Station</option>
+
+	<option value="11699">456 - Sunshine Station - Melton</option>
+
+	<option value="4761">457 - Melton - Melton Station via Melton West</option>
+
+	<option value="4748">458 - Kurunjang - Melton Station</option>
+
+	<option value="4769">459 - Arnolds Creek to Melton Station via Westlake</option>
+
+	<option value="11397">460 - Watergardens Station - Caroline Springs Station via Caroline Spring Town Centre</option>
+
+	<option value="11712">461 - Watergardens Station - Caroline Springs Town Centre via Fraser Rise</option>
+
+	<option value="11713">462 - Watergardens Station - Caroline Springs (south) via Caroline Springs Square SC</option>
+
+	<option value="821">465 - Essendon Station - Keilor Park via East Keilor</option>
+
+	<option value="822">467 - Aberfeldie - Moonee Ponds via Holmes Road</option>
+
+	<option value="823">468 - Essendon - Highpoint SC via Maribyrnong</option>
+
+	<option value="825">471 - Williamstown - Sunshine Station via Newport &amp; Altona Gate SC</option>
+
+	<option value="1666">472 - Williamstown - Moonee Ponds via Footscray</option>
+
+	<option value="827">475 - Moonee Ponds - East Keilor via Niddrie</option>
+
+	<option value="10827">476 - Moonee Ponds - Plumpton via Keilor, Watergardens</option>
+
+	<option value="11578">477 - Moonee Ponds - Broadmeadows Station via Essendon, Airport West, Gladstone Park</option>
+
+	<option value="8302">478 - Airport West SC - Melbourne Airport via Melrose Drive</option>
+
+	<option value="5415">478/479 combined - Airport West SC - Melbourne Airport</option>
+
+	<option value="8365">478/479 combined - Airport West SC - Sunbury Station via Melbourne Airport</option>
+
+	<option value="8185">479 - Airport West SC - Sunbury Station via Melbourne Airport</option>
+
+	<option value="4780">481 - Sunbury Railway Station - Mount Lion</option>
+
+	<option value="8095">482 - Airport West SC - Melbourne Airport via South Centre Rd</option>
+
+	<option value="834">483 - Sunbury - Moonee Ponds via Diggers Rest</option>
+
+	<option value="11716">484 - Broadmeadows - Roxburgh Park via Greenvale</option>
+
+	<option value="4786">485 - Sunbury Railway Station - Wilsons Lane</option>
+
+	<option value="4789">486 - Sunbury Railway Station - Rolling Meadows</option>
+
+	<option value="4792">487 - Sunbury Railway Station - Killara Heights</option>
+
+	<option value="4795">488 - Sunbury Railway Station - Jacksons Hill</option>
+
+	<option value="4798">489 - Sunbury Railway Station - Canterbury Hills</option>
+
+	<option value="1667">490 - Airport West to Gowanbrae via Melrose Dr, Gowanbrae Dr</option>
+
+	<option value="8514">494 - Williams Landing Station - Point Cook South via Alamanda Bvd</option>
+
+	<option value="8493">495 - Williams Landing Station -  Point Cook South via Boardwalk Bvd</option>
+
+	<option value="8430">496 - Laverton Station - Sanctuary Lakes via Sanctuary Lakes SC</option>
+
+	<option value="8494">497 - Williams Landing Station - Saltwater Coast Estate via Sanctuary Lakes SC</option>
+
+	<option value="8508">498 - Laverton Station - Hoppers Crossing Station via Dunnings Rd</option>
+
+	<option value="841">501 - Moonee Ponds - Niddrie via Strathmore</option>
+
+	<option value="11504">503 - Essendon - East Brunswick via Albion Street</option>
+
+	<option value="5607">504 - Moonee Ponds - Clifton Hill via East Brunswick</option>
+
+	<option value="10863">505 - Moonee Ponds - Melbourne University via Parkville Gardens</option>
+
+	<option value="844">506 - Moonee Ponds - Westgarth Station via Brunswick</option>
+
+	<option value="845">508 - Alphington - Moonee Ponds via Northcote &amp; Brunswick</option>
+
+	<option value="8988">509 - Brunswick West - Barkly Square SC via Hope St, Sydney Rd</option>
+
+	<option value="847">510 - Essendon - Ivanhoe via Brunswick, Northcote, Thornbury</option>
+
+	<option value="848">512 - Strathmore - East Coburg via Pascoe Vale South, Coburg West, Coburg</option>
+
+	<option value="5812">513 - Eltham - Glenroy via Greensborough or Lower Plenty</option>
+
+	<option value="850">517 - Northland - St Helena via Viewbank, Greensborough</option>
+
+	<option value="851">518 - Greensborough - St Helena West via St Helena</option>
+
+	<option value="854">526 - Coburg - Reservoir via Elizabeth Street</option>
+
+	<option value="855">527 - Gowrie  - Northland via Murray Road</option>
+
+	<option value="4752">528 - Craigieburn Station - Craigieburn South</option>
+
+	<option value="7716">529 - Craigieburn - Craigieburn North via Craigieburn Central SC</option>
+
+	<option value="1671">530 - Campbellfield - Coburg via Fawkner</option>
+
+	<option value="857">531 - Upfield - North Coburg via Somerset Estate</option>
+
+	<option value="4755">532 - Craigieburn - Broadmeadows via Upfield Station</option>
+
+	<option value="7719">533 - Craigieburn Station - Craigieburn North via Hanson Rd</option>
+
+	<option value="1673">534 - Glenroy to Coburg via Boundary Road, Sydney Road</option>
+
+	<option value="860">536 - Gowrie - Glenroy via Gowrie Park</option>
+
+	<option value="7720">537 - Craigieburn Station - Craigieburn West via Craigieburn Central SC</option>
+
+	<option value="861">538 - Somerset Estate - Broadmeadows via Camp Road</option>
+
+	<option value="862">540 - Upfield - Broadmeadows via Coolaroo</option>
+
+	<option value="8179">541 - Broadmeadows Station - Roxburgh Park</option>
+
+	<option value="6572">542 - Roxburgh Park - Pascoe Vale via Meadow Heights, Broadmeadows, Glenroy</option>
+
+	<option value="11289">543 - Greenvale Gardens  - Roxburgh Park via Greenvale Village SC</option>
+
+	<option value="5589">544 - Craigieburn  - Roxburgh Park</option>
+
+	<option value="11704">546 - Heidelberg Station - Melb Uni - Queen Victoria Market via Clifton Hill and Carlton</option>
+
+	<option value="5540">548 - Kew (Cotham Road) - La Trobe University Bundoora</option>
+
+	<option value="867">549 - Ivanhoe - Northland via Oriel Road</option>
+
+	<option value="869">550 - Northland - La Trobe University via Waterdale Road</option>
+
+	<option value="870">551 - Heidelberg - La Trobe University Interchange </option>
+
+	<option value="10940">552 - North East Reservoir - Northcote Plaza via High Street</option>
+
+	<option value="8883">553 - Preston - West Preston via Reservoir</option>
+
+	<option value="8871">554 - Thomastown via West Lalor (clockwise loop)</option>
+
+	<option value="10937">555 - Epping - Northland via Lalor, Thomastown, Reservoir</option>
+
+	<option value="10933">556 - Epping Plaza SC - Northland SC via Keon Park</option>
+
+	<option value="8878">557 - Thomastown via West Lalor (anti clockwise loop)</option>
+
+	<option value="8887">558 - Reservoir via North West Reservoir</option>
+
+	<option value="8879">559 - Thomastown via Darebin Drive</option>
+
+	<option value="10955">561 - Macleod - Pascoe Vale via La Trobe University</option>
+
+	<option value="5770">564 - Bundoora RMIT - South Morang</option>
+
+	<option value="884">566 - Lalor - Northland via Plenty Road, Childs Road, Grimshaw Road</option>
+
+	<option value="10990">567 - Northcote - Regent via Northland</option>
+
+	<option value="5768">569 - Epping Plaza SC - South Morang</option>
+
+	<option value="11118">570 - Thomastown - RMIT Bundoora</option>
+
+	<option value="10994">577 - Epping Plaza SC - South Morang Station via Findon Rd</option>
+
+	<option value="11597">578 - Eltham Station - Warrandyte via Research, Kangaroo Ground-Warrandyte Road</option>
+
+	<option value="3423">578/579 combined - Eltham - Warrandyte via Research, Kangaroo Ground, Warrandyte Road</option>
+
+	<option value="11600">579 - Eltham Station - Warrandyte via Research, Research-Warrandyte Road</option>
+
+	<option value="11603">580 - Diamond Creek - Eltham Station via Ryans Rd</option>
+
+	<option value="11609">582 - Eltham Town Service via Woodridge Estate</option>
+
+	<option value="7453">600 - Southland Shopping Centre - St Kilda Station</option>
+
+	<option value="3411">600-922-923 combined - Southland SC - St Kilda Station via Sandringham</option>
+
+	<option value="12750">601 - Huntingdale -  Monash University (Clayton)</option>
+
+	<option value="11552">605 - Gardenvale - Flagstaff Station</option>
+
+	<option value="5664">606 - Elsternwick Station - Fishermans Bend</option>
+
+	<option value="2913">609 - Hawthorn to Fairfield via Kew</option>
+
+	<option value="13024">612 - Box Hill - Chadstone via Surrey Hills, Camberwell, Glen Iris</option>
+
+	<option value="13025">623 - Glen Waverley - St Kilda via Mount Waverley, Chadstone, Carnegie</option>
+
+	<option value="13026">624 - Kew - Oakleigh via Caulfield, Carnegie or Darling, and Chadstone</option>
+
+	<option value="13027">625 - Elsternwick - Chadstone via Ormond, Oakleigh</option>
+
+	<option value="13028">626 - Middle Brighton - Chadstone via McKinnon, Carnegie</option>
+
+	<option value="12751">630 - Elwood - Monash University via Gardenvale, Ormond &amp; Huntingdale</option>
+
+	<option value="13067">630 - Elwood - Monash University via Gardenvale, Ormond &amp; Huntingdale</option>
+
+	<option value="908">631 - Southland - Waverley Gardens via Clayton, Monash University</option>
+
+	<option value="5728">663 - Belgrave - Lilydale via Kallista, The Patch, Monbulk, Mt Evelyn</option>
+
+	<option value="5729">664 - Chirnside Park - Knox City via Croydon &amp; Bayswater</option>
+
+	<option value="10897">670 - Ringwood - Lilydale via Croydon &amp; Chirnside Park</option>
+
+	<option value="5731">671 - Croydon - Chirnside Park via Warrien Road, Patrick Street</option>
+
+	<option value="5732">672 - Croydon - Chirnside Park via Wonga Park, Croydon Hills</option>
+
+	<option value="1507">673 - Lilydale - Lillydale Lake</option>
+
+	<option value="919">675 - Chirnside Park - Mooroolbark via Manchester Road</option>
+
+	<option value="1137">676 - Lilydale Station via Maroondah Highway</option>
+
+	<option value="1138">677 - Lilydale Station - Chirnside Park via Switchback Road</option>
+
+	<option value="7852">679 - Chirnside Park Shopping Centre - Ringwood via Canterbury Rd</option>
+
+	<option value="5734">680 - Lilydale - Mooroolbark via Lilydale East Estate, Lakeview Estate</option>
+
+	<option value="923">681 - Lysterfield - Knox City via Wantirna, Scoresby, Rowville (clockwise)</option>
+
+	<option value="924">682 - Lysterfield - Knox City via Wantirna, Scoresby, Rowville (anti-clockwise)</option>
+
+	<option value="925">683 - Chirnside Park - Warburton via Lilydale Station, Seville, Yarra Junction</option>
+
+	<option value="1935">684 - Eildon - Melbourne via Lilydale Station</option>
+
+	<option value="927">685 - Lilydale - Healesville via Lilydale Station, Coldstream, Yarra Glen</option>
+
+	<option value="928">686 - Healesville - Badger Creek</option>
+
+	<option value="929">687 - Chum Creek - Healesville</option>
+
+	<option value="4805">688 - Croydon - Upper Ferntree Gully via Olinda and Tremont</option>
+
+	<option value="931">689 - Croydon - Montrose via Hawthory Road, Durham Road</option>
+
+	<option value="932">690 - Croydon - Boronia via Kilsyth, Canterbury Gardens, Kilsyth South</option>
+
+	<option value="5735">691 - Boronia  - Waverley Gardens via Ferntree Gully, Stud Park</option>
+
+	<option value="5736">693 - Belgrave - Oakleigh via Ferntree Gully, Brandon Park</option>
+
+	<option value="935">694 - Olinda - Belgrave via Sherbrooke Road</option>
+
+	<option value="1632">695 - Belgrave - Gembrook</option>
+
+	<option value="2916">695F - Gembrook - Fountain Gate</option>
+
+	<option value="4802">696 - Olinda - Monbulk via Olinda - Monbulk Road</option>
+
+	<option value="937">697 - Belgrave -  Belgrave South via Belgrave Heights</option>
+
+	<option value="939">699 - Belgrave - Upwey </option>
+
+	<option value="4547">701 - Oakleigh - Bentleigh via Mackie Road, Brady Road</option>
+
+	<option value="943">703 - Middle Brighton - Blackburn via Bentleigh, Clayton, Monash University (SMARTBUS Service)</option>
+
+	<option value="12752">704 - East Clayton - Oakleigh via Clayton, Huntingdale</option>
+
+	<option value="945">705 - Mordialloc - Springvale via Braeside, Clayton South</option>
+
+	<option value="2517">706 - Mordialloc - Aspendale - Edithvale - Chelsea</option>
+
+	<option value="946">708 - Carrum - Hampton via Southland</option>
+
+	<option value="11122">709 - Mordialloc - Noble Park Station via Keysborough South</option>
+
+	<option value="948">732 - Box Hill - Upper Ferntree Gully via Vermont South, Knox City, Mountain Gate</option>
+
+	<option value="949">733 - Oakleigh - Box Hill via Clayton, Monash University, Mt Waverley</option>
+
+	<option value="950">734 - Glen Iris - Glen Waverley </option>
+
+	<option value="3483">735 - Box Hill to Nunawading</option>
+
+	<option value="952">736 - Mitcham - Blackburn via Vermont South, Glen Waverley, Forest Hill</option>
+
+	<option value="953">737 - Croydon - Monash University via Boronia, Knox City Shopping Centre, Glen Waverley</option>
+
+	<option value="954">738 - Mitcham - Knox City via Knox Private Hospital, Wantirna Secondary College</option>
+
+	<option value="955">740 - Mitcham - Vermont East via Reserve Avenue, Churinga Avenue</option>
+
+	<option value="8912">742 - Eastland - Chadstone via Vermont South, Glen Waverley, Oakleigh</option>
+
+	<option value="957">745 - Knox City - Bayswater -  Wantirna Primary School</option>
+
+	<option value="1173">745a - Knox City - Bayswater</option>
+
+	<option value="1174">745b - Bayswater - Boronia Station</option>
+
+	<option value="1175">745c - Bayswater - Wantirna Primary School</option>
+
+	<option value="1176">745d - Bayswater - Wantirna Primary School via Mountain Highway</option>
+
+	<option value="959">753 - Glen Waverley - Bayswater via Wheelers Hill, Knoxfield, Boronia</option>
+
+	<option value="960">754 - Rowville - Glen Waverley via Caulfield Grammar, Wheelers Hill</option>
+
+	<option value="961">755 - Bayswater - Knox City via Basin, Boronia, Ferntree Gully</option>
+
+	<option value="962">757 - Knox City - Scoresby via Old Orchards Drive</option>
+
+	<option value="963">758 - Knox City - Knoxfield via Wallace Road</option>
+
+	<option value="964">765 - Mitcham - Box Hill via Brentford Square, Forest Hill, Blackburn</option>
+
+	<option value="965">766 - Box Hill - Burwood via Surrey Hills</option>
+
+	<option value="8915">767 - Southland - Box Hill via Chadstone, Jordanville, Deakin University</option>
+
+	<option value="10904">768 - Box Hill - Deakin University via Canterbury Rd</option>
+
+	<option value="3365">770 - Frankston - Karingal via Ashleigh Avenue</option>
+
+	<option value="2813">771 - Frankston - Langwarrin via Karingal</option>
+
+	<option value="970">772 - Frankston - Eliza Heights</option>
+
+	<option value="971">773 - Frankston - Frankston South via Kars Street</option>
+
+	<option value="972">774 - Frankston - Delacombe Park</option>
+
+	<option value="973">775 - Frankston - Lakewood via Heatherhill Road</option>
+
+	<option value="974">776 - Frankston - Pearcedale via Baxter</option>
+
+	<option value="1150">777 - Karingal Hub Shopping Centre - McClelland Drive</option>
+
+	<option value="2808">778 - Kananook - Carrum Downs via Lathams Rd</option>
+
+	<option value="975">779 - Frankston - Belvedere via Kananook</option>
+
+	<option value="977">780 - Frankston - Carrum via Seaford</option>
+
+	<option value="7797">781 - Frankston - Mount Martha via Mt Eliza, Mornington</option>
+
+	<option value="3438">781-784-785 combined - Frankston - Mt Eliza - Mornington East/Mt Martha</option>
+
+	<option value="979">782 - Frankston - Flinders via Coolart Road, Hastings</option>
+
+	<option value="3420">782-783 combined - Frankston - Coolart Rd - Hastings/Flinders</option>
+
+	<option value="980">783 - Frankston - Hastings via Coolart Road</option>
+
+	<option value="7700">784 - Frankston - Osborne via Mt Eliza, Mornington</option>
+
+	<option value="1143">785 - Frankston - Mornington East via Mt Eliza / Mornington</option>
+
+	<option value="4663">786 - Rye to St Andrews Beach</option>
+
+	<option value="1516">787 - Sorrento - Safety Beach</option>
+
+	<option value="982">788 - Frankston - Portsea via Dromana, Rosebud, Sorrento</option>
+
+	<option value="11291">789 - Frankston - Langwarrin via Langwarrin North</option>
+
+	<option value="11296">790 - Frankston - Langwarrin via Langwarrin South</option>
+
+	<option value="11297">791 - Frankston Station - Cranbourne Station</option>
+
+	<option value="11300">792 - Cranbourne Station - Botanic Ridge and Pearcedale</option>
+
+	<option value="2342">795 - Warneet - Cranbourne</option>
+
+	<option value="11303">796 - Cranbourne Station - Clyde</option>
+
+	<option value="11304">798 - Cranbourne Park SC - Selandra Rise</option>
+
+	<option value="11305">799 - Merinda Park Station - The Avenue Village SC</option>
+
+	<option value="8923">800 - Dandenong - Chadstone via Princes Highway, Oakleigh</option>
+
+	<option value="8924">802 - Dandenong - Chadstone via Mulgrave, Oakleigh</option>
+
+	<option value="3453">802-804-862 combined - Dandenong - Chadstone via Mulgrave, Oakleigh</option>
+
+	<option value="8934">804 - Dandenong - Chadstone via Wheelers Hill, Oakleigh</option>
+
+	<option value="5746">811 - Dandenong - Brighton via Heatherton Road, Springvale</option>
+
+	<option value="5748">811-812 combined - Dandenong - Brighton via Southland SC</option>
+
+	<option value="5747">812 - Dandenong - Brighton via Parkmore Shopping Centre</option>
+
+	<option value="999">813 - Dandenong - Waverley Gardens SC</option>
+
+	<option value="1000">814 - Springvale South - Dandenong via Waverley Gardens Shopping Centre, Springvale</option>
+
+	<option value="1001">815 - Dandenong - Noble Park</option>
+
+	<option value="1003">821 - Southland - Clayton via Heatherton</option>
+
+	<option value="8913">822 - Chadstone - Sandringham via Murrumbeena &amp; Southland</option>
+
+	<option value="11653">823 - North Brighton - Southland via Moorabbin</option>
+
+	<option value="1006">824 - Moorabbin - Keysborough via Clayton, Westall</option>
+
+	<option value="1007">825 - Moorabbin - Southland via Black Rock &amp; Mentone</option>
+
+	<option value="5510">828 - Hampton - Berwick Station via Southland SC, Dandenong</option>
+
+	<option value="5379">831 - Berwick Station - Kingsmere Estate via Casey Hospital</option>
+
+	<option value="1013">832 - Frankston - Carrum Downs via Kananook, McCormicks Road</option>
+
+	<option value="11591">833 - Frankston Station - Carrum Station via Carrum Downs</option>
+
+	<option value="5480">834 - Berwick Station - Narre Warren Circle via Berwick North, Narre Warren South</option>
+
+	<option value="5481">835 - Berwick Station - Narre Warren Circle via Narre Warren South, Berwick North</option>
+
+	<option value="5378">836 - Berwick Station - Eden Rise SC via Bridgewater Estate</option>
+
+	<option value="5368">837 - Berwick Station - Beaconsfield East via Brisbane St, Beaconsfield Plaza SC</option>
+
+	<option value="1015">838 - Emerald - Fountain Gate SC via Beaconsfield, Berwick</option>
+
+	<option value="5369">839 - Berwick Station - Berwick North via Telford Dr, Whistler Dr</option>
+
+	<option value="4664">840 - Gembrook - Pakenham via Pakenham Upper</option>
+
+	<option value="5460">841 - Narre Warren North - Cranbourne via Narre Warren, Cranbourne North</option>
+
+	<option value="1019">842 - Fountain Gate SC - Endeavour Hills SC via Narre Warren North</option>
+
+	<option value="11306">843 - Dandenong Station - Endeavour Hills via Endeavour Hills SC</option>
+
+	<option value="5331">844 - Dandenong - Doveton via McCrae Street</option>
+
+	<option value="5332">845 - Dandenong - Mossgiel Park via John Fawkner Drive</option>
+
+	<option value="5385">846 - Berwick Station - Eden Rise SC via Bryn Mawr Bvd</option>
+
+	<option value="11307">847 - Berwick Station - The Avenue Village SC</option>
+
+	<option value="1023">848 - Dandenong - Brandon Park Shopping Centre via Waverley Gardens Shopping Centre</option>
+
+	<option value="5333">849 - Dandenong - Mossgiel Park via Gleneagles Drive</option>
+
+	<option value="5334">850 - Dandenong - Glen Waverley via Mulgrave, Brandon Park</option>
+
+	<option value="1026">857 - Chelsea - Dandenong via Patterson Lakes</option>
+
+	<option value="4543">858 - Edithvale - Aspendale Gardens via Chelsea</option>
+
+	<option value="5335">861 - Dandenong - Endeavour Hills via Thomas Mitchell Drive</option>
+
+	<option value="8922">862 - Dandenong - Chadstone via North Dandenong, Oakleigh</option>
+
+	<option value="11308">863 - Endeavour Hills SC - Hampton Park SC via Hallam Station</option>
+
+	<option value="1030">885 - Glen Waverley - Springvale via Wanda Street</option>
+
+	<option value="2505">886 - Rosebud - Chisholm TAFE Rosebud Campus</option>
+
+	<option value="10961">887 - Rosebud - Monash University</option>
+
+	<option value="11309">890 - Dandenong Station - Lynbrook Station</option>
+
+	<option value="11313">891 - Fountain Gate SC - Lynbrook Station via Hallam Station</option>
+
+	<option value="11337">892 - Casey Central SC - Dandenong Station via Hampton Park SC</option>
+
+	<option value="11314">893 - Cranbourne Park SC - Dandenong Station</option>
+
+	<option value="5370">894 - Amberly Park  - Hallam via Hampton Park</option>
+
+	<option value="5371">895 - Narre Warren South - Fountain Gate SC via Narre Warren Station</option>
+
+	<option value="11315">897 - Clyde - Lynbrook Station</option>
+
+	<option value="11318">898 - Cranbourne East - Cranbourne Station via Cranbourne Park SC</option>
+
+	<option value="11319">899 - The Avenue Village SC - Berwick Station</option>
+
+	<option value="12753">900 - Rowville - Caulfield via Monash University, Chadstone (SMARTBUS Service)</option>
+
+	<option value="7531">901 - Frankston - Melbourne Airport (SMARTBUS Service)</option>
+
+	<option value="7464">902 - Chelsea - Airport West (SMARTBUS Service)</option>
+
+	<option value="8925">903 - Altona - Mordialloc (SMARTBUS Service)</option>
+
+	<option value="8602">905 - City - The Pines SC via Eastern Fwy, Templestowe (SMARTBUS Service)</option>
+
+	<option value="8596">906 - City - Warrandyte via The Pines SC (SMARTBUS service)</option>
+
+	<option value="8591">907 - City - Mitcham via Doncaster Rd (SMARTBUS service)</option>
+
+	<option value="8590">908 - City - The Pines SC via Eastern Fwy (SMARTBUS Service)</option>
+
+	<option value="7455">922 - Southland SC - St Kilda Station</option>
+
+	<option value="7456">923 - Southland SC - St Kilda Station</option>
+
+	<option value="5382">925 - Pakenham Station - Lakeside via The Avenue</option>
+
+	<option value="7617">926 - Pakenham Station - Fountain Gate Shopping Centre via Lakeside, Beaconsfield</option>
+
+	<option value="5375">927 - Pakenham Station - Pakenham North via Meadowvale</option>
+
+	<option value="7613">928 - Pakenham Station - Cardinia Road Station</option>
+
+	<option value="5377">929 - Pakenham Station - Pakenham North via Army Rd, Windermere Bvd</option>
+
+	<option value="8948">941 - Night Bus - City - Footscray - Sunshine North - Taylors Lakes - Watergardens</option>
+
+	<option value="11548">942 - Night Bus - City - Footscray - Sunshine - Deer Park - St Albans</option>
+
+	<option value="8950">943 - Night Bus - Watergardens - Caroline Springs - Melton</option>
+
+	<option value="8951">944 - Night Bus - City - Newport - Altona - Altona Meadows - Point Cook</option>
+
+	<option value="8955">945 - Night Bus - City - Geelong Rd - Tarneit - Hoppers Crossing - Werribee - Wyndham Vale</option>
+
+	<option value="8956">951 - Night Bus - City - Moonee Ponds - Brunswick West - Pascoe Vale - Glenroy</option>
+
+	<option value="8957">952 - Night Bus - City - Footscray - Maribyrnong - Airport West - Gladstone Park - Broadmeadows</option>
+
+	<option value="8958">953 - Night Bus - Broadmeadows - Meadow Heights - Roxburgh Park - Craigieburn</option>
+
+	<option value="8959">955 - Night Bus - City - Brunswick - Ivanhoe - Bundoora - Mill Park - South Morang - Mernda</option>
+
+	<option value="8960">961 - Night Bus - City - Collingwood - Eastern Fwy - Templestowe - Doncaster</option>
+
+	<option value="8964">963 - Night Bus - Ringwood - Mooroolbark - Lilydale</option>
+
+	<option value="8965">964 - Night Bus - Croydon - Kilsyth - Mt Evelyn - Lilydale</option>
+
+	<option value="8966">965 - Night Bus - Lilydale - Woori Yallock - Healesville - Yarra Glen loop</option>
+
+	<option value="8967">966 - Night Bus - City - Kew - Doncaster Rd - Box Hill</option>
+
+	<option value="8968">967 - Night Bus - Glen Waverley - Burwood Hwy - Bayswater (returns via Bayswater North - Ferntree Gully)</option>
+
+	<option value="8969">969 - Night Bus - City - Caulfield - Ferntree Gully Rd - Rowville - Wantirna - Ringwood</option>
+
+	<option value="8941">970 - Night Bus - Carrum - Frankston - Mornington - Rosebud</option>
+
+	<option value="8970">978 - Night Bus - Elsternwick - Ormond - Huntingdale - Mulgrave - Dandenong (returns via Princes Hwy)</option>
+
+	<option value="8971">979 - Night Bus - Elsternwick - Bentleigh - Clarinda - Keysborough - Dandenong</option>
+
+	<option value="8972">981 - Night Bus - Dandenong - Berwick - Narre Warren South - Cranbourne</option>
+
+	<option value="8973">982 - Night Bus - Dandenong - Endeavour Hills - Hampton Park - Cranbourne</option>
+
+	<option value="1123">Melbourne Airport - Melbourne City</option>
+
+	<option value="1182">Lilydale - Chirnside Park (Telebus Area 1)</option>
+
+	<option value="1183">Mooroolbark Station - Chirnside Park (Telebus Area 2)</option>
+
+	<option value="1184">Mooroolbark Station - Chirnside Park (Telebus Area 3)</option>
+
+	<option value="1185">Mooroolbark Station - Croydon Station (Telebus Area 4)</option>
+
+	<option value="1186">Ferntree Gully - Stud Park SC (Telebus Area 7)</option>
+
+	<option value="1187">Stud Park - Ferntree Gully Station (Telebus Area 8)</option>
+
+	<option value="1188">Stud Park - Stud Park (Telebus Area 9)</option>
+
+	<option value="1309">Albury - Beechworth via Baranduda</option>
+
+	<option value="1310">Albury - Corowa via Howlong</option>
+
+	<option value="2349">Albury - Corowa via Rutherglen</option>
+
+	<option value="2079">Albury - Corryong via Walwa</option>
+
+	<option value="1307">Albury - East Albury (Route EA)</option>
+
+	<option value="5125">Albury - Mt Beauty via Baranduda and Tawonga South</option>
+
+	<option value="1308">Albury - South Albury (Route SA)</option>
+
+	<option value="5038">Albury - Tallangatta via Bonegilla</option>
+
+	<option value="1306">Albury - West Albury (Route WA)</option>
+
+	<option value="1506">Albury - Wodonga - Myrtleford</option>
+
+	<option value="4711">Alexandra - Eildon via Thornton</option>
+
+	<option value="8435">Alexandra - Marysville via Taggerty &amp; Buxton</option>
+
+	<option value="2055">Alexandra - Seymour via Yea</option>
+
+	<option value="2089">Apollo Bay - Geelong (VLINE)</option>
+
+	<option value="1995">Ararat - Lake Bolac via Willaura</option>
+
+	<option value="4864">Ararat - Maryborough via Elmhurst, Avoca</option>
+
+	<option value="1660">Ararat North via Baird Street, NMIT, Alfred Street (Route 3)</option>
+
+	<option value="1659">Ararat South via Burke Road, Churchill Avenue (Route 2)</option>
+
+	<option value="3322">Ararat Station - Hopkins Correctional Centre</option>
+
+	<option value="5843">Ararat to Stawell via Western Hwy</option>
+
+	<option value="1658">Ararat West via Brewster Road, Lowe Road (Route 1)</option>
+
+	<option value="8229">Bacchus Marsh - Hillview Estate via Bacchus Marsh Station  (Route 433)</option>
+
+	<option value="8233">Bacchus Marsh Station - Darley via Bacchus Marsh (Route 435)</option>
+
+	<option value="8232">Bacchus Marsh Station - Telford Park via Bacchus Marsh (Route 434)</option>
+
+	<option value="1443">Bairnsdale - East Bairnsdale (Route 2)</option>
+
+	<option value="1495">Bairnsdale - Gelantipy (Route 12)</option>
+
+	<option value="1440">Bairnsdale - Omeo (Route 14)</option>
+
+	<option value="1441">Bairnsdale - Paynesville (Route 13)</option>
+
+	<option value="1439">Bairnsdale - West Bairnsdale (Route 1)</option>
+
+	<option value="1444">Bairnsdale - Wy Yung (Route 3)</option>
+
+	<option value="1510">Ballan - Hepburn via Daylesford</option>
+
+	<option value="1511">Ballan - Mount Egerton via Gordon</option>
+
+	<option value="5063">Ballarat - Avoca via Clunes and Maryborough</option>
+
+	<option value="1493">Ballarat - Bendigo via Maryborough and Castlemaine</option>
+
+	<option value="1551">Ballarat - Maryborough via Avoca</option>
+
+	<option value="1379">Ballarat - Maryborough via Clunes</option>
+
+	<option value="5069">Ballarat - Mt Egerton via Gordon</option>
+
+	<option value="1947">Ballarat - Rokewood via Ross Creek</option>
+
+	<option value="4861">Ballarat - Snake Valley via Haddon</option>
+
+	<option value="1925">Ballarat - Station to Sovereign Hill (Goldrush service)</option>
+
+	<option value="1575">Ballarat - Stawell via Ararat</option>
+
+	<option value="11387">Ballarat Station - Alfredton (Route 26)</option>
+
+	<option value="11634">Ballarat Station - Alfredton via Wendouree (Route 10)</option>
+
+	<option value="11363">Ballarat Station - Black Hill (Route 14)</option>
+
+	<option value="11366">Ballarat Station - Brown Hill (Route 15)</option>
+
+	<option value="11372">Ballarat Station - Buninyong via Federation University  (Route 21)</option>
+
+	<option value="11369">Ballarat Station - Canadian (Route 20)</option>
+
+	<option value="11390">Ballarat Station - Creswick (Route 30)</option>
+
+	<option value="11384">Ballarat Station - Delacombe (Route 25)</option>
+
+	<option value="11375">Ballarat Station - Federation University via Sebastopol (Route 22)</option>
+
+	<option value="11360">Ballarat Station - Invermay Park (Route 13)</option>
+
+	<option value="11378">Ballarat Station - Mount Pleasant (Route 23)</option>
+
+	<option value="11381">Ballarat Station - Sebastopol (Route 24)</option>
+
+	<option value="11357">Ballarat Station - Wendouree Station via Forest St (Route 12)</option>
+
+	<option value="11354">Ballarat Station - Wendouree Station via Howitt St (Route 11)</option>
+
+	<option value="8362">Benalla - Benalla East (Route 2)</option>
+
+	<option value="8361">Benalla - Benalla West (Route 1)</option>
+
+	<option value="2768">Bendigo - Boort via Wedderburn</option>
+
+	<option value="10923">Bendigo - Goornong</option>
+
+	<option value="11342">Bendigo - Shepparton via Kyabram</option>
+
+	<option value="5055">Bendigo - Woomelang via Wedderburn, Charlton, Wycheproof, Birchip</option>
+
+	<option value="8574">Bendigo Station - Eaglehawk via Arnold St (Route 52)</option>
+
+	<option value="8571">Bendigo Station - Eaglehawk via Eaglehawk Rd (Route 53)</option>
+
+	<option value="8570">Bendigo Station - Eaglehawk via Jackass Flat (Route 51)</option>
+
+	<option value="11290">Bendigo Station - East Bendigo via Strickland Rd (Route 60)</option>
+
+	<option value="8569">Bendigo Station - Epsom Station via Goynes Rd (Route 50)</option>
+
+	<option value="8567">Bendigo Station - Golden Square via Quarry Hill (Route 64)</option>
+
+	<option value="10967">Bendigo Station - Kangaroo Flat via Golden Square (Route 55)</option>
+
+	<option value="8566">Bendigo Station - La Trobe University via Miller St (Route 63)</option>
+
+	<option value="8564">Bendigo Station - La Trobe University via Strathdale (Route 61)</option>
+
+	<option value="8572">Bendigo Station - Maiden Gully via Calder Hwy (Route 54)</option>
+
+	<option value="8983">Bendigo Station - Spring Gully via Carpenter St (Route 65)</option>
+
+	<option value="8565">Bendigo Station - Spring Gully via La Trobe University (Route 62)</option>
+
+	<option value="8568">Bendigo Station - Strathfieldsaye via Kennington (Route 70)</option>
+
+	<option value="1611">Castlemaine - Campbells Creek (Route 1)</option>
+
+	<option value="5738">Castlemaine - Chewton via Loddon Prison (Route 6)</option>
+
+	<option value="1608">Castlemaine - Harcourt (Route 3)</option>
+
+	<option value="10924">Castlemaine - Maldon (Route 4)</option>
+
+	<option value="1587">Castlemaine - Taradale via Chewton (Route 5)</option>
+
+	<option value="1609">Castlemaine Town Loop (Route 2)</option>
+
+	<option value="5681">Churchill - Boolarra via Yinnar (Route 4)</option>
+
+	<option value="5700">Churchill town loop (Route 30)</option>
+
+	<option value="7703">Cobram Town Service</option>
+
+	<option value="1365">Colac - Alvie via Warrion</option>
+
+	<option value="2097">Colac - Lorne</option>
+
+	<option value="8373">Colac - Marengo via Apollo Bay</option>
+
+	<option value="2126">Colac to  Colac West (Route 2)</option>
+
+	<option value="7791">Colac to Colac East (Route 3)</option>
+
+	<option value="7788">Colac to Elliminyt (Route 1)</option>
+
+	<option value="8614">Corio SC - North Shore Station (Route 23)</option>
+
+	<option value="3287">Coronet Bay - Grantville via Corinella</option>
+
+	<option value="1449">Coronet Bay - Wonthaggi via Corinella</option>
+
+	<option value="1450">Cowes - Anderson - Wonthaggi</option>
+
+	<option value="1464">Cowes - Fountain Gate via Anderson</option>
+
+	<option value="1624">Daylesford - Hepburn Springs</option>
+
+	<option value="11624">Drouin North to Moe - Albert St</option>
+
+	<option value="11622">Drouin North to Newborough TAFE - Yallourn</option>
+
+	<option value="11621">Drouin North to Warragul Station</option>
+
+	<option value="11475">Drouin Station - Drouin North via McNeilly Rd (Route 86)</option>
+
+	<option value="11620">Drouin Station to Traralgon Station</option>
+
+	<option value="11632">Drouin Station to Warragul Station</option>
+
+	<option value="5846">Echuca - 24 Lane (Route 5)</option>
+
+	<option value="5841">Echuca - Cunningham Downs Retirement Village (Route 4)</option>
+
+	<option value="1345">Echuca - Echuca East (Route 2 - Circular)</option>
+
+	<option value="1344">Echuca - Echuca South (Route 1)</option>
+
+	<option value="1346">Echuca - Moama (Route 3 - Circular)</option>
+
+	<option value="11619">Garfield Station to Nar Nar Goon Station</option>
+
+	<option value="11623">Garfield Station to Traralgon Plaza</option>
+
+	<option value="8714">Geelong - Bannockburn (Route 19)</option>
+
+	<option value="5048">Geelong - Inverleigh via Fyansford</option>
+
+	<option value="8621">Geelong Station - Bell Post Hill  (Route 25)</option>
+
+	<option value="8599">Geelong Station - Corio SC (Route 20)</option>
+
+	<option value="8630">Geelong Station - Deakin University via Breakwater (Route 40)</option>
+
+	<option value="10846">Geelong Station - Deakin University via Grovedale (Route 41)</option>
+
+	<option value="8639">Geelong Station - Deakin University via Highton (Route 43)</option>
+
+	<option value="10854">Geelong Station - Deakin University via South Valley Rd (Route 42)</option>
+
+	<option value="8660">Geelong Station - Drysdale via Clifton Springs (Route 61)</option>
+
+	<option value="8648">Geelong Station - Jan Juc via Marshall Station (Route 51)</option>
+
+	<option value="8645">Geelong Station - Jan Juc via Marshall Station and Fischer St (Route 50)</option>
+
+	<option value="8579">Geelong Station - Leopold (Route 32)</option>
+
+	<option value="8618">Geelong Station - North Geelong Station via Newtown (Route 24)</option>
+
+	<option value="8611">Geelong Station - North Shore Station via Anakie Rd (Route 22)</option>
+
+	<option value="8651">Geelong Station - Ocean Grove via Barwon Heads (Route 55)</option>
+
+	<option value="8654">Geelong Station - Queenscliff via Ocean Grove (Route 56)</option>
+
+	<option value="8627">Geelong Station - St Albans Park (Route 31)</option>
+
+	<option value="8657">Geelong Station - St Leonards via Portarlington (Route 60)</option>
+
+	<option value="8624">Geelong Station - Whittington via Newcomb (Route 30)</option>
+
+	<option value="11711">Gisborne - Gisborne Station (Route 473)</option>
+
+	<option value="11714">Gisborne - Gisborne Station (Route 474) - demand responsive</option>
+
+	<option value="4849">Hamilton - Penshurst via Tarrington</option>
+
+	<option value="8250">Hamilton East via Ballarat Road (Route 3)</option>
+
+	<option value="8246">Hamilton North via Kent Road (Route 2)</option>
+
+	<option value="1524">Hamilton West via Coleraine Road (Route 1)</option>
+
+	<option value="2945">Heathcote-Bendigo via Axedale</option>
+
+	<option value="3324">Hepburn - Creswick via Daylesford</option>
+
+	<option value="1916">Horsham - Albert Street North (Route 1)</option>
+
+	<option value="1538">Horsham - Birchip via Warracknabeal</option>
+
+	<option value="1532">Horsham - Donald via Murtoa and Minyip</option>
+
+	<option value="1921">Horsham - Haven (Route 6)</option>
+
+	<option value="1539">Horsham - Hopetoun via Dimboola</option>
+
+	<option value="2339">Horsham - Kaniva via Dimboola</option>
+
+	<option value="5023">Horsham - Naracoorte via Natimuk, Goroke, Edenhope</option>
+
+	<option value="7624">Horsham - Natimuk Road (Route 5)</option>
+
+	<option value="1579">Horsham - Roberts Avenue (Route 7)</option>
+
+	<option value="1917">Horsham - Sunnyside (Route 2)</option>
+
+	<option value="1918">Horsham - Wawunna Road (Route 3)</option>
+
+	<option value="7620">Horsham - Williams Road South Bank (Route 4)</option>
+
+	<option value="8561">Huntly - Kangaroo Flat via Bendigo Station (Route 5)</option>
+
+	<option value="11003">Kalkee Retirement Village - Belmont Village SC (Route 49)</option>
+
+	<option value="6649">Kerang - Echuca via Cohuna</option>
+
+	<option value="1577">Kilmore Town Service</option>
+
+	<option value="3354">Koo Wee Rup - Pakenham</option>
+
+	<option value="1452">Korumburra Town Service - Carinya Lodge</option>
+
+	<option value="7395">Kyneton - Kyneton North (Route 4)</option>
+
+	<option value="4733">Kyneton - Kyneton Railway Station (Route 1)</option>
+
+	<option value="4736">Kyneton - Kyneton South (Route 3)</option>
+
+	<option value="4745">Kyneton - Kyneton West (Route 2)</option>
+
+	<option value="4747">Kyneton - Malmsbury</option>
+
+	<option value="1586">Kyneton - Taradale - Castlemaine - Bendigo</option>
+
+	<option value="1610">Kyneton - Woodend</option>
+
+	<option value="5827">Lakes Entrance - Kalimna (Route 1)</option>
+
+	<option value="5837">Lakes Entrance - Lakes Entrance East (Route 3)</option>
+
+	<option value="5834">Lakes Entrance - Lakes Entrance North (Route 2)</option>
+
+	<option value="11606">Lancefield - Kyneton via Sunbury</option>
+
+	<option value="8582">Lara Station -  Lara South - Corio SC (Route 10)</option>
+
+	<option value="8587">Lara Station - Lara East (Route 11)</option>
+
+	<option value="10839">Lara Station - Lara West (Route 12)</option>
+
+	<option value="6647">Maffra town service</option>
+
+	<option value="5809">Mallacoota - Genoa via Gipsy Point</option>
+
+	<option value="4896">Mansfield - Woods Point via Jamieson</option>
+
+	<option value="5135">Maryborough - Carisbrook</option>
+
+	<option value="2295">Maryborough - Hedges (Route 1)</option>
+
+	<option value="2294">Maryborough - Maryborough Education Centre (Route 4)</option>
+
+	<option value="5634">Maryborough - Maryborough Station</option>
+
+	<option value="5132">Maryborough - Maryborough via Bealiba and Dunolly</option>
+
+	<option value="5126">Maryborough - Maryborough via Daisy Hill and Talbot</option>
+
+	<option value="2293">Maryborough - Pascoe (Route 3)</option>
+
+	<option value="2285">Maryborough -Princes Park/Whirrakee (Route 2)</option>
+
+	<option value="1574">Mildura - Euston - Robinvale</option>
+
+	<option value="1545">Mildura - Horsham via Hopetoun</option>
+
+	<option value="1312">Mildura - Irymple - Red Cliffs (Route 100/200)</option>
+
+	<option value="1571">Mildura - Merbein via Eleventh Street (Route 211/311/312)</option>
+
+	<option value="1311">Mildura - Merbein via Seventeenth Street (Route 250/300)</option>
+
+	<option value="6648">Mildura - Ouyen - Sea Lake</option>
+
+	<option value="1314">Mildura - West Mildura - Mildura Central Shopping Centre (Route 500)</option>
+
+	<option value="3408">Mildura Central SC - East Mildura - Mildura (Route 401)</option>
+
+	<option value="11329">Mildura Central SC - Mildura City (Route 602)</option>
+
+	<option value="11320">Mildura Central SC - Mildura South - Mildura Central SC (Route 601)</option>
+
+	<option value="3401">Mildura Central SC - West  Mildura - Mildura (Route 501)</option>
+
+	<option value="3398">Mildura City - East Mildura - Mildura Central SC (Route 400)</option>
+
+	<option value="11326">Mildura City - Mildura Central SC (Route 600)</option>
+
+	<option value="11629">Moe - Albert St to Drouin North</option>
+
+	<option value="11630">Moe - Albert St to Garfield Station</option>
+
+	<option value="11457">Moe - Moe North (Route 13)</option>
+
+	<option value="11461">Moe - Newborough via Dinwoodie Dr (Route 15)</option>
+
+	<option value="11458">Moe - Newborough via Old Sale Rd (Route 14)</option>
+
+	<option value="11446">Moe - Traralgon via Morwell (Route 1)</option>
+
+	<option value="11462">Moe - Traralgon via Yallourn North (Route 5)</option>
+
+	<option value="11456">Moe South (Route 12)</option>
+
+	<option value="11455">Moe West (Route 11)</option>
+
+	<option value="1341">Mooroopna - Rodney Park (Route 2)</option>
+
+	<option value="1342">Mooroopna Park (Route 3)</option>
+
+	<option value="5675">Morwell - Churchill (Route 2)</option>
+
+	<option value="5701">Morwell - Mid Valley Shopping Centre via Crinigan Rd (Route 21)</option>
+
+	<option value="5704">Morwell - Mid Valley Shopping Centre via Hourigan Rd (Route 22)</option>
+
+	<option value="5722">Morwell South (Route 20)</option>
+
+	<option value="11626">Newborough TAFE - Yallourn to Drouin North</option>
+
+	<option value="8765">North Shore Station - Deakin University via Geelong City (Route 1)</option>
+
+	<option value="1991">Omeo - Bright via Hotham Heights</option>
+
+	<option value="10980">Ouyen - Pinnaroo via Mallee Hwy</option>
+
+	<option value="11617">Pakenham Station to Garfield Station</option>
+
+	<option value="1355">Portland - North (Route 1)</option>
+
+	<option value="7318">Portland - South (Route 2)</option>
+
+	<option value="1357">Portland to Hamilton via Heywood</option>
+
+	<option value="5105">Quambatook - Boort</option>
+
+	<option value="5108">Quambatook - Kerang</option>
+
+	<option value="11096">Rochester Town Service</option>
+
+	<option value="1469">Sale - Loch Sport via Longford</option>
+
+	<option value="1910">Sale - Sale Station via Reeve Street (Route 4)</option>
+
+	<option value="5814">Sale - Seaspray via Longford</option>
+
+	<option value="1470">Sale - Stratford</option>
+
+	<option value="1909">Sale - Wurruk via Princes Highway (Route 3)</option>
+
+	<option value="1879">Sale-North via Guthridge Parade, MacArthur Street (Route 2)</option>
+
+	<option value="1878">Sale-South via MacArthur Street, Aquatic Centre, Sale Hospital (Route 1)</option>
+
+	<option value="5062">Sea Lake - Nullawil via Culgoa</option>
+
+	<option value="5051">Sea Lake - Woomelang</option>
+
+	<option value="2896">Seymour - Puckapunyal (Route 3)</option>
+
+	<option value="7627">Seymour - Seymour East (Route 1)</option>
+
+	<option value="2895">Seymour - Seymour North (Route 2)</option>
+
+	<option value="6716">Seymour - Seymour North/East PM peak (Route 5)</option>
+
+	<option value="2897">Seymour - Wimble Street AM peak (Route 4)</option>
+
+	<option value="2943">Shepparton - Aquamoves (Route 9)</option>
+
+	<option value="2928">Shepparton - Archer (Route 5)</option>
+
+	<option value="2925">Shepparton - Connolly Park (Route 4)</option>
+
+	<option value="5041">Shepparton - Euroa via Kialla</option>
+
+	<option value="2922">Shepparton - Golf Drive/TAFE (Route 3)</option>
+
+	<option value="2937">Shepparton - Kialla (Route 8)</option>
+
+	<option value="2934">Shepparton - Market Place (Route 7)</option>
+
+	<option value="1350">Shepparton - Mooroopna (Route 1)</option>
+
+	<option value="2919">Shepparton - Parkside Gardens via GV Health (Route 1)</option>
+
+	<option value="2982">Shepparton - Parkside Gardens via The Boulevard (Route 2)</option>
+
+	<option value="2931">Shepparton - South East (Route 6)</option>
+
+	<option value="3321">St Arnaud - Stawell via Ararat</option>
+
+	<option value="4855">St Arnaud - Stawell via Marnoo</option>
+
+	<option value="1374">Stawell - Ligar St (Route 1)</option>
+
+	<option value="1373">Stawell - Patrick St (Route 2)</option>
+
+	<option value="1375">Stawell - Stawell West (Route 3)</option>
+
+	<option value="5844">Stawell to Horsham via Western Hwy</option>
+
+	<option value="5845">Stawell to Stawell via Pomonal and Halls Gap</option>
+
+	<option value="10920">Strathfieldsaye Loop via Turners Rd, Junortoun Rd (Route 71)</option>
+
+	<option value="1533">Swan Hill - Sea Lake via Ultima</option>
+
+	<option value="1318">Swan Hill - Swan Hill North (Route 1)</option>
+
+	<option value="1319">Swan Hill - Swan Hill South (Route 2)</option>
+
+	<option value="1322">Swan Hill - Tooleybuc via Nyah West</option>
+
+	<option value="5052">Swan Hill - Wycheproof via Lalbert</option>
+
+	<option value="1320">Swan Hill South - Schools</option>
+
+	<option value="1321">Swan Hill South - Schools</option>
+
+	<option value="7953">Timboon - Camperdown via Cobden</option>
+
+	<option value="5684">Traralgon - Churchill (Route 3)</option>
+
+	<option value="11539">Traralgon - Churchill (Route 9)</option>
+
+	<option value="11532">Traralgon - Churchill (Special) via Monash University (Route 7)</option>
+
+	<option value="11524">Traralgon - Cross Road (Route 40)</option>
+
+	<option value="11528">Traralgon - Ellavale (Route 44)</option>
+
+	<option value="11536">Traralgon - Moe (Route 8)</option>
+
+	<option value="11526">Traralgon - Southside (Route 42)</option>
+
+	<option value="5741">Traralgon - Traralgon South (Route 6)</option>
+
+	<option value="11527">Traralgon East (Route 43)</option>
+
+	<option value="11464">Traralgon North (Route 45)</option>
+
+	<option value="11625">Traralgon Station to Drouin North</option>
+
+	<option value="11628">Traralgon Station to Drouin North</option>
+
+	<option value="11525">Traralgon West (Route 41)</option>
+
+	<option value="12746">Wallan Station - Springridge (from 30/04/2018)</option>
+
+	<option value="12743">Wallan Station - Wallan Central (from 30/04/2018)</option>
+
+	<option value="12749">Wallan Station - Wallara Waters Shuttle (from 30/04/2018)</option>
+
+	<option value="1578">Wallan Town Service (until 29/04/2018)</option>
+
+	<option value="1595">Wangaratta - Cheshunt via Edi</option>
+
+	<option value="1474">Wangaratta - Chiltern via Rutherglen</option>
+
+	<option value="1399">Wangaratta - Glenrowan</option>
+
+	<option value="1400">Wangaratta - Springhurst</option>
+
+	<option value="1475">Wangaratta - Springhurst - Corowa</option>
+
+	<option value="3374">Wangaratta - West End (Route 401)</option>
+
+	<option value="8317">Wangaratta - Yarrunga via Mason Street (Route 404)</option>
+
+	<option value="3377">Wangaratta - Yarrunga via Murdoch Road (Route 402)</option>
+
+	<option value="1396">Wangaratta -Yarrawonga</option>
+
+	<option value="3380">Wangaratta -Yarrawonga Road (Route 403)</option>
+
+	<option value="11474">Warragul Station - Drouin Station via Drouin South (Route 85)</option>
+
+	<option value="11478">Warragul Station - Noojee via Main Neerim Rd, Brandy Creek Rd (Route 89)</option>
+
+	<option value="11473">Warragul Station - Warragul East via Copelands Rd (Route 83)</option>
+
+	<option value="11466">Warragul Station - Warragul North via Latrobe St (Route 81)</option>
+
+	<option value="11472">Warragul Station - Warragul North via Stoddarts Rd (Route 82)</option>
+
+	<option value="11465">Warragul Station - Warragul South via West Gippsland Hospital (Route 80)</option>
+
+	<option value="11627">Warragul Station to Drouin North</option>
+
+	<option value="11633">Warragul Station to Drouin Station</option>
+
+	<option value="11616">Warragul Station to Moe - Albert St</option>
+
+	<option value="11618">Warragul Station to Moe Station</option>
+
+	<option value="11631">Warragul Station to Pakenham Station</option>
+
+	<option value="7785">Warrnambool - Allansford (Route 9)</option>
+
+	<option value="7771">Warrnambool - Deakin University via Gateway Plaza (Route 3)</option>
+
+	<option value="7765">Warrnambool - Dennington (Route 1)</option>
+
+	<option value="7768">Warrnambool - Gateway Plaza via Centro (Route 2)</option>
+
+	<option value="7776">Warrnambool - Lake Pertobe Loop (Route 5)</option>
+
+	<option value="7779">Warrnambool - Merrivale (Route 6)</option>
+
+	<option value="1515">Warrnambool - Mortlake</option>
+
+	<option value="3394">Warrnambool - Port Campbell - Timboon via Allansford, Nullawarre, Peterborough</option>
+
+	<option value="7782">Warrnambool - Port Fairy (Route 8)</option>
+
+	<option value="7772">Warrnambool - Tower Square via Gateway Plaza (Route 4)</option>
+
+	<option value="11393">Wendouree Station - Miners Rest (Route 31)</option>
+
+	<option value="1305">Wodonga (North) - Albury (Route 160)</option>
+
+	<option value="1304">Wodonga (South) - Albury (Route 150)</option>
+
+	<option value="1294">Wodonga - Albury (Route AW)</option>
+
+	<option value="1303">Wodonga - Baranduda (Route B)</option>
+
+	<option value="1301">Wodonga - Cambourne Park (Route C)</option>
+
+	<option value="7723">Wodonga - East Wodonga (Route E)</option>
+
+	<option value="1296">Wodonga - Gayview Drive (Route G)</option>
+
+	<option value="5767">Wodonga - Mayfair Drive (Route M)</option>
+
+	<option value="1295">Wodonga - Murray Valley Private Hospital (Route F)</option>
+
+	<option value="7726">Wodonga - South Wodonga (Route S)</option>
+
+	<option value="1300">Wodonga - West Wodonga (Route O)</option>
+
+	<option value="1297">Wodonga - Wodonga TAFE (Route T)</option>
+
+	<option value="1302">Wodonga Shopper (Route WS)</option>
+
+	<option value="1596">Wonthaggi - Dudley - Wonthaggi</option>
+
+	<option value="1461">Wonthaggi - Leongatha via Inverloch</option>
+
+	<option value="1447">Wonthaggi - South Wonthaggi - Wonthaggi</option>
+
+	<option value="3346">Wonthaggi - Traralgon via Leongatha</option>
+
+	<option value="1446">Wonthaggi - Wonthaggi North - Wonthaggi</option>
+
+	<option value="1448">Wonthaggi Town Service (Cape Paterson)</option>
+
+	<option value="11286">Woodend FlexiRide Service</option>
+
+	<option value="1494">Yarram - Traralgon via Gormandale</option>
+
+	<option value="7762">Yarrawonga and Mulwala FlexiRide Service</option>
+
+</select>
+                                    </div>
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_BusLineID" class="jp-u-visuallyhidden">Select Direction</label>
+                                        <select name="BusLineID" class="dependentdropdown dependent-dropdown dropdown selectBox lineDirection" id="Form_Next5Form_BusLineID" data-link="/next5/Next5Form/field/BusLineID/load" data-depends="BusLineMainID" data-empty="Please select a direction" data-unselected="(Select a route first)">
+
+	<option value="" selected="selected">Please select a direction</option>
+
+	<option value="" selected="selected">Please select a direction</option>
+
+</select>
+                                    </div>
+                                    <div class="form-row jp-next5-form-row">
+                                        <label for="Form_Next5Form_BusDivaID" class="jp-u-visuallyhidden">Select Stop</label>
+                                        <select name="BusDivaID" class="dependentdropdown dependent-dropdown dropdown selectBox divaSelect" id="Form_Next5Form_BusDivaID" data-link="/next5/Next5Form/field/BusDivaID/load" data-depends="BusLineID" data-empty="Please select a stop" data-unselected="(Select a direction first)">
+
+	<option value="" selected="selected">Please select a stop</option>
+
+	<option value="" selected="selected">Please select a stop</option>
+
+</select>
+                                    </div>
+                                    <div class="Actions">
+                                        <button class="jp-next5-submit jp-button jp-button--full-width jp-button-primary" type="submit" name="action_findstop">
+                                            <span>Show departure times</span>
+                                        </button>
+                                    </div>
+                                
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+				
+				
+				
+				<section id="myki" class="functional-panel jpmyki">
+					<div class="jp-headingbanner jp-inner">
+						<div class="jp-row">
+							<div class="jp-col-xs-8">
+								<h2 class="jp-heading">Tickets</h2>
+							</div>
+							
+						</div>
+					</div>
+					<div class="jp-myki-copysection jp-inner">
+						<div class="jp-myki-largetext">
+							<p class="jp-u-visuallyhidden">Myki</p>
+						</div>
+						<p class="jp-myki-text">
+							Your ticket for trains,</br>
+							trams and buses.
+						</p>
+					</div>
+					<div class="jp-myki-linksection">
+						<div class="jp-inner">
+							<a href="tickets/myki/manage-your-myki-online" class="jp-button jp-button--full-width jp-myki-button">
+								<span>Manage your myki account</span>
+							</a>
+							<a href="tickets/myki" class="jp-button jp-button--full-width jp-button-primary">
+								<span>Buy a myki card or top up</span>
+							</a>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<!-- end .clear-row -->
+		
+
+		<div class="clear-row mobile-hidden">
+			<div class="promos">
+				
+					<div class="promo" id='promo1' data-ga-label='Tourists promo'> 
+						<h4>Tourist information</h4><p><a href="/getting-around/visiting-melbourne/"><img class="left" title="" src="https://static.ptv.vic.gov.au/siteassets/Images/Promo-tiles/Homepage-block-ads/Flinders-Street-Station.jpg" alt="Flinders Street Station" width="280" height="187"></a></p><p>Melbourne’s trains, trams and buses are an easy way to see all of the city’s best attractions, sporting venues and shopping precincts.</p><p><a title="Link to Visiting Melbourne page" href="/getting-around/visiting-melbourne/">Read more</a></p> 
+					</div>
+				
+				
+				
+					<div class="promo" id='promo2' data-ga-label='Contact promo'> 
+						<h4>Contact Public Transport Victoria</h4><p><a href="/customer-service/"><img class="left" title="" src="https://static.ptv.vic.gov.au/siteassets/Images/Random/Homepage-CustomerService-1.jpg" alt="Contact PTV - PTV Hub" width="280" height="186"></a></p><p>Public Transport Victoria (PTV) is committed to delivering quality customer service and helping to improve your travel experience.</p><p><a title="Link to Customer service page" href="/customer-service/">Read more</a></p>
+					</div>
+				
+				
+				
+					<div class="promo" id='promo3' data-ga-label='Events promo'> 
+						<h4>myki Auto Top Up</h4><p><img class="leftAlone" title="" src="https://static.ptv.vic.gov.au/Images/Random/1507077253/myki_AutoTopUp_2017_HomepageTile.jpg" alt="Image: young man on a bus holding his myki" width="280" height="185" data-cdnfileid="48482"></p><p>Always be ready to travel. Make topping up with myki money more convenient today.</p><p><a title="Link to myki auto top up page" href="/autotopup/">Read more</a></p>
+					</div>
+				
+			</div>
+		</div>
+		<!-- end .clear-row -->
+		
+	</div>
+	<!-- close content -->
+	
+	<!--
+	<div role="complementary" class="aside hidden">
+		include ServiceStatusSummary 
+	</div>
+	-->
+
+</div>
+<!-- close container -->
+
+<div id="footer" role="contentinfo">
+	<div class="wrapper">
+		<div class="footerLinkGroup first">
+			<div class="servicesNavFooter">
+				
+<ul>
+	<li class="mobile-only"><a href="next5">Next 5 services</a></li>
+	<li class="mobile-only"><a href="journey">Plan journey</a></li>
+	
+	<li class="navMapJourney"><a href="journey"><span>Journey planner</span></a></li>
+	<li class="navTimetables"><a href="timetables"><span>Timetables</span></a></li>
+	<li class="navNextFive"><a href="next5"><span>Next 5 departures</span></a></li>
+
+	<li class="navDisruptions"><a href="live-travel-updates/"><span>Live travel updates</span></a></li>
+	
+	
+	<li class="navMyki"><a href="tickets/myki" ><span>myki</span></a></li>
+</ul>
+
+			</div>
+		
+		
+			
+				<div>
+					
+						
+							
+								<h3><a href="getting-around/">Getting around</a></h3>
+							
+						
+						
+						<ul class="servicesNavSubMenu">
+							
+								<li><a href="getting-around/stations-and-stops/">Stations and stops</a></li>
+							
+								<li><a href="getting-around/accessible-transport/">Accessible transport</a></li>
+							
+								<li><a href="getting-around/lost-property/">Lost property</a></li>
+							
+								<li><a href="getting-around/travelling-safely/">Travelling safely</a></li>
+							
+								<li><a href="getting-around/maps/">Maps</a></li>
+							
+						</ul>
+					
+				</div>
+		
+			
+		</div>
+		<div class="footerLinkGroup">
+			
+		
+			
+				<div>
+					
+						
+							
+								<h3><a href="projects/">Projects</a></h3>
+							
+						
+						
+						<ul class="servicesNavSubMenu">
+							
+								<li><a href="projects/rail-projects/">Rail projects</a></li>
+							
+								<li><a href="projects/railway-stations/">Railway stations</a></li>
+							
+								<li><a href="projects/railway-crossings/">Railway crossings </a></li>
+							
+								<li><a href="projects/tram-projects/">Tram projects</a></li>
+							
+								<li><a href="projects/bus-projects/">Bus projects</a></li>
+							
+						</ul>
+					
+				</div>
+		
+			
+		
+			
+				<div>
+					
+						
+							
+								<h3><a href="about-ptv/">About PTV</a></h3>
+							
+						
+						
+						<ul class="servicesNavSubMenu">
+							
+								<li><a href="about-ptv/public-transport-victoria/">Public Transport Victoria</a></li>
+							
+								<li><a href="about-ptv/victorias-public-transport-network/">Victoria's public transport network</a></li>
+							
+								<li><a href="about-ptv/data-and-reports/">Data and reports</a></li>
+							
+								<li><a href="about-ptv/media-centre/">Media Centre</a></li>
+							
+						</ul>
+					
+				</div>
+		
+			
+		</div>
+		<div class="footerLinkGroup">
+			
+		
+			
+				<div>
+					
+						
+							
+								<h3><a href="customer-service/">Customer service</a></h3>
+							
+						
+						
+						<ul class="servicesNavSubMenu">
+							
+								<li><a href="customer-service/operator-contacts/">Operator contacts</a></li>
+							
+								<li><a href="customer-service/feedback-and-complaints/">Feedback and complaints</a></li>
+							
+								<li><a href="customer-service/ptv-hubs/">PTV Hubs</a></li>
+							
+								<li><a href="customer-service/public-transport-call-centre/">Public transport call centre</a></li>
+							
+						</ul>
+					
+				</div>
+		
+			
+		
+			
+				<div>
+					
+						
+							
+						
+						
+						<ul class="servicesNavSubMenu">
+							
+								<li><a href="tickets/">Tickets</a></li>
+							
+								<li><a href="news-and-events/">News and events</a></li>
+							
+						</ul>
+					
+				</div>
+		
+			
+		</div>
+		<div class="footerLinkGroup">
+			
+		
+		
+		</div>
+	</div>
+	<!-- close footer inner -->
+</div>
+<!-- close footer -->
+<div id="legals">
+	<div class="wrapper">
+		<a href="https://www.vic.gov.au/" target="_blank" title="Visit the Victorian Government website">
+			<img src="themes/transport-site/images/tfv-logo.png" id="vic-logo" alt="Victorian Government logo" />
+		</a>
+		<ul>
+			<li><a href="privacy">Privacy</a></li>
+			<li><a href="disclaimer">Disclaimer</a></li>
+			<li><a href="myki-terms-of-use">myki Terms of Use</a></li>
+			<li><a href="accessibility">Accessibility</a></li>
+			<li><a href="media">Media</a></li>
+			<li><a href="languages">Languages</a></li>
+			<li><a href="sitemap">Sitemap</a></li>
+			<li><a href="customer-service">Contact us</a></li>
+			<li>Copyright 2013</li>
+		</ul>
+	</div>
+	<!-- close legals inner -->
+</div>
+<!-- close legals -->
+
+
+					
+
+					<script></script>
+
+				</div>
+			</div>
+		</div>
+
+		
+		<div id="HelpTopics">
+			<h3>Help topics on this page</h3>
+			
+			<div class="helpItem">
+				<h4>Performance results</h4>
+				<div style="display: inline;" id="ctl00_PlaceHolderMain_RichHtmlField1__ControlWrapper_RichHtmlField">
+<div><span>Public  Transport Victoria monitors the performance of operators to ensure that the standard of service provision  meets community needs and expectations.</span></div>
+</div>
+				 
+			</div>
+			
+			<div class="helpItem">
+				<h4>Journey Planner</h4>
+				<p>Don't know the way? Use journey planner for step-by-step directions on public transport from anywhere in Victoria.</p>
+				 
+			</div>
+			
+			<div class="helpItem">
+				<h4>Next5</h4>
+				<p>Just want to know when your next train, tram or bus leaves? Use Next 5 to find out the next five services departing from your station or stop.</p>
+				 
+			</div>
+			
+		</div>
+		
+
+		
+<!-- ClickTale Bottom part -->
+
+<script type='text/javascript'>
+document.write(unescape("%3Cscript%20src='"+
+(document.location.protocol=='https:'?
+"https://cdnssl.clicktale.net/www08/ptc/a8aeb418-fe15-405d-8f31-9f43462ab7a4.js":
+"http://cdn.clicktale.net/www08/ptc/a8aeb418-fe15-405d-8f31-9f43462ab7a4.js")+"'%20type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<!-- ClickTale end of Bottom part --> 
+
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script type="text/javascript" src="/themes/transport-site/javascript/jquery-migrate-1.4.1.min.js?m=1519964121"></script><script type="text/javascript" src="/themes/transport-site/javascript/combined_transport_site.js?m=1519964121"></script><script type="text/javascript" src="/themes/transport-site/javascript/combined_home.js?m=1519964121"></script><script type="text/javascript" src="/sabot/javascript/accessibility-init.js?m=1519964137"></script><script type="text/javascript" src="/sabot/javascript/jquery.hotkeys.js?m=1519964137"></script><script type="text/javascript" src="/sabot/javascript/jquery.jfontsize-1.0.js?m=1519964137"></script><script type="text/javascript" src="/sabot/javascript/jquery.scrollTo.js?m=1519964137"></script><script type="text/javascript" src="/sabot/javascript/flying-focus.js?m=1519964137"></script><script type="text/javascript" src="/interactives/javascript/interactives.js?m=1519964136"></script><script type="text/javascript" src="/dependentdropdownfield/javascript/dependentdropdownfield.js?m=1519964146"></script><script type="text/javascript">//<![CDATA[
+
+
+var SS_InlineHelpItems = {
+	
+		'#performance h2' : {
+			
+			
+			iconPosition: {
+				offset: '-120 0',
+				my: 'left top',
+				at: 'right top'
+			},
+			
+			
+			tooltipPosition: {
+				my: 'left top',
+				at: 'right top'
+			},
+			
+			
+			tooltipSize: {
+				width: 250,
+				height: 120
+			},
+			
+			type: '',
+			title: 'Performance results',
+			text: '\x3cdiv style=\"display: inline;\" id=\"ctl00_PlaceHolderMain_RichHtmlField1__ControlWrapper_RichHtmlField\"\x3e\n\x3cdiv\x3e\x3cspan\x3ePublic  Transport Victoria monitors the performance of operators to ensure that the standard of service provision  meets community needs and expectations.\x3c/span\x3e\x3c/div\x3e\n\x3c/div\x3e',
+			link: '',
+			showOn: '',
+			attachWith: 'appendTo'
+		}
+		
+		,
+		
+	
+		'#locationSelector h2' : {
+			icon: '\x3ca class=\"ui-icon ui-icon-help icon-light\" href=\"#main-content\"\x3e\x3c/a\x3e',
+			
+			iconPosition: {
+				offset: '-20 0',
+				my: 'left top',
+				at: 'right top'
+			},
+			
+			
+			
+			tooltipSize: {
+				width: 250,
+				height: 120
+			},
+			
+			type: '',
+			title: 'Journey Planner',
+			text: '\x3cp\x3eDon\'t know the way? Use journey planner for step-by-step directions on public transport from anywhere in Victoria.\x3c/p\x3e',
+			link: '',
+			showOn: '',
+			attachWith: 'insertBefore'
+		}
+		
+		,
+		
+	
+		'#next5' : {
+			icon: '\x3ca class=\"ui-icon ui-icon-help icon-light\" href=\"#main-content\"\x3e\x3c/a\x3e',
+			
+			iconPosition: {
+				offset: '-30 10',
+				my: 'left top',
+				at: 'right top'
+			},
+			
+			
+			
+			tooltipSize: {
+				width: 250,
+				height: 120
+			},
+			
+			type: '',
+			title: 'Next5',
+			text: '\x3cp\x3eJust want to know when your next train, tram or bus leaves? Use Next 5 to find out the next five services departing from your station or stop.\x3c/p\x3e',
+			link: '',
+			showOn: '',
+			attachWith: 'prependTo'
+		}
+		
+	
+}
+
+$(document).ready(function() {
+	$.each(SS_InlineHelpItems, function(k,v) {
+		var widget = $(k).inlineHelp(v);
+	});
+});
+
+
+//]]></script><script type="text/javascript">//<![CDATA[
+window.sabotConfig = {"skipMenu":"#main-skip-block","useFlyingFocus":"1","menuCombo":"ctrl+m","fontSizeElements":"span,ul,input,a,td,th,tr,dd,dt,h1,h2,h3,h4,h5","showScrollup":"1","scrollTop":"#servicesNav","scrollMessage":"#scrollMessage"};
+
+//]]></script><script type="text/javascript">//<![CDATA[
+window.SSInteractives = {config: {"endpoint":"","trackviews":false,"trackclicks":true,"remember":false,"campaigns":[],"tracker":"Local"}};
+
+//]]></script><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"7b4705e3d7","applicationID":"23155615","transactionName":"NQdQbUJUWkAHV0BYWwxNZ0tZGkdaC0RYVFcDAVpcH1NGXAhAUV9QTwFTWlhQGkMORA==","queueTime":0,"applicationTime":8,"atts":"GUBTGwpOSU4=","errorBeacon":"bam.nr-data.net","agent":""}</script>
+    <script type="text/javascript">
+        function onsubmit() {
+            var wisdomText = document.getElementById('wisdom');
+            wisdomText.value = "asdafas";
+            var formText = document.getElementById('chatform');
+            formText.submit();
+        }
+    </script>
+    <div class="box box-3">
+        <dl style="width: 310px;background: rgb(246, 247, 249);">
+            <dd style="width: 300px;">
+            	<span id="blink">●</span>
+                <span id="botname"> PTV Bot</span>
+                <b id="small_button" class="up"></b>
+            </dd>
+            <ul style="background-color: rgb(246, 247, 249); display: block; width: 310px;">
+                <div class="align-center">
+                    <div id="conversation" style="width: 310px;height: 380px;border: 0px solid #ccc;background-color: #f6f7f9;padding: 0px;overflow-y: scroll;"></div>
+                    <form id="chatform" style="margin-top: 0px;background-color: #f6f7f9;width:295px" onsubmit="return pushChat();">
+                        <input style="width:200px" type="text" id="wisdom" size="55" value="" placeholder="Ask for assistance" />
+                        <button type="submit" id="wissdomsubmit">Send</button>
+
+                    </form>
+
+
+                    <script type="text/javascript">
+                        // set the focus to the input box
+                        document.getElementById("wisdom").focus();
+
+                        // Initialize the Amazon Cognito credentials provider
+                        AWS.config.region = 'us-east-1'; // Region
+                        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId: 'us-east-1:6655ed99-76ae-47b1-a88b-6ff8ca5bf37e',
+                        });
+
+                        var lexruntime = new AWS.LexRuntime();
+                        var lexUserId = 'chatbot-demo' + Date.now();
+                        var sessionAttributes = {};
+
+                        function pushChat() {
+
+                            // if there is text to be sent...
+                            var wisdomText = document.getElementById('wisdom');
+                            if (wisdomText && wisdomText.value && wisdomText.value.trim().length > 0) {
+
+                                // disable input to show we're sending it
+                                var wisdom = wisdomText.value.trim();
+                                wisdomText.value = '...';
+                                wisdomText.locked = true;
+
+                                // send it to the Lex runtime
+                                var params = {
+                                    botAlias: '$LATEST',
+                                    botName: 'AnsBot',
+                                    inputText: wisdom,
+                                    userId: lexUserId,
+                                    sessionAttributes: sessionAttributes
+                                };
+                                showRequest(wisdom);
+                                lexruntime.postText(params, function (err, data) {
+                                    if (err) {
+                                        console.log(err, err.stack);
+                                        showError('Error:  ' + err.message + ' (see console for details)')
+                                    }
+                                    if (data) {
+                                        // capture the sessionAttributes for the next cycle
+                                        sessionAttributes = data.sessionAttributes;
+                                        // show response and/or error/dialog status
+                                        showResponse(data);
+                                    }
+                                    // re-enable input
+                                    wisdomText.value = '';
+                                    wisdomText.locked = false;
+                                });
+                            }
+                            // we always cancel form submission
+                            return false;
+                        }
+
+                        function showRequest(daText) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var requestPara = document.createElement("P");
+                            var requestParaI = document.createElement("P");
+                            var requestTitle = document.createElement("img");
+                            requestTitle.src = "https://i.imgur.com/3nzaniN.png"; //images/user.png
+                            requestTitle.style.cssFloat = "right";
+                            requestPara.className = 'userRequest';
+                            requestParaI.className = 'userRequestI';
+                            requestPara.appendChild(requestTitle);
+                            requestParaI.appendChild(document.createTextNode(daText));
+                            requestPara.appendChild(requestParaI);
+                            //conversationDiv.appendChild(requestTitle);
+                            conversationDiv.appendChild(requestPara);
+                            //conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+
+                        function showError(daText) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var errorPara = document.createElement("P");
+                            errorPara.className = 'lexError';
+                            errorPara.appendChild(document.createTextNode(daText));
+                            conversationDiv.appendChild(errorPara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+
+                        function showResponse(lexResponse) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var responsePara = document.createElement("P");
+                            var responseParaI = document.createElement("P");
+                            var responseTitle = document.createElement("img");
+                            var responseBlack = document.createElement("input");
+                            responseBlack.type = "text";
+                            responseTitle.src = "https://i.imgur.com/qcC2RAd.png"; //images/bot.png
+                            responseTitle.style.cssFloat = "left";
+                            responseParaI.className = 'lexResponseI';
+                            responsePara.className = 'lexResponse';
+                            if (lexResponse.message) {
+                                responseParaI.appendChild(document.createTextNode(lexResponse.message));
+                                responseParaI.appendChild(document.createElement('br'));
+                            }
+                            if (lexResponse.dialogState === 'ReadyForFulfillment') {
+                                responseParaI.appendChild(document.createTextNode(
+                                    'Ready for fulfillment'));
+                                // TODO:  show slot values
+                            }
+                            //3
+                            //responsePara.appendChild(responseBlack);
+                            responsePara.appendChild(responseTitle);
+                            var responseParaDialog = document.createElement("P");
+                            responseParaDialog.className = 'lexResponseDialog';
+                            responseParaDialog.appendChild(responseParaI);
+                            if (lexResponse.responseCard) {
+                                //var responseCardPic = document.createElement("img");
+                                //responseCardPic.width=300;
+                                //responseCardPic.src=lexResponse.responseCard.genericAttachments[0].imageUrl;
+                                //responsePara.appendChild(responseCardPic);
+                                var i = 0;
+                                var rvalue = [];
+                                while (lexResponse.responseCard.genericAttachments[0].buttons[i]) {
+                                    var responseButton = document.createElement("Button");
+                                    responseButton.id = i;
+                                    //var responseButtonimg = document.createElement("img");
+                                    //responseButtonimg.src="images/sendbutton.png";
+                                    var responseButtontext = document.createElement("input");
+                                    responseButtontext.className = 'responseButtontext';
+                                    responseButtontext.type = "button";
+                                    responseButtontext.style = "width:150px";
+                                    //responseButtontext.readonly="readonly";
+                                    responseButtontext.value = lexResponse.responseCard.genericAttachments[0].buttons[i].value;
+                                    rvalue.push(responseButtontext.value);
+                                    responseButtontext.onclick = function () {
+                                        ;
+                                    };
+                                    responseButton.onclick = function () {
+                                        var B = document.getElementById("wissdomsubmit");
+                                        var wisdomText = document.getElementById('wisdom');
+                                        wisdomText.value = rvalue[this.id];
+                                        B.click();
+                                    };
+                                    //responseButton.appendChild(responseButtonimg);
+                                    responseButton.appendChild(responseButtontext);
+                                    responseParaDialog.appendChild(responseButton);
+                                    i++;
+                                }
+                            }
+                            responsePara.appendChild(responseParaDialog);
+                            conversationDiv.appendChild(responsePara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+                        function showStartResponse() {
+                            $(".box-3 dl").find("ul").hide();
+                            var conversationDiv = document.getElementById('conversation');
+                            var responsePara = document.createElement("P");
+                            var responseParaI = document.createElement("P");
+                            var responseTitle = document.createElement("img");
+                            var responseBlack = document.createElement("input");
+                            responseBlack.type = "text";
+                            responseTitle.src = "https://i.imgur.com/qcC2RAd.png";
+                            responseTitle.style.cssFloat = "left";
+                            responseParaI.className = 'lexResponseI';
+                            responsePara.className = 'lexResponse';
+                            responseParaI.appendChild(document.createTextNode("Greetings! What can I do for you?"));
+                            responseParaI.appendChild(document.createElement('br'));
+                            //responsePara.appendChild(responseBlack);
+                            responsePara.appendChild(responseTitle);
+                            var responseParaDialog = document.createElement("P");
+                            responseParaDialog.className = 'lexResponseDialog';
+                            responseParaDialog.appendChild(responseParaI)
+                            responsePara.appendChild(responseParaDialog);
+                            conversationDiv.appendChild(responsePara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                            setTimeout(function () {
+                                if ($("#botname").text() == " Need help? Click me!")
+                                    $("#small_button").click();
+                            }, 5000);
+                            
+                            blinkingCircle = setInterval(function() {
+        		            	$('#blink').fadeOut(500);
+        		            	$('#blink').fadeIn(500);
+        		            }, 1000);
+                        }
+                    </script>
+                </div>
+            </ul>
+        </dl>
+
+        <script type="text/javascript">
+
+        $.fn.extend({
+        		//---元素拖动插件
+            dragging:function(data){  
+        		var $this = $(this);
+        		//1
+
+            	$("#small_button").click( function () {
+        				var w=$(window).width()-$(".box-3 dl").width();
+        				var h=$(window).height()-$(".box-3 dl dd").height();
+        				var h1=$(window).height()-475;				
+        			if ( $(this).hasClass("up") ){
+        					$(this).removeClass("up").addClass("down");
+        					$(".box-3 dl").find("ul").show();
+        					//$(".box-3 dl").animate({
+        					//	left:w+"px",
+        					//	top:h+"px"
+        					//},200);
+        					$("#botname").text(" PTV Bot");			
+        					
+        					clearInterval(blinkingCircle);
+        					
+        				}else{	
+        					$(this).removeClass("down").addClass("up");
+        					$(".box-3 dl").find("ul").hide();	
+        					//$(".box-3 dl").animate({
+        					//	left:(w-80)+"px",
+        					//	top:h1+"px"
+        					//},200);
+        					$("#botname").text(" Need help? Click me!");		
+        					
+        					blinkingCircle = setInterval(function() {
+        		            	$('#blink').fadeOut(500);
+        		            	$('#blink').fadeIn(500);
+        		            }, 1000);
+        					
+        				}
+        		
+        		 });	
+        		 $("#small_button2").click( function () {
+        			$("#small_button").click();
+        		 });			
+            }
+        	
+        }); 
+        </script>
+
+        <script>
+            $(function () {
+                $('.box-3 dl').each(function () {
+                    $(this).dragging({
+                        move: 'both',
+                        randomPosition: false
+                    });
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
