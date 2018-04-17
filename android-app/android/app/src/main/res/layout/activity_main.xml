@@ -4,89 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rmit.aws.chatbot.requestbot.MainActivity">
-
-    <EditText
-        android:id="@+id/input_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="Type something"
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/send_button"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView1"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+    tools:context="com.rmit.aws.chatbot.requestbot.MainActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <Button
         android:id="@+id/send_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="88dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
         android:text="Send"
-        app:layout_constraintBottom_toBottomOf="@+id/input_text"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/input_text"
-        android:layout_marginEnd="8dp" />
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="480dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="bottom|center"
-        android:orientation="vertical"
-
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_text"
-        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
-    <LinearLayout
-        android:id="@+id/chat_box"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:fillViewport="true"
         android:gravity="bottom|center"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="1.0"
-        >
+        app:layout_constraintBottom_toTopOf="@+id/clear_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connect_ptv">
 
-    </LinearLayout>
-</ScrollView>
+        <LinearLayout
+            android:id="@+id/chat_box"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0">
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
-        android:id="@+id/clearhistory"
+        android:id="@+id/clear_history"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="clear history"
+        app:layout_constraintBottom_toTopOf="@+id/input_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/connect_ptv"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="170dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/connectptv"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView1"
-        android:text="clear history" />
-    <Button
-        android:id="@+id/connectptv"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/clearhistory"
-        android:text="connect ptv" />
+        android:layout_marginEnd="8dp"
+        android:text="Visit PTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/input_text"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="Ask for assistance"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/send_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

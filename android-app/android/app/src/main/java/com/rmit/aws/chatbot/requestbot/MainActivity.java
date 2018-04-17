@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +18,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amazonaws.auth.CognitoCredentialsProvider;
-import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.lex.interactionkit.InteractionClient;
 import com.amazonaws.mobileconnectors.lex.interactionkit.Response;
 import com.amazonaws.mobileconnectors.lex.interactionkit.config.InteractionConfig;
 import com.amazonaws.mobileconnectors.lex.interactionkit.continuations.LexServiceContinuation;
 import com.amazonaws.mobileconnectors.lex.interactionkit.listeners.InteractionListener;
-import com.amazonaws.mobileconnectors.lex.interactionkit.ui.InteractiveVoiceView;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lexrts.AmazonLexRuntimeClient;
 import com.amazonaws.services.lexrts.model.PostTextRequest;
@@ -68,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         chatBox = (LinearLayout) findViewById(R.id.chat_box);
         inputText = (EditText) findViewById(R.id.input_text);
         sendButton = (Button) findViewById(R.id.send_button);
-        clearhisoryButton=(Button) findViewById(R.id.clearhistory);
-        connectptvButton=(Button) findViewById(R.id.connectptv);
-        scrollView=(ScrollView)findViewById(R.id.scrollView1);
+        clearhisoryButton=(Button) findViewById(R.id.clear_history);
+        connectptvButton=(Button) findViewById(R.id.connect_ptv);
+        scrollView=(ScrollView)findViewById(R.id.scroll_view);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +145,14 @@ public class MainActivity extends AppCompatActivity {
         TextView messageText = (TextView) userMessageLayout.findViewById(R.id.messege_text);
         messageText.setBackgroundResource(R.drawable.text_view_request);
         messageText.setText(message);
-        chatBox.addView(userMessageLayout,0);
+        chatBox.addView(userMessageLayout);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                // scrollView.scrollTo(0, scrollView.getBottom()); // This might also work for smooth scrolling
+            }
+        });
 
         postTextRequest.setInputText(message);
         // PostTextResult result=clientlr.postText(postTextRequest);
@@ -156,7 +160,13 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
+
         PostTextResult postTextResult=clientlr.postText(postTextRequest);
+
+        // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
+
         String resultText=postTextResult.getMessage();
 
         if(postTextResult.getResponseCard()!=null){
@@ -180,29 +190,36 @@ public class MainActivity extends AppCompatActivity {
                 });
                 linearLayout.addView(button);
             }
-            chatBox.addView(ResponseCardLayout,0);
+            chatBox.addView(ResponseCardLayout);
         }else {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
             messageTextre.setText(resultText);
-            chatBox.addView(lexMessageLayout,0);
+            chatBox.addView(lexMessageLayout);
         }
-        //scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                // scrollView.scrollTo(0, scrollView.getBottom()); // This might also work for smooth scrolling
+            }
+        });
     }
 
     private void receiveMessage(Response response) {
         ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
         TextView messageText = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
         messageText.setText(response.getTextResponse());
-        chatBox.addView(lexMessageLayout,0);
+        chatBox.addView(lexMessageLayout);
     }
     private void receiveMessage(String response) {
         ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
         TextView messageText = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
         messageText.setBackgroundResource(R.drawable.text_view_border);
         messageText.setText(response);
-        chatBox.addView(lexMessageLayout,0);
+        chatBox.addView(lexMessageLayout);
     }
 
     private class LexListener implements InteractionListener {
