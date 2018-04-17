@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="60dp">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        app:srcCompat="@mipmap/ic_bot"
+        android:layout_marginStart="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:srcCompat="@mipmap/ic_bot"/>
 
     <TextView
         android:id="@+id/messege_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:background="#f1f0f0"
-        android:padding="8dp"
+        android:background="@drawable/text_view_border"
         android:maxEms="18"
+        android:padding="8dp"
         android:text="placeholder\ntext"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
         app:layout_constraintLeft_toRightOf="@+id/imageView2" />
+
+
 </android.support.constraint.ConstraintLayout>
