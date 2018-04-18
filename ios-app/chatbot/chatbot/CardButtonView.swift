@@ -29,9 +29,6 @@ class CardButtonView: UIView {
         self.response = response
         self.sendMessageDelegate = sendMessageDelegate
         
-        //label.numberOfLines = 1;
-        //label.adjustsFontSizeToFitWidth = true;
-        //label.lineBreakMode = NSLineBreakMode.byClipping
         label.text = display
     }
 }
