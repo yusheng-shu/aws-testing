@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/clear_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connect_ptv">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/chat_box"
@@ -55,16 +55,6 @@
         app:layout_constraintBottom_toTopOf="@+id/input_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/connect_ptv"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:text="Visit PTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/input_text"

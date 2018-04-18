@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,10 +51,29 @@ public class MainActivity extends AppCompatActivity {
     private int userChatLayout = R.layout.user_chat_box;
     private int lexChatLayout = R.layout.lex_chat_box;
     private String buttonvalue;
+    private String transfermessage="";
 
     private boolean inConversation = false;
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.connectptv_item:
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://www.ptv.vic.gov.au/");
+                intent.setData(content_url);
+                startActivity(intent);
+                break;
+            default:
+        }
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         inputText = (EditText) findViewById(R.id.input_text);
         sendButton = (Button) findViewById(R.id.send_button);
         clearhisoryButton=(Button) findViewById(R.id.clear_history);
-        connectptvButton=(Button) findViewById(R.id.connect_ptv);
         scrollView=(ScrollView)findViewById(R.id.scroll_view);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chatBox.removeAllViews();
-            }
-        });
-        connectptvButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("https://www.ptv.vic.gov.au/");
-                intent.setData(content_url);
-                startActivity(intent);
             }
         });
         receiveMessage("Welcome to use PTV BOT\n" +
@@ -138,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             }
             continuation.continueWithTextInForTextOut(message);
         } else {
-            //client.textInForTextOut(message, null);
+            client.textInForTextOut(message, null);
 
         }
         ConstraintLayout userMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.user_chat_box, null);
@@ -153,8 +163,12 @@ public class MainActivity extends AppCompatActivity {
                 // scrollView.scrollTo(0, scrollView.getBottom()); // This might also work for smooth scrolling
             }
         });
+        transfermessage=message;
 
-        postTextRequest.setInputText(message);
+    }
+
+    private void receiveMessage(Response response) {
+        postTextRequest.setInputText(transfermessage);
         // PostTextResult result=clientlr.postText(postTextRequest);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -168,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
         // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
         String resultText=postTextResult.getMessage();
-
         if(postTextResult.getResponseCard()!=null){
             ResponseCard responseCard=postTextResult.getResponseCard();
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
@@ -206,13 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 // scrollView.scrollTo(0, scrollView.getBottom()); // This might also work for smooth scrolling
             }
         });
-    }
-
-    private void receiveMessage(Response response) {
-        ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
-        TextView messageText = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
-        messageText.setText(response.getTextResponse());
-        chatBox.addView(lexMessageLayout);
+        //chatBox.addView(lexMessageLayout);
     }
     private void receiveMessage(String response) {
         ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
