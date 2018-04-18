@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">NewAndroid</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="identity_id_test">us-east-1:6655ed99-76ae-47b1-a88b-6ff8ca5bf37e</string>
-    <string name="bot_name">AnsBot</string>
-    <string name="bot_alias">$LATEST</string>
-</resources>

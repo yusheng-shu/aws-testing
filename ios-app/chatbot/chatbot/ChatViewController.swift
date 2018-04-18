@@ -21,13 +21,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     let botName = "AnsBot"
     let botAlias = "$LATEST"
     let userId = UUID().uuidString
-    let sessionAttributes: [String : String] = [:]
     let chatKey = "chatConfig"
     
-    //private var interactionKit: AWSLexInteractionKit?
-    // var textModeSwitchingCompletion: AWSTaskCompletionSource<NSString>?
-    
+    var sessionAttributes: [String : String] = [:]
     private var messages: [ChatMessage] = []
+    private var cellHeights: [IndexPath : CGFloat] = [:]
     private var clearButtonOGHeight: CGFloat = 24
 
     override func viewDidLoad() {
@@ -41,12 +39,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 64
+        tableView.estimatedRowHeight = 44
         tableView.reloadData()
-        
-        //tableView.contentInset = UIEdgeInsetsMake(CGFloat(tableView.frame.size.height), 0, 0, 0)
         fillFromBottom(unscroll: false)
-        //scrollTo(y: ((tableView.contentSize.height) - (tableView.frame.size.height)), animated: false)
+        insertNewMessage(BotChatMessage(text: "Hi, how may I help you today?", card: nil, sendMessageDelegate: self))
     }
     
     private func initInput() {
@@ -68,14 +64,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
         AWSLex.register(with: configuration!, forKey: chatKey)
-        
-        /* UNUSED: INTERACTION KIT NOT SUITABLE FOR RESPONSE CARDS
-        // Register listener for lex events
-        let chatConfig = AWSLexInteractionKitConfig.defaultInteractionKitConfig(withBotName: botName, botAlias: botAlias)
-        AWSLexInteractionKit.register(with: configuration!, interactionKitConfiguration: chatConfig, forKey: "chatConfig")
-        self.interactionKit = AWSLexInteractionKit.init(forKey: "chatConfig")
-        self.interactionKit?.interactionDelegate = self
-         */
     }
     
     // Send current text from input to lex
@@ -98,38 +86,59 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         request.sessionAttributes = sessionAttributes
         request.inputText = chatMessage.text
         
-        AWSLex(forKey: chatKey).postText(request) { (response, error) in
-            // Default response
-            var responseMsg = "Sorry, I can't answer your question."
-            // Error response
-            if let _err = error { responseMsg = "Sorry, something went wrong. Error reason: \(_err)" }
-            else if (response == nil) { responseMsg = "Sorry, something went wrong. Error reason: No response." }
-                // Success response
-            else if let _responseMsg = response?.message { responseMsg = _responseMsg }
+        AWSLex(forKey: chatKey).postText(request, completionHandler: receiveMessage(response:error:))
+    }
+    
+    // Receive message callback
+    private func receiveMessage(response: AWSLexPostTextResponse?, error: Error?) {
+        // Default response
+        var responseMsg = "Sorry, I can't answer your question."
+        var responseCard: AWSLexGenericAttachment?
+        
+        // Error response
+        if let _err = error {
+            responseMsg = "Sorry, something went wrong. Error reason: \(_err)"
+        } else if (response == nil) {
+            responseMsg = "Sorry, something went wrong. Error reason: No response."
+        }
             
-            //print("Response:\n" + String(describing: response))
+        // Success response
+        else {
+            if let _responseMsg = response?.message {
+                responseMsg = _responseMsg
+            }
+            // Get card
             
-            var responseCard: AWSLexGenericAttachment? = nil
             if let _responseCard = response?.responseCard {
                 if let _genericAttachments = _responseCard.genericAttachments {
                     responseCard = _genericAttachments.first
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.insertNewMessage(BotChatMessage(text: responseMsg, card: responseCard, sendMessageDelegate: self))
-            })
+            // Get session attributes
+            if (response?.sessionAttributes != nil) {
+                sessionAttributes = (response?.sessionAttributes)!
+            }
         }
+        
+        
+        // Display received message
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.insertNewMessage(BotChatMessage(text: responseMsg, card: responseCard, sendMessageDelegate: self))
+        })
+
     }
     
     // Clears the chat log
     @IBAction func clearChat() {
-        messages.removeAll()
+        messages.removeAll() // Remove all messages
+        // Disable user input
         textInput.isUserInteractionEnabled = false
         clearButton.isUserInteractionEnabled = false
         sendButton.isUserInteractionEnabled = false
         tableView.isUserInteractionEnabled = false
         
-        UIView.animate(withDuration: 0.2, animations: {
+        // Animate chat log fade out and scroll up
+        UIView.animate(withDuration: 0.3, animations: {
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tableView.frame.size.height, 0)
             self.tableView.alpha = 0
         }) { (complete) in
@@ -137,6 +146,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.alpha = 1
             self.tableView.reloadData()
             self.fillFromBottom(unscroll: false)
+            // Re-enable user input
             self.clearButton.isUserInteractionEnabled = true
             self.sendButton.isUserInteractionEnabled = true
             self.tableView.isUserInteractionEnabled = true
@@ -144,29 +154,28 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
     // Display new message
     private func insertNewMessage(_ message: ChatMessage) {
         messages.append(message)
         let indexPathToInsert = IndexPath(row: messages.count-1, section: 0)
+        
         CATransaction.begin()
+        
         CATransaction.setCompletionBlock {
             self.fillFromBottom(unscroll: true)
-            self.scrollTo(row: self.messages.count - 1)
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            
         }
         tableView.beginUpdates()
-        tableView.insertRows(at: [indexPathToInsert], with: .bottom)
+        tableView.insertRows(at: [indexPathToInsert], with: .top)
         tableView.endUpdates()
+        
         CATransaction.commit()
-        
-        
-        
-        
-        //tableView.layoutIfNeeded()
-        //scrollTo(y: ((tableView.contentSize.height) - (tableView.frame.size.height)), animated: true)
-        
+ 
     }
+ 
     
+    // Show and hide the chat button when required
     private func updateClearButton() {
         if (messages.count > 0) {
             UIView.animate(withDuration: 0.2, animations: {
@@ -201,11 +210,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cellHeights[indexPath] = cell.frame.size.height
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let height = cellHeights[indexPath] else { return 44 }
+        return height
+    }
+    
     // Create inset at the top of chat view content to push messages to the bottom
+    // This function is only used when the chat log does not fill the entire window
     private func fillFromBottom(unscroll: Bool) {
+        // Don't do anything if chat log fills the entire window
         if (tableView.contentSize.height > tableView.frame.size.height) {
             tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            return
+            //return
         }
         let rowCount = tableView(tableView!, numberOfRowsInSection: 0)
         var contentInsetTop = Float((tableView.bounds.size.height))
@@ -233,17 +253,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func scrollTo(y: CGFloat, animated: Bool) {
         tableView.setContentOffset(CGPoint(x: 0, y: y), animated: animated)
     }
-    
+    // Scroll to specificed row
     private func scrollTo(row: Int) {
         if (row < 0) { return }
         
         CATransaction.begin()
+        
         CATransaction.setCompletionBlock {
-            self.tableView.scrollToRow(at: IndexPath(row: row, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            self.tableView.scrollToRow(at: IndexPath(row: row, section: 0), at: UITableViewScrollPosition.top, animated: true)
         }
-        
-        
-        
+        // Do a "mini" scroll to force the top cell to unload
+        // This avoids the chat log from "skipping" when scrolling
         let contentOffset = tableView.contentOffset.y
         scrollTo(y: contentOffset + 1, animated: true)
         
