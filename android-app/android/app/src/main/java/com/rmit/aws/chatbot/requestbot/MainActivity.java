@@ -62,12 +62,19 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent;
         switch (item.getItemId()){
             case R.id.connectptv_item:
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse("https://www.ptv.vic.gov.au/");
                 intent.setData(content_url);
+                startActivity(intent);
+                break;
+            case R.id.callptv_item:
+                intent = new Intent(Intent.ACTION_DIAL);
+                Uri data = Uri.parse("tel:" + "1800800007");
+                intent.setData(data);
                 startActivity(intent);
                 break;
             default:

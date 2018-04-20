@@ -2,4 +2,7 @@
     <item
         android:id="@+id/connectptv_item"
         android:title="Connect PTV" />
+    <item
+        android:id="@+id/callptv_item"
+        android:title="Call PTV" />
 </menu>
