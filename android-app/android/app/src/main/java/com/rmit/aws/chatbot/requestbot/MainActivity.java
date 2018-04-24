@@ -4,12 +4,17 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +37,8 @@ import com.amazonaws.services.lexrts.model.PostTextResult;
 import com.amazonaws.services.lexrts.model.ResponseCard;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static int PERMISSION_REQ = 1;
@@ -52,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private int lexChatLayout = R.layout.lex_chat_box;
     private String buttonvalue;
     private String transfermessage="";
+    private String murl="";
 
     private boolean inConversation = false;
 
@@ -71,13 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.setData(content_url);
                 startActivity(intent);
                 break;
-            case R.id.callptv_item:
-                intent = new Intent(Intent.ACTION_DIAL);
-                Uri data = Uri.parse("tel:" + "1800800007");
-                intent.setData(data);
-                startActivity(intent);
-                break;
-            default:
         }
         return true;
     }
@@ -173,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         transfermessage=message;
 
     }
-
     private void receiveMessage(Response response) {
         postTextRequest.setInputText(transfermessage);
         // PostTextResult result=clientlr.postText(postTextRequest);
@@ -215,7 +215,34 @@ public class MainActivity extends AppCompatActivity {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
+            //TRY SOME
+            Pattern p=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+            Matcher m=p.matcher(resultText.toString());
+            boolean b=m.matches();
+            //TRY END
+            if(b){
+                resultText=resultText.replace(m.group(1),"");
+                messageTextre.setText(resultText);
+                SpannableString spString = new SpannableString(m.group(1));
+                spString.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        String s=((TextView)widget).getText().toString();
+                        Pattern pss=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+                        Matcher mss=pss.matcher(s);
+                        mss.matches();
+                        Uri content_url = Uri.parse("https://"+mss.group(1));
+                        intent.setData(content_url);
+                        startActivity(intent);
+                    }
+                }, 0, m.group(1).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                messageTextre.append(spString);
+                messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
+            }else{
             messageTextre.setText(resultText);
+            }
             chatBox.addView(lexMessageLayout);
         }
 
