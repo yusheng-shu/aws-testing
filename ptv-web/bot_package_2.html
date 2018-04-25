@@ -1,0 +1,491 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+    <script type="text/javascript">
+    	var blinkingCircle;
+    </script>
+	
+	<style>
+		.box{
+	width:100%; 
+	overflow:hidden; 
+	font-family:Helvetica, Arial, sans-serif; 
+	font-size:14px;
+	padding:0;
+	margin:0;
+}
+.box-3 dl{
+	display: table;
+	position: fixed;
+	bottom: 5px;
+	right: 74px;
+	box-shadow: 0 0 0px rgba(0,0,0,.3);
+	border-radius: 3px;
+	width: 300px;
+	background: rgb(246, 247, 249);
+	padding:0;
+	margin:0;
+	z-index:9;
+}
+.box-3 dl dd{
+	height: 40px;
+	line-height: 40px; 
+	color:#fff; 
+	font-size: 16px;
+	position: relative;
+	padding-left: 10px; 
+	background:#d92c27; 
+	border-radius:0px 0px 0 0;
+	width: 290px; 
+	margin:0;
+}
+.box-3 dl dd b{
+	display: block;
+	height: 40px;
+	width: 42px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	padding:0;
+	margin:0;
+}
+.box-3 dl dd b.up{ 
+background:url(https://i.imgur.com/KKFnuuq.png) center center no-repeat;
+padding:0;
+margin:0;
+}
+.box-3 dl dd b.down{ 
+background:url(https://i.imgur.com/5BEQeFp.png) center center no-repeat;
+padding:0;
+margin:0;
+}
+.box-3 dl ul{
+	padding:0 0px; 
+	height:412px;
+	background: #cbcbcb;
+	background-color: rgb(246, 247, 249); 
+	display: block; 
+	width: 300px;
+	margin:0;
+}
+.box-3 dl ul li{ 
+height:40px; 
+line-height:40px; 
+border-top: 1px dashed #EDEDED;
+background: #cbcbcb;
+padding:0;
+margin:0;
+}
+.box-3 dl ul li span{ 
+display:inline-block; 
+width:70px; 
+text-align:right;
+background: #cbcbcb;
+padding:0;
+margin:0;}
+.box-3 dl ul li i{ 
+font-style:normal; 
+margin-left:10px;
+background: #cbcbcb;
+padding:0;
+margin:0;
+}
+requestTitle {
+			height: 20px;
+			size: 10px;
+			font-size:10px;
+			padding:0;
+			margin:0;
+			}
+p.userRequest {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+		}
+p.userRequestI {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			max-width: 65%;
+			float: right;
+			color:#fff;
+			background-color: #d92c27;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		p.lexResponse {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: left;
+			min-width: 50%;
+			max-width: 85%;
+			float: left;
+		}
+		p.lexResponseI {
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;padding:0;margin:0;
+		}
+		p.lexResponseDialog {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: left;
+			min-width: 50%;
+			max-width: 65%;
+			float: left;
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+		}
+		p.lexError {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+			background-color: #f77;
+		}
+		.responseButtontext{
+			border:1px solid #d92c27;
+			background-color: #f1f0f0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;
+			width:180px;
+			color:#d92c27;
+			
+			border-radius: 2px; cursor:pointer;padding:0;margin:0;
+		}
+		button{
+			padding: 2px 4px 2px 4px;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			line-height:1.2;margin:0;
+    border-style: none;
+    background-color: #f1f0f0;
+		}
+		input#wisdom {
+			padding: 5px;
+			font-size: 1em;
+			width: 210px;
+			border: none;margin:0;
+		}
+		button#wissdomsubmit{
+			color:firebrick;
+            border:1px solid firebrick; 
+            border-radius: 6px; 
+            padding:5px 8px 5px 8px;
+ 		    cursor: pointer;margin:0;
+		}
+
+		input::placeholder {
+			color: #ccc;padding:0;margin:0;
+		}
+		.align-center{ 
+		margin:0 auto;
+		padding: 10px,0px,10px,0px;
+		width:380px; 
+		text-align:center;  
+		} 
+
+		
+		</style>
+
+</head>        
+		
+<body onload="showStartResponse()">
+		
+<script type="text/javascript">
+        function onsubmit() {
+            var wisdomText = document.getElementById('wisdom');
+            wisdomText.value = "asdafas";
+            var formText = document.getElementById('chatform');
+            formText.submit();
+        }
+    </script>
+    <div class="box box-3">
+        <dl>
+            <dd><span id="blink">●</span><span id="botname"> Need help? Click me!</span><b id="small_button" class="up"></b></dd>
+            <ul>
+                <div class="align-center">
+                    <div id="conversation" style="width: 300px;height: 380px;border: 0px solid #ccc;background-color: #f6f7f9;padding: 0px;overflow-y: scroll;"></div>
+                    <form id="chatform" style="margin-top: 0px;background-color: #f6f7f9;width:300px" onsubmit="return pushChat();">
+                        <input type="text" id="wisdom" size="55" value="" placeholder="Ask for assistance" />
+                        <button type="submit" id="wissdomsubmit">Send</button>
+
+                    </form>
+
+                    <script type="text/javascript">
+                        // set the focus to the input box
+                        document.getElementById("wisdom").focus();
+
+                        // Initialize the Amazon Cognito credentials provider
+                        AWS.config.region = 'us-east-1'; // Region
+                        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId: 'us-east-1:6655ed99-76ae-47b1-a88b-6ff8ca5bf37e',
+                        });
+
+                        var lexruntime = new AWS.LexRuntime();
+                        var lexUserId = 'chatbot-demo' + Date.now();
+                        var sessionAttributes = {};
+
+                        function pushChat() {
+
+                            // if there is text to be sent...
+                            var wisdomText = document.getElementById('wisdom');
+                            if (wisdomText && wisdomText.value && wisdomText.value.trim().length > 0) {
+
+                                // disable input to show we're sending it
+                                var wisdom = wisdomText.value.trim();
+                                wisdomText.value = '...';
+                                wisdomText.locked = true;
+
+                                // send it to the Lex runtime
+                                var params = {
+                                    botAlias: '$LATEST',
+                                    botName: 'AnsBot',
+                                    inputText: wisdom,
+                                    userId: lexUserId,
+                                    sessionAttributes: sessionAttributes
+                                };
+                                showRequest(wisdom);
+                                lexruntime.postText(params, function (err, data) {
+                                    if (err) {
+                                        console.log(err, err.stack);
+                                        showError('Error:  ' + err.message + ' (see console for details)')
+                                    }
+                                    if (data) {
+                                        // capture the sessionAttributes for the next cycle
+                                        sessionAttributes = data.sessionAttributes;
+                                        // show response and/or error/dialog status
+                                        showResponse(data);
+                                    }
+                                    // re-enable input
+                                    wisdomText.value = '';
+                                    wisdomText.locked = false;
+                                });
+                            }
+                            // we always cancel form submission
+                            return false;
+                        }
+
+                        function showRequest(daText) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var requestPara = document.createElement("P");
+                            var requestParaI = document.createElement("P");
+                            var requestTitle = document.createElement("img");
+                            requestTitle.src = "https://i.imgur.com/3nzaniN.png";
+                            requestTitle.style.cssFloat = "right";
+                            requestPara.className = 'userRequest';
+                            requestParaI.className = 'userRequestI';
+                            requestPara.appendChild(requestTitle);
+                            requestParaI.appendChild(document.createTextNode(daText));
+                            requestPara.appendChild(requestParaI);
+                            //conversationDiv.appendChild(requestTitle);
+                            conversationDiv.appendChild(requestPara);
+                            //conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+
+                        function showError(daText) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var errorPara = document.createElement("P");
+                            errorPara.className = 'lexError';
+                            errorPara.appendChild(document.createTextNode(daText));
+                            conversationDiv.appendChild(errorPara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+
+                        function showResponse(lexResponse) {
+
+                            var conversationDiv = document.getElementById('conversation');
+                            var responsePara = document.createElement("P");
+                            var responseParaI = document.createElement("P");
+                            var responseTitle = document.createElement("img");
+                            var responseBlack = document.createElement("input");
+                            responseBlack.type = "text";
+                            responseTitle.src = "https://i.imgur.com/qcC2RAd.png";
+                            responseTitle.style.cssFloat = "left";
+                            responseParaI.className = 'lexResponseI';
+                            responsePara.className = 'lexResponse';
+                            if (lexResponse.message) {
+							
+								//To make tiny url clickable
+                                //responseParaI.appendChild(document.createTextNode(lexResponse.message));
+                                //responseParaI.appendChild(document.createElement('br'));
+								var ans = replaceURLWithHTMLLinks(lexResponse.message);
+                                responseParaI.innerHTML = ans;
+                                responseParaI.appendChild(document.createElement('br'));
+                            }
+                            if (lexResponse.dialogState === 'ReadyForFulfillment') {
+                                responseParaI.appendChild(document.createTextNode(
+                                    'Ready for fulfillment'));
+                                // TODO:  show slot values
+                            }
+                            //3
+                            //responsePara.appendChild(responseBlack);
+                            responsePara.appendChild(responseTitle);
+                            var responseParaDialog = document.createElement("P");
+                            responseParaDialog.className = 'lexResponseDialog';
+                            responseParaDialog.appendChild(responseParaI);
+                            if (lexResponse.responseCard) {
+                                //var responseCardPic = document.createElement("img");
+                                //responseCardPic.width=300;
+                                //responseCardPic.src=lexResponse.responseCard.genericAttachments[0].imageUrl;
+                                //responsePara.appendChild(responseCardPic);
+                                var i = 0;
+                                var rvalue = [];
+                                while (lexResponse.responseCard.genericAttachments[0].buttons[i]) {
+                                    var responseButton = document.createElement("Button");
+                                    responseButton.id = i;
+                                    //var responseButtonimg = document.createElement("img");
+                                    //responseButtonimg.src="images/sendbutton.png";
+                                    var responseButtontext = document.createElement("input");
+                                    responseButtontext.className = 'responseButtontext';
+                                    responseButtontext.type = "button";
+                                    responseButtontext.style = "width:150px";
+                                    //responseButtontext.readonly="readonly";
+                                    responseButtontext.value = lexResponse.responseCard.genericAttachments[0].buttons[i].value;
+                                    rvalue.push(responseButtontext.value);
+                                    responseButtontext.onclick = function () {
+                                        ;
+                                    };
+                                    responseButton.onclick = function () {
+                                        var B = document.getElementById("wissdomsubmit");
+                                        var wisdomText = document.getElementById('wisdom');
+                                        wisdomText.value = rvalue[this.id];
+                                        B.click();
+                                    };
+                                    //responseButton.appendChild(responseButtonimg);
+                                    responseButton.appendChild(responseButtontext);
+                                    responseParaDialog.appendChild(responseButton);
+                                    i++;
+                                }
+                            }
+                            responsePara.appendChild(responseParaDialog);
+                            conversationDiv.appendChild(responsePara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                        }
+				
+						//replaces string that starts with "tinyurl" with link
+						function replaceURLWithHTMLLinks(text) {
+							var exp = /(\b(tinyurl).[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
+							return text.replace(exp,"<a href='https://$1' target='_blank'>$1</a>"); 
+						}
+						
+						
+                        function showStartResponse() {
+                            $(".box-3 dl").find("ul").hide();
+                            var conversationDiv = document.getElementById('conversation');
+                            var responsePara = document.createElement("P");
+                            var responseParaI = document.createElement("P");
+                            var responseTitle = document.createElement("img");
+                            var responseBlack = document.createElement("input");
+                            responseBlack.type = "text";
+                            responseTitle.src = "https://i.imgur.com/qcC2RAd.png";
+                            responseTitle.style.cssFloat = "left";
+                            responseParaI.className = 'lexResponseI';
+                            responsePara.className = 'lexResponse';
+                            responseParaI.appendChild(document.createTextNode("Greetings! What can I do for you?"));
+                            responseParaI.appendChild(document.createElement('br'));
+                            //responsePara.appendChild(responseBlack);
+                            responsePara.appendChild(responseTitle);
+                            var responseParaDialog = document.createElement("P");
+                            responseParaDialog.className = 'lexResponseDialog';
+                            responseParaDialog.appendChild(responseParaI)
+                            responsePara.appendChild(responseParaDialog);
+                            conversationDiv.appendChild(responsePara);
+                            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                            setTimeout(function () {
+                                if ($("#botname").text() == " Need help? Click me!")
+                                    $("#small_button").click();
+                            }, 5000);
+                            
+                            
+                            blinkingCircle = setInterval(function() {
+        		            	$('#blink').fadeOut(500);
+        		            	$('#blink').fadeIn(500);
+        		            }, 1000);
+                        }
+                    </script>
+                </div>
+            </ul>
+        </dl>
+
+        <script type="text/javascript">
+
+        $.fn.extend({
+        		//---元素拖动插件
+            dragging:function(data){  
+        		var $this = $(this);
+        		//1
+
+            	$("#small_button").click( function () {
+        				var w=$(window).width()-$(".box-3 dl").width();
+        				var h=$(window).height()-$(".box-3 dl dd").height();
+        				var h1=$(window).height()-475;				
+        			if ( $(this).hasClass("up") ){
+        					$(this).removeClass("up").addClass("down");
+        					$(".box-3 dl").find("ul").show();
+        					//$(".box-3 dl").animate({
+        					//	left:w+"px",
+        					//	top:h+"px"
+        					//},200);
+        					$("#botname").text(" PTV Bot");			
+        					
+        					clearInterval(blinkingCircle);
+        					
+        				}else{	
+        					$(this).removeClass("down").addClass("up");
+        					$(".box-3 dl").find("ul").hide();	
+        					//$(".box-3 dl").animate({
+        					//	left:(w-80)+"px",
+        					//	top:h1+"px"
+        					//},200);
+        					$("#botname").text(" Need help? Click me!");		
+        					
+        					blinkingCircle = setInterval(function() {
+        		            	$('#blink').fadeOut(500);
+        		            	$('#blink').fadeIn(500);
+        		            }, 1000);
+        					
+        				}
+        		
+        		 });	
+        		 $("#small_button2").click( function () {
+        			$("#small_button").click();
+        		 });			
+            }
+        	
+        }); 
+        </script>
+        <script>
+            $(function () {
+                $('.box-3 dl').each(function () {
+                    $(this).dragging({
+                        move: 'both',
+                        randomPosition: false
+                    });
+                });
+            });
+        </script>
+    </div>
+
+	
+</body>
