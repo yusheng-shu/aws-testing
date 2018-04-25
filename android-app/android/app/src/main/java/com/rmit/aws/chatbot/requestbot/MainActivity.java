@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
                 intent.setData(content_url);
                 startActivity(intent);
                 break;
+            case R.id.callptv_item:
+                intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "1800800007"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
         }
         return true;
     }
@@ -211,6 +216,24 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout.addView(button);
             }
             chatBox.addView(ResponseCardLayout);
+        }else if(resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")){
+            ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
+            TextView responsecardText = (TextView) ResponseCardLayout.findViewById(R.id.card_messege_text);
+            responsecardText.setText(resultText);
+            LinearLayout linearLayout=(LinearLayout)ResponseCardLayout.findViewById(R.id.buttonlayout);
+
+            Button button=new Button(this);
+            button.setText("Call PTV");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "1800800007"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+            linearLayout.addView(button);
+            chatBox.addView(ResponseCardLayout);
         }else {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
@@ -244,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
             messageTextre.setText(resultText);
             }
             chatBox.addView(lexMessageLayout);
+            System.out.println(resultText);
         }
 
         scrollView.post(new Runnable() {
