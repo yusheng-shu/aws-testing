@@ -7,32 +7,51 @@
 //
 
 import UIKit
+import CoreLocation
 import AWSMobileClient
 import AWSAuthCore
 import AWSLex
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SendMessageDelegate {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SendMessageDelegate, CLLocationManagerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textInput: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var clearButtonHeight: NSLayoutConstraint!
     
-    let botName = "AnsBot"
-    let botAlias = "$LATEST"
-    let userId = UUID().uuidString
-    let chatKey = "chatConfig"
+    private var locationManager: CLLocationManager!
     
-    var sessionAttributes: [String : String] = [:]
+    private let botName = "AnsBot"
+    private let botAlias = "$LATEST"
+    private let userId = UUID().uuidString
+    private let chatKey = "chatConfig"
+    private let maxChatWait: Double = 10
+    private let maxLocationWait: Double = 10
+    private let errorMessage = "Sorry, I couldn't connect to the service. Please check your network connection. Or call 1800800007 for more assistance."
+    
+    internal var lexResponseReceived = false
+    internal var locationReceived = false
+    internal let lexDispatch = DispatchGroup()
+    internal let locationDispatch = DispatchGroup()
+    
+    private var currentLocation: CLLocation!
+    private var sessionAttributes: [String : String] = [:]
     private var messages: [ChatMessage] = []
     private var cellHeights: [IndexPath : CGFloat] = [:]
     private var clearButtonOGHeight: CGFloat = 24
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        disableInput()
         initInput()
         initChat()
+        initLocation()
         initAWS(botName, botAlias)
+        enableInput()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        listenForLocation()
     }
     
     private func initChat() {
@@ -55,6 +74,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         textInput.delegate = self
         clearButtonOGHeight = clearButtonHeight.constant
+    }
+
+    private func initLocation() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func initAWS(_ botName: String, _ botAlias: String) {
@@ -84,22 +110,39 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         request.botAlias = botAlias
         request.userId = userId
         request.sessionAttributes = sessionAttributes
+        request.sessionAttributes?["latitude"] = String(currentLocation.coordinate.latitude)
+        request.sessionAttributes?["longitude"] = String(currentLocation.coordinate.longitude)
         request.inputText = chatMessage.text
         
         AWSLex(forKey: chatKey).postText(request, completionHandler: receiveMessage(response:error:))
+        
+        lexDispatch.enter()
+        
+        // Timeout for response
+        DispatchQueue.main.async {
+            let result = self.lexDispatch.wait(timeout: DispatchTime.now() + self.maxChatWait)
+            if (result == DispatchTimeoutResult.timedOut) {
+                self.insertNewMessage(BotChatMessage(text: self.errorMessage, card: nil, sendMessageDelegate: self))
+            }
+        }
+        
     }
     
     // Receive message callback
     private func receiveMessage(response: AWSLexPostTextResponse?, error: Error?) {
+        lexDispatch.leave()
         // Default response
         var responseMsg = "Sorry, I can't answer your question."
         var responseCard: AWSLexGenericAttachment?
+        var escalate = false
         
         // Error response
         if let _err = error {
-            responseMsg = "Sorry, something went wrong. Error reason: \(_err)"
+            responseMsg = errorMessage
+            print("Lex response error: \(_err)")
         } else if (response == nil) {
-            responseMsg = "Sorry, something went wrong. Error reason: No response."
+            responseMsg = errorMessage
+            print("Lex response error: There is no response!")
         }
             
         // Success response
@@ -107,25 +150,34 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let _responseMsg = response?.message {
                 responseMsg = _responseMsg
             }
-            // Get card
             
+            // Get card
             if let _responseCard = response?.responseCard {
                 if let _genericAttachments = _responseCard.genericAttachments {
                     responseCard = _genericAttachments.first
                 }
             }
+            
             // Get session attributes
             if (response?.sessionAttributes != nil) {
                 sessionAttributes = (response?.sessionAttributes)!
+                if (sessionAttributes["globalFail"] != nil) {
+                    escalate = true
+                    sessionAttributes.removeValue(forKey: "globalFail")
+                }
             }
         }
         
         
         // Display received message
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            self.insertNewMessage(BotChatMessage(text: responseMsg, card: responseCard, sendMessageDelegate: self))
+            if (escalate) {
+                self.insertNewMessage(CallBotChatMessage(text: responseMsg, sendMessageDelegate: self))
+            } else {
+                self.insertNewMessage(BotChatMessage(text: responseMsg, card: responseCard, sendMessageDelegate: self))
+            }
         })
-
+        
     }
     
     // Clears the chat log
@@ -173,7 +225,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         CATransaction.commit()
  
     }
- 
     
     // Show and hide the chat button when required
     private func updateClearButton() {
@@ -192,6 +243,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    private func disableInput() {
+        textInput.isEnabled = false
+    }
+    
+    private func enableInput() {
+        textInput.isEnabled = true
+    }
+    
     // Return message count
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         updateClearButton()
@@ -204,7 +263,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (messages[indexPath.row].sender == SenderType.user) {
             cell = tableView.dequeueReusableCell(withIdentifier: "userMessageCell") as! UserMessageCell
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "botMessageCell") as! BotMessageCell
+            if (messages[indexPath.row] is CallBotChatMessage) {
+                cell = tableView.dequeueReusableCell(withIdentifier: "callBotMessageCell") as! CallBotMessageCell
+            } else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "botMessageCell") as! BotMessageCell
+            }
         }
         cell.setContent(chatMessage: messages[indexPath.row])
         return cell
@@ -299,5 +362,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
+    private func listenForLocation() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations[locations.count - 1] as CLLocation
+        
+        locationManager.stopUpdatingLocation()
+        
+        print("User location: = \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error \(error)")
+    }
 }
 

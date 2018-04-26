@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class UserMessageCell: MessageCell {
+    
     override public func setContent(chatMessage: ChatMessage) {
         message.text = chatMessage.text
     }

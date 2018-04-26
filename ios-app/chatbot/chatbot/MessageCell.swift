@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class MessageCell: UITableViewCell {
-    @IBOutlet weak var message: UILabel!
+    @IBOutlet weak var message: UITextView!
     @IBOutlet weak var box: UIView!
     
     public func setContent(chatMessage: ChatMessage) {}

@@ -19,6 +19,8 @@
 		F6C054BE207DF45F0066F2AD /* CardButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6C054BD207DF45E0066F2AD /* CardButton.xib */; };
 		F6C054C0207DF5180066F2AD /* CardButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C054BF207DF5180066F2AD /* CardButtonView.swift */; };
 		F6C054C2207DFB5D0066F2AD /* SendMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C054C1207DFB5D0066F2AD /* SendMessageDelegate.swift */; };
+		F6E4D0C02088CD3000581E46 /* CallBotChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E4D0BF2088CD3000581E46 /* CallBotChatMessage.swift */; };
+		F6E4D0C22088CE7300581E46 /* CallBotMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E4D0C12088CE7300581E46 /* CallBotMessageCell.swift */; };
 		F6EF9BD9207CE9130031AAAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF9BD8207CE9130031AAAE /* AppDelegate.swift */; };
 		F6EF9BDB207CE9130031AAAE /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF9BDA207CE9130031AAAE /* ChatViewController.swift */; };
 		F6EF9BDE207CE9130031AAAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6EF9BDC207CE9130031AAAE /* Main.storyboard */; };
@@ -42,6 +44,8 @@
 		F6C054BD207DF45E0066F2AD /* CardButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardButton.xib; sourceTree = "<group>"; };
 		F6C054BF207DF5180066F2AD /* CardButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardButtonView.swift; sourceTree = "<group>"; };
 		F6C054C1207DFB5D0066F2AD /* SendMessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendMessageDelegate.swift; sourceTree = "<group>"; };
+		F6E4D0BF2088CD3000581E46 /* CallBotChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallBotChatMessage.swift; sourceTree = "<group>"; };
+		F6E4D0C12088CE7300581E46 /* CallBotMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallBotMessageCell.swift; sourceTree = "<group>"; };
 		F6EF9BD5207CE9130031AAAE /* chatbot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chatbot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6EF9BD8207CE9130031AAAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6EF9BDA207CE9130031AAAE /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 				F6C054BD207DF45E0066F2AD /* CardButton.xib */,
 				F6EF9BE1207CE9130031AAAE /* LaunchScreen.storyboard */,
 				F6EF9BDC207CE9130031AAAE /* Main.storyboard */,
+				F6E4D0BF2088CD3000581E46 /* CallBotChatMessage.swift */,
+				F6E4D0C12088CE7300581E46 /* CallBotMessageCell.swift */,
 			);
 			path = chatbot;
 			sourceTree = "<group>";
@@ -249,11 +255,13 @@
 				F6EF9BDB207CE9130031AAAE /* ChatViewController.swift in Sources */,
 				F6A33D4A207CA9A800021A04 /* BotMessageCell.swift in Sources */,
 				F6C054C2207DFB5D0066F2AD /* SendMessageDelegate.swift in Sources */,
+				F6E4D0C02088CD3000581E46 /* CallBotChatMessage.swift in Sources */,
 				F6A33D44207CA80D00021A04 /* UserChatMessage.swift in Sources */,
 				F6A33D42207CA80100021A04 /* ChatMessage.swift in Sources */,
 				F6C054BC207DE3D50066F2AD /* AboutViewController.swift in Sources */,
 				F6A33D48207CA8D100021A04 /* SenderType.swift in Sources */,
 				F6C054C0207DF5180066F2AD /* CardButtonView.swift in Sources */,
+				F6E4D0C22088CE7300581E46 /* CallBotMessageCell.swift in Sources */,
 				F6A33D46207CA81C00021A04 /* BotChatMessage.swift in Sources */,
 				F6EF9BD9207CE9130031AAAE /* AppDelegate.swift in Sources */,
 				F6EF9BEB207CE9130031AAAE /* UserMessageCell.swift in Sources */,

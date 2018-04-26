@@ -41,7 +41,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>For interaction with Amazon Lex</string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>tel</string>
+    </array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>For interaction with Amazon Lex</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Do you allow this app to know your current location?</string>
 </dict>
 </plist>

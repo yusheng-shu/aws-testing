@@ -25,7 +25,11 @@ class BotMessageCell: MessageCell {
             
             var lastView: UIView = cardContainer
             
-            cardContainerBottomMargin.constant = 8
+            if (buttons.count > 0) {
+                cardContainerBottomMargin.constant = 8
+            } else {
+                cardContainerBottomMargin.constant = 0
+            }
             
             for i in 0..<buttons.count {
                 // Setup each button view
@@ -57,5 +61,6 @@ class BotMessageCell: MessageCell {
                 lastView = cardButtonView!
             }
         }
+        
     }
 }
