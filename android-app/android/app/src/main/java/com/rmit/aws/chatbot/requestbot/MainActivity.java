@@ -39,6 +39,7 @@ import com.amazonaws.services.lexrts.model.PostTextRequest;
 import com.amazonaws.services.lexrts.model.PostTextResult;
 import com.amazonaws.services.lexrts.model.ResponseCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_REQ);
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQ);
+
+        }
     }
 
     private void initLex() {
@@ -162,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         if (inConversation) {
 
             if (continuation == null) {
-
+                client.textInForTextOut(message, null);
             }
             continuation.continueWithTextInForTextOut(message);
         } else {
@@ -334,13 +340,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private Location getLocation(){
+
         String provider = LocationManager.NETWORK_PROVIDER;
         String serviceString = Context.LOCATION_SERVICE;
         LocationManager locationManager = (LocationManager) getSystemService(serviceString);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("no permission");
-            return null;
-        }
+
         Location location = locationManager.getLastKnownLocation(provider);
         System.out.println(location.getLatitude()+","+location.getLongitude());
         return location;
