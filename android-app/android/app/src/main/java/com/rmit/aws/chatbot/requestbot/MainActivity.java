@@ -1,10 +1,13 @@
 package com.rmit.aws.chatbot.requestbot;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -36,6 +39,7 @@ import com.amazonaws.services.lexrts.model.PostTextRequest;
 import com.amazonaws.services.lexrts.model.PostTextResult;
 import com.amazonaws.services.lexrts.model.ResponseCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,20 +62,21 @@ public class MainActivity extends AppCompatActivity {
     private int userChatLayout = R.layout.user_chat_box;
     private int lexChatLayout = R.layout.lex_chat_box;
     private String buttonvalue;
-    private String transfermessage="";
-    private String murl="";
+    private String transfermessage = "";
+    private String murl = "";
 
     private boolean inConversation = false;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.connectptv_item:
                 intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -80,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.callptv_item:
-                intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "1800800007"));
+                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "1800800007"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
         }
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         chatBox = (LinearLayout) findViewById(R.id.chat_box);
         inputText = (EditText) findViewById(R.id.input_text);
         sendButton = (Button) findViewById(R.id.send_button);
-        clearhisoryButton=(Button) findViewById(R.id.clear_history);
-        scrollView=(ScrollView)findViewById(R.id.scroll_view);
+        clearhisoryButton = (Button) findViewById(R.id.clear_history);
+        scrollView = (ScrollView) findViewById(R.id.scroll_view);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,15 +129,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET} , PERMISSION_REQ);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQ);
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE} , PERMISSION_REQ);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_REQ);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQ);
+
         }
     }
 
     private void initLex() {
-        CognitoCredentialsProvider credentialsProvider =  new CognitoCredentialsProvider(
+        CognitoCredentialsProvider credentialsProvider = new CognitoCredentialsProvider(
                 getString(R.string.pool_id),
                 Regions.fromName(getString(R.string.region)));
         InteractionConfig config = new InteractionConfig(
@@ -143,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
                 Regions.fromName(getString(R.string.region)),
                 config);
         client.setInteractionListener(new LexListener());
-        clientlr=new AmazonLexRuntimeClient(credentialsProvider);
-        postTextRequest=new PostTextRequest();
+        clientlr = new AmazonLexRuntimeClient(credentialsProvider);
+        postTextRequest = new PostTextRequest();
         postTextRequest.setBotAlias(getString(R.string.bot_alias));
         postTextRequest.setBotName(getString(R.string.bot_name));
         postTextRequest.setUserId(getString(R.string.pool_id));
@@ -157,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         if (inConversation) {
 
             if (continuation == null) {
-
+                client.textInForTextOut(message, null);
             }
             continuation.continueWithTextInForTextOut(message);
         } else {
@@ -167,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout userMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.user_chat_box, null);
         TextView messageText = (TextView) userMessageLayout.findViewById(R.id.messege_text);
         messageText.setBackgroundResource(R.drawable.text_view_request);
-        messageText.setText(message);
+        Location location=getLocation();
+        messageText.setText(message+"("+location.getLatitude()+","+location.getLongitude()+")");
         chatBox.addView(userMessageLayout);
         scrollView.post(new Runnable() {
             @Override
@@ -238,11 +250,9 @@ public class MainActivity extends AppCompatActivity {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
-            //TRY SOME
             Pattern p=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
             Matcher m=p.matcher(resultText.toString());
             boolean b=m.matches();
-            //TRY END
             if(b){
                 resultText=resultText.replace(m.group(1),"");
                 messageTextre.setText(resultText);
@@ -310,5 +320,33 @@ public class MainActivity extends AppCompatActivity {
             inConversation = false;
             receiveMessage(response);
         }
+    }
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onProviderDisabled(String arg0) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onProviderEnabled(String arg0) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+            // TODO Auto-generated method stub
+        }
+    };
+    private Location getLocation(){
+
+        String provider = LocationManager.NETWORK_PROVIDER;
+        String serviceString = Context.LOCATION_SERVICE;
+        LocationManager locationManager = (LocationManager) getSystemService(serviceString);
+
+        Location location = locationManager.getLastKnownLocation(provider);
+        System.out.println(location.getLatitude()+","+location.getLongitude());
+        return location;
     }
 }
