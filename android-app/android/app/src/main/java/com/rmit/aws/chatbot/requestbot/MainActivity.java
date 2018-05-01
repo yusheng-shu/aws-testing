@@ -184,12 +184,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         transfermessage = message;
-        /*
+
         if(location!=null){
             Map sessionAttributes=new HashMap();
-            sessionAttributes.put("latitude",location.getLatitude());
-            sessionAttributes.put("longitude",location.getLongitude());
-            postTextRequest.setSessionAttributes(sessionAttributes);}*/
+            sessionAttributes.put("latitude",location.getLatitude()+"");
+            sessionAttributes.put("longitude",location.getLongitude()+"");
+            postTextRequest.setSessionAttributes(sessionAttributes);}
 
     }
     private void receiveMessage() {
@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             locationManager = (LocationManager) getSystemService(serviceString);
             location = locationManager.getLastKnownLocation(provider);
         }
-        System.out.println(location.getLatitude()+","+location.getLongitude());
+        //System.out.println(location.getLatitude()+","+location.getLongitude());
         return location;
     }
 }
