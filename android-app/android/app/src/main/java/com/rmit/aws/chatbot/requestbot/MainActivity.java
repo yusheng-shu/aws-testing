@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -39,8 +39,9 @@ import com.amazonaws.services.lexrts.model.PostTextRequest;
 import com.amazonaws.services.lexrts.model.PostTextResult;
 import com.amazonaws.services.lexrts.model.ResponseCard;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,21 +63,20 @@ public class MainActivity extends AppCompatActivity {
     private int userChatLayout = R.layout.user_chat_box;
     private int lexChatLayout = R.layout.lex_chat_box;
     private String buttonvalue;
-    private String transfermessage = "";
-    private String murl = "";
+    private String transfermessage="";
+    private String murl="";
 
     private boolean inConversation = false;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main,menu);
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
         Intent intent;
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.connectptv_item:
                 intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -84,29 +84,23 @@ public class MainActivity extends AppCompatActivity {
                 intent.setData(content_url);
                 startActivity(intent);
                 break;
-            case R.id.callptv_item:
-                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "1800800007"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                break;
         }
         return true;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        System.out.println("测试测asdadads");
         initPermission();
-
+        System.out.println("测试测asdadads");
         initLex();
 
         chatBox = (LinearLayout) findViewById(R.id.chat_box);
         inputText = (EditText) findViewById(R.id.input_text);
         sendButton = (Button) findViewById(R.id.send_button);
-        clearhisoryButton = (Button) findViewById(R.id.clear_history);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        clearhisoryButton=(Button) findViewById(R.id.clear_history);
+        scrollView=(ScrollView)findViewById(R.id.scroll_view);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,25 +118,26 @@ public class MainActivity extends AppCompatActivity {
         receiveMessage("Welcome to use PTV BOT\n" +
                 "We can provide you with all the information you need.\n" +
                 "You can enter all your questions in the input box");
-
+        System.out.println("测试测asdadads");
     }
 
     private void initPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQ);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET} , PERMISSION_REQ);
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_REQ);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE} , PERMISSION_REQ);
         }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQ);
-
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQ);
         }
     }
 
     private void initLex() {
-        CognitoCredentialsProvider credentialsProvider = new CognitoCredentialsProvider(
+        CognitoCredentialsProvider credentialsProvider =  new CognitoCredentialsProvider(
                 getString(R.string.pool_id),
                 Regions.fromName(getString(R.string.region)));
         InteractionConfig config = new InteractionConfig(
@@ -154,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
                 Regions.fromName(getString(R.string.region)),
                 config);
         client.setInteractionListener(new LexListener());
-        clientlr = new AmazonLexRuntimeClient(credentialsProvider);
-        postTextRequest = new PostTextRequest();
+        clientlr=new AmazonLexRuntimeClient(credentialsProvider);
+        postTextRequest=new PostTextRequest();
         postTextRequest.setBotAlias(getString(R.string.bot_alias));
         postTextRequest.setBotName(getString(R.string.bot_name));
         postTextRequest.setUserId(getString(R.string.pool_id));
@@ -168,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         if (inConversation) {
 
             if (continuation == null) {
-                client.textInForTextOut(message, null);
+
             }
             continuation.continueWithTextInForTextOut(message);
         } else {
@@ -179,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         TextView messageText = (TextView) userMessageLayout.findViewById(R.id.messege_text);
         messageText.setBackgroundResource(R.drawable.text_view_request);
         Location location=getLocation();
-        messageText.setText(message+"("+location.getLatitude()+","+location.getLongitude()+")");
+        messageText.setText(message+"("+location.getLongitude()+")");
         chatBox.addView(userMessageLayout);
         scrollView.post(new Runnable() {
             @Override
@@ -188,10 +183,16 @@ public class MainActivity extends AppCompatActivity {
                 // scrollView.scrollTo(0, scrollView.getBottom()); // This might also work for smooth scrolling
             }
         });
-        transfermessage=message;
+        transfermessage = message;
+        /*
+        if(location!=null){
+            Map sessionAttributes=new HashMap();
+            sessionAttributes.put("latitude",location.getLatitude());
+            sessionAttributes.put("longitude",location.getLongitude());
+            postTextRequest.setSessionAttributes(sessionAttributes);}*/
 
     }
-    private void receiveMessage(Response response) {
+    private void receiveMessage() {
         postTextRequest.setInputText(transfermessage);
         // PostTextResult result=clientlr.postText(postTextRequest);
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -228,31 +229,33 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout.addView(button);
             }
             chatBox.addView(ResponseCardLayout);
-        }else if(resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")){
+        }else if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
             TextView responsecardText = (TextView) ResponseCardLayout.findViewById(R.id.card_messege_text);
             responsecardText.setText(resultText);
-            LinearLayout linearLayout=(LinearLayout)ResponseCardLayout.findViewById(R.id.buttonlayout);
+            LinearLayout linearLayout = (LinearLayout) ResponseCardLayout.findViewById(R.id.buttonlayout);
 
-            Button button=new Button(this);
+            Button button = new Button(this);
             button.setText("Call PTV");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "1800800007"));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "1800800007"));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             });
             linearLayout.addView(button);
             chatBox.addView(ResponseCardLayout);
-        }else {
+        } else  {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
+            //TRY SOME
             Pattern p=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
             Matcher m=p.matcher(resultText.toString());
             boolean b=m.matches();
+            //TRY END
             if(b){
                 resultText=resultText.replace(m.group(1),"");
                 messageTextre.setText(resultText);
@@ -277,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
             messageTextre.setText(resultText);
             }
             chatBox.addView(lexMessageLayout);
-            System.out.println(resultText);
         }
 
         scrollView.post(new Runnable() {
@@ -305,47 +307,37 @@ public class MainActivity extends AppCompatActivity {
             continuation = null;
             inConversation = false;
             response.getAudioResponse();
-            receiveMessage(response);
+            receiveMessage();
         }
 
         @Override
         public void promptUserToRespond(Response response, LexServiceContinuation continuation) {
             MainActivity.this.continuation = continuation;
-            receiveMessage(response);
+            receiveMessage();
         }
 
         @Override
         public void onInteractionError(Response response, Exception e) {
             continuation = null;
             inConversation = false;
-            receiveMessage(response);
+            receiveMessage();
         }
     }
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            // TODO Auto-generated method stub
-        }
-        @Override
-        public void onProviderDisabled(String arg0) {
-            // TODO Auto-generated method stub
-        }
-        @Override
-        public void onProviderEnabled(String arg0) {
-            // TODO Auto-generated method stub
-        }
-        @Override
-        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-            // TODO Auto-generated method stub
-        }
-    };
-    private Location getLocation(){
+    private Location getLocation() {
 
         String provider = LocationManager.NETWORK_PROVIDER;
         String serviceString = Context.LOCATION_SERVICE;
         LocationManager locationManager = (LocationManager) getSystemService(serviceString);
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
         Location location = locationManager.getLastKnownLocation(provider);
+        if(location==null){
+            provider = LocationManager.GPS_PROVIDER;
+            serviceString = Context.LOCATION_SERVICE;
+            locationManager = (LocationManager) getSystemService(serviceString);
+            location = locationManager.getLastKnownLocation(provider);
+        }
         System.out.println(location.getLatitude()+","+location.getLongitude());
         return location;
     }
