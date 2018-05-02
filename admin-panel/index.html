@@ -23,212 +23,255 @@
         .text {
             margin: 4px;
         }
+
+        .side {
+            width: 50%;
+            float: left;
+        }
+
+        .lightgray {
+            background-color: #fafafa;
+        }
+
+        .bottom {
+            clear: both;
+        }
+
+        .log {
+            font-size: small;
+            overflow-y: scroll;
+            display: block;
+            font-family: Consolas, Courier New, Courier, monospace;
+            padding: 10px;
+            margin: 0px;
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            background-color: #ffffff;
+            border: 0px;
+            border-radius: 0px;
+            height: 100%
+        }
     </style>
 </head>
 <body>
-    <h2 class="text">Authentication</h2>
-    <div><div class="input-label">ID:</div><input id="id" type="text" class="text" size="50" value="AKIAJMOKUS2ZXSLYTXSA" placeholder="Access ID" /></div>
-    <div><div class="input-label">Key:</div><input id="key" type="password" class="text" size="50" value="QlP2eS7OXRDaLFarkQkJjbmxw5c366o84EMw8ZvF" placeholder="Access Key" /></div>
-    <h2 class="text">Bot</h2>
-    <div><div class="input-label">Name:</div><input id="bot-name" type="text" class="text" size="50" value="Playground" placeholder="Bot name" /></div>
-    <em class="text">Currently only allowed access to bot "Playground"</em>
-    <div><button id="check-button" class="button">Check bot status</button><span id="bot-status" class="text"></span></div>
-    <h2 class="text">Intent</h2>
-    <div><div class="input-label">Name:</div><input id="intent-name" type="text" class="text" size="50" placeholder="Intent name" /></div>
-    <div><div class="input-label">Utterance:</div><textarea id="utterance" class="text" rows="3" cols="50" placeholder="Utterance using utterance generator syntax"></textarea></div>
-    <div><div class="input-label">Text Response:</div><textarea id="text" class="text" rows="3" cols="50" placeholder="Text response. Keep within 250 characters"></textarea></div>
-    <div><div class="input-label">Voice Response:</div><textarea id="voice" class="text" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
-    <div><button id="submit-button" class="button">Submit</button><span id="intent-status" class="text"></span></div>
-    <p id="response" class="text"></p>
-    <h3 class="text">References</h3>
-    <span class="text">1. Alexa-Utterance-Generator, tejashah88,</span> <a href="https://github.com/tejashah88/Alexa-Utterance-Generator">github.com/tejashah88/Alexa-Utterance-Generator</a>
+    <div id="left-side" class="side lightgray">
+        <h2 class="text">Authentication</h2>
+        <div><div class="input-label">ID:</div><input id="id" type="text" class="text" size="50" value="AKIAJMOKUS2ZXSLYTXSA" placeholder="Access ID" /></div>
+        <div><div class="input-label">Key:</div><input id="key" type="password" class="text" size="50" value="QlP2eS7OXRDaLFarkQkJjbmxw5c366o84EMw8ZvF" placeholder="Access Key" /></div>
 
+        <h2 class="text">Bot</h2>
+        <div><div class="input-label">Name:</div><input id="bot-name" type="text" class="text" size="50" value="Playground" placeholder="Bot name" /></div>
+        <em class="text">Currently only allowed access to bot "Playground"</em>
+        <!--<div><button id="check-button" class="button">Check bot status</button><span id="bot-status" class="text"></span></div>-->
+
+        <h2 class="text">Intent</h2>
+        <div><div class="input-label">Name:</div><input id="intent-name" type="text" class="text" size="50" placeholder="Intent name" /></div>
+        <div><div class="input-label">Utterance:</div><textarea id="utterance" class="text" rows="3" cols="50" placeholder="Utterance using utterance generator syntax"></textarea></div>
+        <div><div class="input-label">Text Response:</div><textarea id="text" class="text" rows="3" cols="50" placeholder="Text response. Keep within 250 characters"></textarea></div>
+        <div><div class="input-label">Voice Response:</div><textarea id="voice" class="text" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
+        <em class="text">Currently only allowed access to ddb "yushengTable"</em>
+        <div><button id="submit-button" class="button">Submit</button><span id="intent-status" class="text"></span></div>
+        <p id="response" class="text"></p>
+    </div>
+
+    <div id="right-side" class="side">
+        <pre id="log" class="log">
+{
+    "Logs from requests": "will show up here"
+}
+        </pre>
+    </div>
+
+    <div class="bottom">
+        <hr />
+        <h3 class="text">References</h3>
+        <span class="text">1. Alexa-Utterance-Generator, tejashah88,</span> <a href="https://github.com/tejashah88/Alexa-Utterance-Generator">github.com/tejashah88/Alexa-Utterance-Generator</a>
+    </div>
+    
     <script>
+        // Global =================================================================================
         const REGION = "us-east-1";
         const ACCOUNT = "352743131672";
-        const ANSWER_QUERY_FUNC = "answerQuery";
-        const MAX_BUILD_WAIT = 10; // Max amount of intervals to check if bot is done building
+        const LAMBDA_FUNC = "lexAdminPanelDemo";
+        const DDB_TABLE = "yushengTable";
+
+        const MAX_BUILD_WAIT = 15; // Max amount of intervals to check if bot is done building
         const BUILD_WAIT_INTERV = 4000; // Interval between each bot build check
+        // Max wait time in ms = MAX_BUILD_WAIT * BUILD_WAIT_INTERV
 
         var lexmodelbuildingservice;
         var lambda;
         var dynamodb;
+        // Global =================================================================================
 
+        // AWS functions ==========================================================================
         // Creates intent, add intent to lex, and build lex
-        function putIntentPutBotPutDb() {
-            const botName = $('#bot-name').val();
-            const intentName = $('#intent-name').val();
-            const utterance = [$('#utterance').val()];
-
+        function putIntentPutBotPutDb(botName, intentName, utterance, response, vresponse) {
+            // AWS params
+            var dbParams = {
+                TableName: DDB_TABLE,
+                Item: {
+                    "yushengID": {
+                        S: intentName
+                    },
+                    "Response": {
+                        S: response
+                    },
+                    "VResponse": {
+                        S: vresponse
+                    }
+                }
+            };
             const getBotParams = {
                 name: botName,
                 versionOrAlias: "$LATEST"
             };
-
             const permissionParams = {
                 Action: "lambda:InvokeFunction",
-                FunctionName: ANSWER_QUERY_FUNC,
+                FunctionName: LAMBDA_FUNC,
                 Principal: "lex.amazonaws.com",
                 SourceArn: "arn:aws:lex:" + REGION + ":" + ACCOUNT + ":intent:" + intentName + ":*",
                 StatementId: "lex-" + REGION + "-" + intentName
             };
-
             const putIntentParams = {
                 name: intentName,
                 fulfillmentActivity: {
                     type: "CodeHook",
-                    
                     codeHook: {
-                        uri: "arn:aws:lambda:" + REGION + ":" + ACCOUNT + ":function:" + ANSWER_QUERY_FUNC,
+                        uri: "arn:aws:lambda:" + REGION + ":" + ACCOUNT + ":function:" + LAMBDA_FUNC,
                         messageVersion: "1.0"
                     }
-                    
                 },
                 sampleUtterances: utterance
             };
-
             const intentVerParams = {
                 name: intentName
             }
-
             const botVerParams = {
                 name: botName
             }
 
+            // Temp
             var currentBot;
             var currentIntent;
-            var currentOperation = "Get bot";
+            var currentOperation = "Add ddb";
 
             $('#intent-status').text("");
+            showProgress(currentOperation);
+            
+            Promise.resolve() // Start promise chain ==============================================
+            .then(function (data) {
+                return dynamodb.putItem(dbParams).promise();
+            })
+            .then(sleeper(500))
+            .then(function (data) {
+                console.log(data);
+                showLog(data);
+                showSuccess(currentOperation);
 
-            lexmodelbuildingservice.getBot(getBotParams).promise() // Get bot
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentBot = data;
-                    delete currentBot.status;
-                    delete currentBot.failureReason;
-                    delete currentBot.lastUpdatedDate;
-                    delete currentBot.createdDate;
-                    delete currentBot.version;
-                    currentOperation = "Add intent";
+                currentOperation = "Get bot";
+                return lexmodelbuildingservice.getBot(getBotParams).promise(); // Get bot
+            })
+            .then(sleeper(500))
+            .then(function (data) {
+                console.log(data);
+                showLog(data);
+                showSuccess(currentOperation);
 
-                    /*
+                currentBot = data;
+                delete currentBot.status;
+                delete currentBot.failureReason;
+                delete currentBot.lastUpdatedDate;
+                delete currentBot.createdDate;
+                delete currentBot.version;
 
-                    currentOperation = "Add permission";
-                    return lambda.addPermission(permissionParams).promise(); // Add permissions
-                })
+                currentOperation = "Add intent";
+                showProgress(currentOperation);
+                return lexmodelbuildingservice.putIntent(putIntentParams).promise(); // Add intent
+            })
+            .then(sleeper(1000))
+            .then(function (data) {
+                console.log(data);
+                showLog(data);
+                showSuccess(currentOperation);
+                currentIntent = data;
 
-                .then(sleeper(1000))
-
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentOperation = "Add intent";
-                    */
-
-                    return lexmodelbuildingservice.putIntent(putIntentParams).promise(); // Add intent
-                })
-
-                .then(sleeper(1000))
-
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentIntent = data;
-                    currentOperation = "Build intent";
-                    return lexmodelbuildingservice.createIntentVersion(intentVerParams).promise(); // Build intent
-                })
-
-                .then(sleeper(1000))
-
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentIntent = data;
-                    currentOperation = "Update bot";
-                    currentBot.intents.push({
-                        intentName: intentName,
-                        intentVersion: currentIntent.version
-                    });
-                    return lexmodelbuildingservice.putBot(currentBot).promise(); // Update bot
-                })
-                
-                .then(sleeper(1000))
-
-                .then(function (data) {
-                    console.log(data);
-
-                    waitForBuild(getBotParams);
-
-                    /*
-
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentBot = data
-                    currentOperation = "Get bot";
-                    return lexmodelbuildingservice.getBot(getBotParams).promise();
-                })
-
-                .then(sleeper(1000))
-
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-                    currentBot = data;
-                    botVerParams.checksum = currentBot.checksum;
-                    currentOperation = "Build bot";
-                    return lexmodelbuildingservice.createBotVersion(botVerParams).promise() // Build bot
-                })
-
-                .then(function (data) {
-                    console.log(data);
-                    $('#intent-status').append('<span style="color:green">' + currentOperation + ' ok. </span>');
-
-                    */
-                })
-                
-                .catch(function (err) {
-                    console.log(err)
-                    $('#intent-status').append('<span style="color:red">' + currentOperation + ' error: ' + err.code + ' </span>');
+                currentOperation = "Build intent";
+                showProgress(currentOperation);
+                return lexmodelbuildingservice.createIntentVersion(intentVerParams).promise(); // Build intent
+            })
+            .then(sleeper(1000))
+            .then(function (data) {
+                console.log(data);
+                showLog(data);
+                showSuccess(currentOperation);
+                currentIntent = data;
+                currentBot.intents.push({
+                    intentName: intentName,
+                    intentVersion: currentIntent.version
                 });
 
+                currentOperation = "Update bot";
+                showProgress(currentOperation);
+                return lexmodelbuildingservice.putBot(currentBot).promise(); // Update bot
+            })
+            .then(sleeper(1000))
+            .then(function (data) {
+                console.log(data);
+                showLog(data);
+                waitForBuild(getBotParams); // Wait for build bot
+            })
+            .catch(function (err) {
+                console.log(err)
+                showFailure(currentOperation);
+            }); // End promise chain ==============================================================
+
         }
 
+        // Wait for bot to finish building
         function waitForBuild(getBotParams) {
-            /*
-            for (let i = 0, p = Promise.resolve() ; i < 10; i++) {
-                p = p.then(_ => new Promise(resolve =>
-                    setTimeout(function () {
-                        console.log(i);
-                        lexmodelbuildingservice.getBot(getBotParams).promise()
-                        .then(function (data) {
-                            console.log(data);
-                            if (data.status != "BUILDING") {
-                                console.log("DONE");
-                                $('#intent-status').append('<span style="color:green">' + 'Build bot' + ' ok. </span>');
-                            }
-                        })
-                        .catch(function (err) {
-                            console.log(err)
-                            $('#intent-status').append('<span style="color:red">' + 'Build bot' + ' error: ' + err.code + ' </span>');
-                            console.log("FAIL");
-                        });
-                        resolve();
-                    }, 5000)
-                ));
-            }*/
+            var currentOperation = 'Build bot';
+            showProgress(currentOperation);
+
             (function loop(i) {
-                if (i < 10) new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        console.log(i);
-                        resolve();
-                    }, Math.random() * 1000);
-                }).then(loop.bind(null, i + 1));
+                if (i < MAX_BUILD_WAIT) {
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            console.log(i);
+                            lexmodelbuildingservice.getBot(getBotParams).promise()
+                            .then(function (data) {
+                                console.log(data);
+                                showLog(data);
+                                if (data.status != "BUILDING") {
+                                    showSuccess(currentOperation);
+                                    console.log("DONE");
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            })
+                            .catch(function (err) {
+                                console.log(err)
+                                showFailure(currentOperation, err);
+                                console.log("FAIL");
+                                return false;
+                            })
+                            .then(function (retry) {
+                                if (retry) {
+                                    updateProgress();
+                                    resolve();
+                                }
+                            });
+                        }, BUILD_WAIT_INTERV);
+                    })
+                    .then(loop.bind(null, i + 1));
+                }
             })(0);
         }
+        // AWS functions ==========================================================================
 
-        function getBot(name) {
+        function test(name) {
             /*
             var params = {
                 name: name,
@@ -245,7 +288,7 @@
                     $('#bot-status').attr("style", "color:green");
                 }
             });;
-            
+
             var lamparams = {
                 FunctionName: 'answerQuery'
             };
@@ -253,7 +296,7 @@
                 if (err) console.log(err, err.stack); // an error occurred
                 else console.log(data);
             });
-            */
+            
             var params = {
                 FunctionName: "answerQuery",
                 StatementId: "lex-us-east-1-test_intent_efwpp"
@@ -262,10 +305,10 @@
                 if (err) console.log(err, err.stack); // an error occurred
                 else console.log(data);           // successful response
             });
-            /*
+            */
             const permissionParams = {
                 Action: "lambda:InvokeFunction",
-                FunctionName: ANSWER_QUERY_FUNC,
+                FunctionName: LAMBDA_FUNC,
                 Principal: "lex.amazonaws.com",
                 SourceArn: "arn:aws:lex:" + REGION + ":" + ACCOUNT + ":intent:*:*",
                 StatementId: "intent-all-access"
@@ -274,10 +317,11 @@
                 if (err) console.log(err, err.stack); // an error occurred
                 else console.log(data);           // successful response
             });
-            */
-            
+            /**/
+
         }
 
+        // Utility functions ======================================================================
         function randomChar5() {
             return 'xxxxx'.replace(/[xy]/g, function (c) {
                 return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
@@ -297,34 +341,71 @@
             };
         }
 
+        function showSuccess(operation) {
+            hideProgress()
+            $('#intent-status').append('<span style="color:green">' + operation + ' ok. </span>');
+        }
 
+        function showFailure(operation, err) {
+            hideProgress()
+            $('#intent-status').append('<span style="color:red">' + operation + ' error: ' + err.code || 'Refer to console' + ' </span>');
+        }
+
+        function showProgress(operation) {
+            hideProgress()
+            $('#intent-status').append('<span id="status-progress" style="color:blue">' + operation + ' in progress </span>');
+        }
+
+        function updateProgress() {
+            $('#status-progress').append(' .');
+        }
+
+        function hideProgress() {
+            $('#intent-status').find('#status-progress').remove()
+        }
+
+        function showLog(data) {
+            $('#log').text(JSON.stringify(data, null, 4));
+        }
+        // Utility functions ======================================================================
+
+        // jQuery functions =======================================================================
         $('#check-button').click(function () {
-            getBot($('#bot-name').val());
+            test($('#bot-name').val());
         });
 
         $('#submit-button').click(function () {
-            putIntentPutBotPutDb();
+            const botName = $('#bot-name').val();
+            const intentName = $('#intent-name').val();
+            const utterance = [$('#utterance').val()];
+            const response = $('#text').val();
+            const vresponse = $('#voice').val();
+            putIntentPutBotPutDb(botName, intentName, utterance, response, vresponse);
         });
 
         $(document).ready(function () {
-
             // AWS initialization
             AWS.config.update({
                 region: REGION,
                 credentials: new AWS.Credentials($('#id').val(), $('#key').val())
             });
-
             AWS.config.credentials.get(function (err) {
-                console.log("credential error status: " + (err ? err : "no error"));
+                console.log("credential status: " + (err ? err : "ok"));
             });
-
             lexmodelbuildingservice = new AWS.LexModelBuildingService();
             lambda = new AWS.Lambda();
             dynamodb = new AWS.DynamoDB();
 
-            $('#intent-name').val("test_intent_" + randomChar5());
-            $('#utterance').text("utterance one " + randomChar5());
+            const randomId = randomChar5();
+            $('#intent-name').val("test_intent_" + randomId);
+            $('#utterance').text("utterance " + randomId + " " + randomChar5());
+            $('#text').text("text response " + randomId + " " + randomChar5());
+            $('#voice').text("<speak>voice response " + randomId + " " + randomChar5() + "</speak>");
+            $('#right-side').height($('#left-side').height());
+
+            test();
         });
+        // jQuery functions =======================================================================
     </script>
 </body>
 
