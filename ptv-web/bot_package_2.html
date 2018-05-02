@@ -219,7 +219,7 @@ p.userRequestI {
         }
     </script>
     <div class="box box-3">
-        <dl>
+        <dl style="display: none">
             <dd><span id="blink">●</span><span id="botname"> Need help? Click me!</span><b id="small_button" class="up"></b></dd>
             <ul>
                 <div class="align-center">
@@ -391,7 +391,7 @@ p.userRequestI {
 						
 						
                         function showStartResponse() {
-                            $(".box-3 dl").find("ul").hide();
+                            //$(".box-3 dl").find("ul").hide();
                             var conversationDiv = document.getElementById('conversation');
                             var responsePara = document.createElement("P");
                             var responseParaI = document.createElement("P");
