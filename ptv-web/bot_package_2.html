@@ -219,9 +219,9 @@ p.userRequestI {
         }
     </script>
     <div class="box box-3">
-        <dl style="display: none">
+        <dl>
             <dd><span id="blink">●</span><span id="botname"> Need help? Click me!</span><b id="small_button" class="up"></b></dd>
-            <ul>
+            <ul style="display: none">
                 <div class="align-center">
                     <div id="conversation" style="width: 300px;height: 380px;border: 0px solid #ccc;background-color: #f6f7f9;padding: 0px;overflow-y: scroll;"></div>
                     <form id="chatform" style="margin-top: 0px;background-color: #f6f7f9;width:300px" onsubmit="return pushChat();">
@@ -386,7 +386,9 @@ p.userRequestI {
 						//replaces string that starts with "tinyurl" with link
 						function replaceTinyURLWithHTMLLinks(text) {
 							var exp = /(\b(tinyurl).[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
-							return text.replace(exp,"<a href='https://$1' target='_blank'>$1</a>"); 
+							text = text.replace(exp,"<a href='https://$&' target='_blank'>$1</a>"); 
+							var gmapsExp = /(https:\/\/|http:\/\/)www.google(.[a-z]+){1,2}\/maps\/\S*/;
+							return text.replace(gmapsExp,"<a href='$&' target='_blank'>Show on Google Maps</a>");  
 						}
 						
 						
@@ -412,10 +414,10 @@ p.userRequestI {
                             responsePara.appendChild(responseParaDialog);
                             conversationDiv.appendChild(responsePara);
                             conversationDiv.scrollTop = conversationDiv.scrollHeight;
-                            setTimeout(function () {
-                                if ($("#botname").text() == " Need help? Click me!")
-                                    $("#small_button").click();
-                            }, 5000);
+                      //setTimeout(function () {
+                      //    if ($("#botname").text() == " Need help? Click me!")
+                      //        $("#small_button").click();
+                      //}, 5000);
                             
                             
                             blinkingCircle = setInterval(function() {
