@@ -243,12 +243,16 @@
                             .then(function (data) {
                                 console.log(data);
                                 showLog(data);
-                                if (data.status != "BUILDING") {
+                                if (data.status == "BUILDING") {
+                                    return true;
+                                } else if (data.status != "READY") {
                                     showSuccess(currentOperation);
                                     console.log("DONE");
                                     return false;
                                 } else {
-                                    return true;
+                                    showFailure(currentOperation);
+                                    console.log("FAIL");
+                                    return false;
                                 }
                             })
                             .catch(function (err) {
@@ -348,7 +352,8 @@
 
         function showFailure(operation, err) {
             hideProgress()
-            $('#intent-status').append('<span style="color:red">' + operation + ' error: ' + err.code || 'Refer to console' + ' </span>');
+            var error = err.code || 'Refer to console';
+            $('#intent-status').append('<span style="color:red">' + operation + ' error: ' + error  + ' </span>');
         }
 
         function showProgress(operation) {
@@ -403,7 +408,6 @@
             $('#voice').text("<speak>voice response " + randomId + " " + randomChar5() + "</speak>");
             $('#right-side').height($('#left-side').height());
 
-            test();
         });
         // jQuery functions =======================================================================
     </script>
