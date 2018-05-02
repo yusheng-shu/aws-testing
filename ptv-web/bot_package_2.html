@@ -329,7 +329,7 @@ p.userRequestI {
 								//To make tiny url clickable
                                 //responseParaI.appendChild(document.createTextNode(lexResponse.message));
                                 //responseParaI.appendChild(document.createElement('br'));
-								var ans = replaceURLWithHTMLLinks(lexResponse.message);
+								var ans = replaceTinyURLWithHTMLLinks(lexResponse.message);
                                 responseParaI.innerHTML = ans;
                                 responseParaI.appendChild(document.createElement('br'));
                             }
@@ -384,7 +384,7 @@ p.userRequestI {
                         }
 				
 						//replaces string that starts with "tinyurl" with link
-						function replaceURLWithHTMLLinks(text) {
+						function replaceTinyURLWithHTMLLinks(text) {
 							var exp = /(\b(tinyurl).[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
 							return text.replace(exp,"<a href='https://$1' target='_blank'>$1</a>"); 
 						}
