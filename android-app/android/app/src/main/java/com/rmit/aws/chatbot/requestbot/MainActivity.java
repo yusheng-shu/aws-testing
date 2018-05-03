@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private String buttonvalue;
     private String transfermessage="";
     private String murl="";
+    private String ssurl="";
 
     private boolean inConversation = false;
 
@@ -203,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         transfermessage = message;
-
         if(location!=null){
             System.out.println(location.getLatitude()+"啊啊啊啊啊");
             Map sessionAttributes=new HashMap();
@@ -276,6 +276,12 @@ public class MainActivity extends AppCompatActivity {
             Matcher m=p.matcher(resultText.toString());
             boolean b=m.matches();
             //TRY END
+            //TRY SOME
+            Pattern p2=Pattern.compile(".*\\s(https:\\/\\/www\\.google\\.com\\S*)");
+            Matcher m2=p2.matcher(resultText.toString());
+            boolean b2=m2.matches();
+            System.out.println(b2+"敖德萨");
+            //TRY END
             if(b){
                 resultText=resultText.replace(m.group(1),"");
                 messageTextre.setText(resultText);
@@ -296,7 +302,30 @@ public class MainActivity extends AppCompatActivity {
                 }, 0, m.group(1).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 messageTextre.append(spString);
                 messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
-            }else{
+            }else
+
+                if(b2){
+                //Do something
+                    ssurl=m2.group(1);
+                resultText=resultText.replace(ssurl,"");
+                messageTextre.setText(resultText);
+                String urls="see the Google Map";
+                SpannableString spString = new SpannableString(urls);
+                spString.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        System.out.println("url:"+ssurl);
+                        Uri content_url = Uri.parse(ssurl);
+                        intent.setData(content_url);
+                        startActivity(intent);
+                    }
+                }, 0, urls.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                messageTextre.append(spString);
+                messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
+
+            }else {
             messageTextre.setText(resultText);
             }
             chatBox.addView(lexMessageLayout);
@@ -345,21 +374,26 @@ public class MainActivity extends AppCompatActivity {
     }
     private Location getLocation() {
 
-        String provider = LocationManager.NETWORK_PROVIDER;
+        String provider = LocationManager.GPS_PROVIDER;
         String serviceString = Context.LOCATION_SERVICE;
         LocationManager locationManager = (LocationManager) getSystemService(serviceString);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("primission problems");
             return null;
         }
         Location location = locationManager.getLastKnownLocation(provider);
         if(location==null){
-            provider = LocationManager.GPS_PROVIDER;
+            provider = LocationManager.NETWORK_PROVIDER;
             serviceString = Context.LOCATION_SERVICE;
             locationManager = (LocationManager) getSystemService(serviceString);
             location = locationManager.getLastKnownLocation(provider);
         }
-        //System.out.println(location.getLatitude()+","+location.getLongitude());
-        return location;
+        if(location!=null) {
+            System.out.println(location.getLatitude() + "," + location.getLongitude());
+        }else{
+            System.out.println("can not get location");
+        }
+            return location;
     }
 
 
