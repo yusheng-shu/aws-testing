@@ -4,6 +4,7 @@
     <title>Lex Admin Panel</title>
     <link rel="stylesheet" href="bootstrap.min.css" />
     <script type="text/javascript" src="aws-sdk-2.229.1.min.js"></script>
+    <script type="text/javascript" src="amazon-cognito-identity.js"></script>
     <script type="text/javascript" src="jquery-3.1.0.js"></script>
     <style>
         body {
@@ -57,21 +58,20 @@
 <body>
     <div id="left-side" class="side lightgray">
         <h2 class="text">Authentication</h2>
-        <div><div class="input-label">ID:</div><input id="id" type="text" class="text" size="50" value="AKIAJMOKUS2ZXSLYTXSA" placeholder="Access ID" /></div>
-        <div><div class="input-label">Key:</div><input id="key" type="password" class="text" size="50" value="QlP2eS7OXRDaLFarkQkJjbmxw5c366o84EMw8ZvF" placeholder="Access Key" /></div>
+        <div><div class="input-label">Username:</div><input id="username" type="text" class="text" size="50" value="adminYusheng" placeholder="Username" /></div>
+        <div><div class="input-label">Password:</div><input id="password" type="password" class="text" size="50" value="0woshidabendan0" placeholder="Password" /></div>
+        <div><button id="login-button" class="button">Login</button><span id="login-status" class="text"></span></div>
 
         <h2 class="text">Bot</h2>
         <div><div class="input-label">Name:</div><input id="bot-name" type="text" class="text" size="50" value="Playground" placeholder="Bot name" /></div>
-        <em class="text">Currently only allowed access to bot "Playground"</em>
-        <!--<div><button id="check-button" class="button">Check bot status</button><span id="bot-status" class="text"></span></div>-->
-
+        
         <h2 class="text">Intent</h2>
         <div><div class="input-label">Name:</div><input id="intent-name" type="text" class="text" size="50" placeholder="Intent name" /></div>
         <div><div class="input-label">Utterance:</div><textarea id="utterance" class="text" rows="3" cols="50" placeholder="Utterance using utterance generator syntax"></textarea></div>
         <div><div class="input-label">Text Response:</div><textarea id="text" class="text" rows="3" cols="50" placeholder="Text response. Keep within 250 characters"></textarea></div>
         <div><div class="input-label">Voice Response:</div><textarea id="voice" class="text" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
-        <em class="text">Currently only allowed access to ddb "yushengTable"</em>
         <div><button id="submit-button" class="button">Submit</button><span id="intent-status" class="text"></span></div>
+        
         <p id="response" class="text"></p>
     </div>
 
@@ -95,6 +95,9 @@
         const ACCOUNT = "352743131672";
         const LAMBDA_FUNC = "lexAdminPanelDemo";
         const DDB_TABLE = "yushengTable";
+        const USER_POOL = "us-east-1_TcdDjYg1u";
+        const IDENTITY_POOL = "us-east-1:4e162bb8-efbd-448a-bb2a-32399ddaa49b";
+        const CLIENT_ID = "6tbp5pm9sd7280ie5gerddh6u9";
 
         const MAX_BUILD_WAIT = 15; // Max amount of intervals to check if bot is done building
         const BUILD_WAIT_INTERV = 4000; // Interval between each bot build check
@@ -103,9 +106,114 @@
         var lexmodelbuildingservice;
         var lambda;
         var dynamodb;
+
+        var requireNewPassword = false;
+        var cognitoUser;
         // Global =================================================================================
 
         // AWS functions ==========================================================================
+
+        // Login cognito user
+        function login(username, password) {
+            if (requireNewPassword) {
+                loginRequireNewPassword(username, password);
+            } else {
+                loginWithPassword(username, password);
+            }
+        }
+
+        function loginWithPassword(username, password) {
+            const authData = {
+                Username: username,
+                Password: password
+            }
+            const authDetails = new AmazonCognitoIdentity.AuthenticationDetails(authData);
+            const poolData = {
+                UserPoolId: USER_POOL,
+                ClientId: CLIENT_ID
+            }
+            const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+            const userData = {
+                Username: username,
+                Pool: userPool
+            }
+
+            cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+            cognitoUser.authenticateUser(authDetails, {
+                onSuccess: function (result) {
+                    authenticate(result.getIdToken().getJwtToken());
+                    $('#login-status').text("Login successful");
+                },
+
+                onFailure: function (err) {
+                    $('#login-status').text("Login failed");
+                },
+
+                mfaRequired: function (codeDeliveryDetails) {
+                    cognitoUser.sendMFACode(mfaCode, this)
+                },
+
+                newPasswordRequired: function (userAttributes, requiredAttributes) {
+                    $('#login-status').text("Require new password");
+                    requireNewPassword = true;
+                }
+            });
+        }
+
+        function loginRequireNewPassword(username, newPassword) {
+            cognitoUser.completeNewPasswordChallenge(newPassword, {}, {
+                onSuccess: function (result) {
+                    authenticate(result.getIdToken().getJwtToken());
+                    $('#login-status').text("Login successful");
+                },
+
+                onFailure: function (err) {
+                    $('#login-status').text("Login failed");
+                },
+
+                mfaRequired: function (codeDeliveryDetails) {
+                    cognitoUser.sendMFACode(mfaCode, this)
+                },
+
+                customChallenge: function (a, b) {
+                    if (a != null) {
+                        console.log(a);
+                    }
+                    if (b != null) {
+                        console.log(b);
+                    }
+                    $('#login-status').text("Login failed (refer to console)");
+                }
+            });
+        }
+
+        // Authenticate AWS config
+        function authenticate(token) {
+
+            var cognitoLogin = {
+
+            };
+            cognitoLogin["cognito-idp." + REGION + ".amazonaws.com/" + USER_POOL] = token;
+            var cognitoCredentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId: IDENTITY_POOL,
+                Logins: cognitoLogin
+            });
+
+            // AWS initialization
+            AWS.config.update({
+                region: REGION,
+                credentials: cognitoCredentials
+            });
+
+            AWS.config.credentials.get(function (err) {
+                console.log("credential status: " + (err ? err : "ok"));
+            });
+
+            lexmodelbuildingservice = new AWS.LexModelBuildingService();
+            lambda = new AWS.Lambda();
+            dynamodb = new AWS.DynamoDB();
+        }
+
         // Creates intent, add intent to lex, and build lex
         function putIntentPutBotPutDb(botName, intentName, utterance, response, vresponse) {
             // AWS params
@@ -236,43 +344,47 @@
 
             (function loop(i) {
                 if (i < MAX_BUILD_WAIT) {
-                    new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            console.log(i);
-                            lexmodelbuildingservice.getBot(getBotParams).promise()
-                            .then(function (data) {
-                                console.log(data);
-                                showLog(data);
-                                if (data.status == "BUILDING") {
-                                    return true;
-                                } else if (data.status != "READY") {
-                                    showSuccess(currentOperation);
-                                    console.log("DONE");
-                                    return false;
-                                } else {
-                                    showFailure(currentOperation);
-                                    console.log("FAIL");
-                                    return false;
-                                }
-                            })
-                            .catch(function (err) {
-                                console.log(err)
-                                showFailure(currentOperation, err);
-                                console.log("FAIL");
-                                return false;
-                            })
-                            .then(function (retry) {
-                                if (retry) {
-                                    updateProgress();
-                                    resolve();
-                                }
-                            });
-                        }, BUILD_WAIT_INTERV);
-                    })
+                    new Promise(function (resolve, reject) { return checkBotStatus(resolve, reject); })
                     .then(loop.bind(null, i + 1));
                 }
             })(0);
         }
+
+        // Executor function for checking if the bot has finished building
+        function checkBotStatus(resolve, reject) {
+            setTimeout(() => {
+                lexmodelbuildingservice.getBot(getBotParams).promise()
+                .then(function (data) {
+                    console.log(data);
+                    showLog(data);
+                    if (data.status == "BUILDING") {
+                        return true;
+                    } else if (data.status == "READY") {
+                        showSuccess(currentOperation);
+                        console.log("DONE");
+                        return false;
+                    } else {
+                        const err = { code: "Bot failed to build" }
+                        showFailure(currentOperation, err);
+                        console.log("FAIL");
+                        return false;
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err)
+                    showFailure(currentOperation, err);
+                    console.log("FAIL");
+                    return false;
+                })
+                .then(function (retry) {
+                    if (retry) {
+                        updateProgress();
+                        resolve();
+                    }
+                });
+            }, BUILD_WAIT_INTERV);
+        }
+
         // AWS functions ==========================================================================
 
         function test(name) {
@@ -310,6 +422,7 @@
                 else console.log(data);           // successful response
             });
             */
+            /*
             const permissionParams = {
                 Action: "lambda:InvokeFunction",
                 FunctionName: LAMBDA_FUNC,
@@ -321,7 +434,7 @@
                 if (err) console.log(err, err.stack); // an error occurred
                 else console.log(data);           // successful response
             });
-            /**/
+            */
 
         }
 
@@ -375,8 +488,8 @@
         // Utility functions ======================================================================
 
         // jQuery functions =======================================================================
-        $('#check-button').click(function () {
-            test($('#bot-name').val());
+        $('#login-button').click(function () {
+            login($('#username').val(), $('#password').val());
         });
 
         $('#submit-button').click(function () {
@@ -389,18 +502,6 @@
         });
 
         $(document).ready(function () {
-            // AWS initialization
-            AWS.config.update({
-                region: REGION,
-                credentials: new AWS.Credentials($('#id').val(), $('#key').val())
-            });
-            AWS.config.credentials.get(function (err) {
-                console.log("credential status: " + (err ? err : "ok"));
-            });
-            lexmodelbuildingservice = new AWS.LexModelBuildingService();
-            lambda = new AWS.Lambda();
-            dynamodb = new AWS.DynamoDB();
-
             const randomId = randomChar5();
             $('#intent-name').val("test_intent_" + randomId);
             $('#utterance').text("utterance " + randomId + " " + randomChar5());
