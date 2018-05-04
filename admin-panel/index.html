@@ -62,16 +62,18 @@
         <div><div class="input-label">Password:</div><input id="password" type="password" class="text" size="50" value="0woshidabendan0" placeholder="Password" /></div>
         <div><button id="login-button" class="button">Login</button><span id="login-status" class="text"></span></div>
 
-        <h2 class="text">Bot</h2>
-        <div><div class="input-label">Name:</div><input id="bot-name" type="text" class="text" size="50" value="Playground" placeholder="Bot name" /></div>
-        
-        <h2 class="text">Intent</h2>
-        <div><div class="input-label">Name:</div><input id="intent-name" type="text" class="text" size="50" placeholder="Intent name" /></div>
-        <div><div class="input-label">Utterance:</div><textarea id="utterance" class="text" rows="3" cols="50" placeholder="Utterance using utterance generator syntax"></textarea></div>
-        <div><div class="input-label">Text Response:</div><textarea id="text" class="text" rows="3" cols="50" placeholder="Text response. Keep within 250 characters"></textarea></div>
-        <div><div class="input-label">Voice Response:</div><textarea id="voice" class="text" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
-        <div><button id="submit-button" class="button">Submit</button><span id="intent-status" class="text"></span></div>
-        
+        <div id="bot-panel">
+            <h2 class="text">Bot</h2>
+            <div><div class="input-label">Name:</div><input id="bot-name" type="text" class="text bot-panel-input" size="50" value="Playground" placeholder="Bot name" /></div>
+
+            <h2 class="text">Intent</h2>
+            <div><div class="input-label">Name:</div><input id="intent-name" type="text" class="text bot-panel-input" size="50" placeholder="Intent name" /></div>
+            <div><div class="input-label">Utterance:</div><textarea id="utterance" class="text bot-panel-input" rows="3" cols="50" placeholder="Utterance using utterance generator syntax"></textarea></div>
+            <div><div class="input-label">Text Response:</div><textarea id="text" class="text bot-panel-input" rows="3" cols="50" placeholder="Text response. Keep within 250 characters"></textarea></div>
+            <div><div class="input-label">Voice Response:</div><textarea id="voice" class="text bot-panel-input" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
+            <div><button id="submit-button" class="button bot-panel-input">Submit</button><span id="intent-status" class="text"></span></div>
+        </div>
+
         <p id="response" class="text"></p>
     </div>
 
@@ -206,12 +208,17 @@
             });
 
             AWS.config.credentials.get(function (err) {
-                console.log("credential status: " + (err ? err : "ok"));
+                if (err) {
+                    $('#login-status').append(" Unable to connect to AWS");
+                    console.log(err)
+                } else {
+                    $('#login-status').append(" Service connected");
+                    toggleBotPanel(true);
+                    lexmodelbuildingservice = new AWS.LexModelBuildingService();
+                    lambda = new AWS.Lambda();
+                    dynamodb = new AWS.DynamoDB();
+                }
             });
-
-            lexmodelbuildingservice = new AWS.LexModelBuildingService();
-            lambda = new AWS.Lambda();
-            dynamodb = new AWS.DynamoDB();
         }
 
         // Creates intent, add intent to lex, and build lex
@@ -263,25 +270,29 @@
             // Temp
             var currentBot;
             var currentIntent;
-            var currentOperation = "Add ddb";
-
+            var currentOperation;
             $('#intent-status').text("");
-            showProgress(currentOperation);
+
+            
             
             Promise.resolve() // Start promise chain ==============================================
             .then(function (data) {
+                currentOperation = "Add ddb"
+                showProgress(currentOperation);
                 return dynamodb.putItem(dbParams).promise();
             })
-            .then(sleeper(500))
             .then(function (data) {
                 console.log(data);
                 showLog(data);
                 showSuccess(currentOperation);
-
-                currentOperation = "Get bot";
-                return lexmodelbuildingservice.getBot(getBotParams).promise(); // Get bot
+                return Promise.resolve();
             })
             .then(sleeper(500))
+            .then(function (data) {
+                currentOperation = "Get bot";
+                showProgress(currentOperation);
+                return lexmodelbuildingservice.getBot(getBotParams).promise(); // Get bot
+            })
             .then(function (data) {
                 console.log(data);
                 showLog(data);
@@ -293,23 +304,27 @@
                 delete currentBot.lastUpdatedDate;
                 delete currentBot.createdDate;
                 delete currentBot.version;
-
+                return Promise.resolve();
+            })
+            .then(sleeper(500))
+            .then(function (data) {
                 currentOperation = "Add intent";
                 showProgress(currentOperation);
                 return lexmodelbuildingservice.putIntent(putIntentParams).promise(); // Add intent
             })
-            .then(sleeper(1000))
             .then(function (data) {
                 console.log(data);
                 showLog(data);
                 showSuccess(currentOperation);
                 currentIntent = data;
-
+                return Promise.resolve();
+            })
+            .then(sleeper(750))
+            .then(function (data) {
                 currentOperation = "Build intent";
                 showProgress(currentOperation);
                 return lexmodelbuildingservice.createIntentVersion(intentVerParams).promise(); // Build intent
             })
-            .then(sleeper(1000))
             .then(function (data) {
                 console.log(data);
                 showLog(data);
@@ -319,16 +334,23 @@
                     intentName: intentName,
                     intentVersion: currentIntent.version
                 });
-
+                return Promise.resolve();
+            })
+            .then(sleeper(750))
+            .then(function (data) {
                 currentOperation = "Update bot";
                 showProgress(currentOperation);
                 return lexmodelbuildingservice.putBot(currentBot).promise(); // Update bot
             })
-            .then(sleeper(1000))
             .then(function (data) {
                 console.log(data);
                 showLog(data);
+                showSuccess(currentOperation);
+            })
+            .then(sleeper(750))
+            .then(function (data) {
                 waitForBuild(getBotParams); // Wait for build bot
+                return Promise.resolve();
             })
             .catch(function (err) {
                 console.log(err)
@@ -338,22 +360,24 @@
         }
 
         // Wait for bot to finish building
-        function waitForBuild(getBotParams) {
-            var currentOperation = 'Build bot';
+        function waitForBuild(params) {
+            var currentOperation = 'Build bot (est. 50sec)';
             showProgress(currentOperation);
 
             (function loop(i) {
                 if (i < MAX_BUILD_WAIT) {
-                    new Promise(function (resolve, reject) { return checkBotStatus(resolve, reject); })
+                    new Promise(function (resolve, reject) { return checkBotStatus(resolve, reject, params); })
                     .then(loop.bind(null, i + 1));
                 }
             })(0);
         }
 
         // Executor function for checking if the bot has finished building
-        function checkBotStatus(resolve, reject) {
+        function checkBotStatus(resolve, reject, params) {
+            var currentOperation = 'Build bot (est. 50sec)';
+            
             setTimeout(() => {
-                lexmodelbuildingservice.getBot(getBotParams).promise()
+                lexmodelbuildingservice.getBot(params).promise()
                 .then(function (data) {
                     console.log(data);
                     showLog(data);
@@ -458,33 +482,7 @@
             };
         }
 
-        function showSuccess(operation) {
-            hideProgress()
-            $('#intent-status').append('<span style="color:green">' + operation + ' ok. </span>');
-        }
-
-        function showFailure(operation, err) {
-            hideProgress()
-            var error = err.code || 'Refer to console';
-            $('#intent-status').append('<span style="color:red">' + operation + ' error: ' + error  + ' </span>');
-        }
-
-        function showProgress(operation) {
-            hideProgress()
-            $('#intent-status').append('<span id="status-progress" style="color:blue">' + operation + ' in progress </span>');
-        }
-
-        function updateProgress() {
-            $('#status-progress').append(' .');
-        }
-
-        function hideProgress() {
-            $('#intent-status').find('#status-progress').remove()
-        }
-
-        function showLog(data) {
-            $('#log').text(JSON.stringify(data, null, 4));
-        }
+        
         // Utility functions ======================================================================
 
         // jQuery functions =======================================================================
@@ -501,14 +499,49 @@
             putIntentPutBotPutDb(botName, intentName, utterance, response, vresponse);
         });
 
+        function toggleBotPanel(toggle) {
+            $('.bot-panel-input').each(function () {
+                $(this).prop('disabled', !toggle);
+            });
+        }
+
+        function showSuccess(operation) {
+            hideProgress()
+            $('#intent-status').append('<span style="color:green">' + operation + ' ok. </span>');
+        }
+
+        function showFailure(operation, err) {
+            hideProgress()
+            var error = err.code || 'Refer to console';
+            $('#intent-status').append('<span style="color:red">' + operation + ' error: ' + error + ' </span>');
+        }
+
+        function showProgress(operation) {
+            hideProgress()
+            $('#intent-status').append('<span id="status-progress" style="color:blue">' + operation + ' in progress </span>');
+        }
+
+        function updateProgress() {
+            $('#status-progress').append('.');
+        }
+
+        function hideProgress() {
+            $('#intent-status').find('#status-progress').remove()
+        }
+
+        function showLog(data) {
+            $('#log').text(JSON.stringify(data, null, 4));
+        }
+
         $(document).ready(function () {
+            toggleBotPanel(false);
+
             const randomId = randomChar5();
             $('#intent-name').val("test_intent_" + randomId);
             $('#utterance').text("utterance " + randomId + " " + randomChar5());
             $('#text').text("text response " + randomId + " " + randomChar5());
             $('#voice').text("<speak>voice response " + randomId + " " + randomChar5() + "</speak>");
             $('#right-side').height($('#left-side').height());
-
         });
         // jQuery functions =======================================================================
     </script>
