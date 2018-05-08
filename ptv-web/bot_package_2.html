@@ -67,7 +67,7 @@ margin:0;
 	height:412px;
 	background: #cbcbcb;
 	background-color: rgb(246, 247, 249); 
-	display: block; 
+	display: none; 
 	width: 300px;
 	margin:0;
 }
@@ -203,7 +203,19 @@ p.userRequestI {
 		text-align:center;  
 		} 
 
-		
+		#conversation {
+			width: 300px;
+			height: 380px;
+			border: 0px solid #ccc;
+			background-color: #f6f7f9;
+			padding: 0px;
+			overflow-y: scroll;
+		}	
+		#chatform {
+			margin-top: 0px;
+			background-color: #f6f7f9;
+			width:300px;
+		}
 		</style>
 
 </head>        
@@ -221,10 +233,10 @@ p.userRequestI {
     <div class="box box-3">
         <dl>
             <dd><span id="blink">●</span><span id="botname"> Need help? Click me!</span><b id="small_button" class="up"></b></dd>
-            <ul style="display: none">
+            <ul>
                 <div class="align-center">
-                    <div id="conversation" style="width: 300px;height: 380px;border: 0px solid #ccc;background-color: #f6f7f9;padding: 0px;overflow-y: scroll;"></div>
-                    <form id="chatform" style="margin-top: 0px;background-color: #f6f7f9;width:300px" onsubmit="return pushChat();">
+                    <div id="conversation"></div>
+                    <form id="chatform" onsubmit="return pushChat();">
                         <input type="text" id="wisdom" size="55" value="" placeholder="Ask for assistance" />
                         <button type="submit" id="wissdomsubmit">Send</button>
 
@@ -393,6 +405,16 @@ p.userRequestI {
 						
 						
                         function showStartResponse() {
+				
+		
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function (position) {
+					sessionAttributes.latitude = position.coords.latitude.toString();
+					sessionAttributes.longitude = position.coords.longitude.toString();
+			});
+			} else {
+				alert('This browser does not support Geolocation.');
+			}
                             //$(".box-3 dl").find("ul").hide();
                             var conversationDiv = document.getElementById('conversation');
                             var responsePara = document.createElement("P");
