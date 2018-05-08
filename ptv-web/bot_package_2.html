@@ -267,6 +267,15 @@ p.userRequestI {
                                 wisdomText.value = '...';
                                 wisdomText.locked = true;
 
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function (position) {
+					sessionAttributes.latitude = position.coords.latitude.toString();
+					sessionAttributes.longitude = position.coords.longitude.toString();
+			});
+			} else {
+				alert('This browser does not support Geolocation.');
+			}
+				    
                                 // send it to the Lex runtime
                                 var params = {
                                     botAlias: '$LATEST',
