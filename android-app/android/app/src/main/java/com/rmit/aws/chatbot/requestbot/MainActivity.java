@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
@@ -35,6 +36,7 @@ import com.amazonaws.mobileconnectors.lex.interactionkit.Response;
 import com.amazonaws.mobileconnectors.lex.interactionkit.config.InteractionConfig;
 import com.amazonaws.mobileconnectors.lex.interactionkit.continuations.LexServiceContinuation;
 import com.amazonaws.mobileconnectors.lex.interactionkit.listeners.InteractionListener;
+import com.amazonaws.mobileconnectors.lex.interactionkit.ui.InteractiveVoiceView;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lexrts.AmazonLexRuntimeClient;
 import com.amazonaws.services.lexrts.model.PostTextRequest;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Button sendButton;
     private Button clearhisoryButton;
     private Button connectptvButton;
-    private AmazonLexRuntimeClient clientlr;
+    public AmazonLexRuntimeClient clientlr;
     private PostTextRequest postTextRequest;
     private ScrollView scrollView;
 
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         postTextRequest.setBotAlias(getString(R.string.bot_alias));
         postTextRequest.setBotName(getString(R.string.bot_name));
         postTextRequest.setUserId(getString(R.string.pool_id));
+
     }
 
     private void sendMessage(String message) {
@@ -185,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
             if (continuation == null) {
 
             }
-            continuation.continueWithTextInForTextOut(message);
+            //continuation.continueWithTextInForTextOut(message);
         } else {
-            client.textInForTextOut(message, null);
+            //client.textInForTextOut(message, null);
 
         }
         ConstraintLayout userMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.user_chat_box, null);
@@ -212,20 +215,15 @@ public class MainActivity extends AppCompatActivity {
             sessionAttributes.put("longitude",location.getLongitude()+"");
         }
         postTextRequest.setSessionAttributes(sessionAttributes);
-
+        postTextRequest.setInputText(transfermessage);
+        new ReceiveMessageTask(MainActivity.this).execute(postTextRequest);
 
     }
-    private void receiveMessage() {
-        postTextRequest.setInputText(transfermessage);
-        // PostTextResult result=clientlr.postText(postTextRequest);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
-        // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
-        PostTextResult postTextResult=clientlr.postText(postTextRequest);
+
+    public void receiveMessage(PostTextResult postTextResult) {
+
 
         // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
@@ -343,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //chatBox.addView(lexMessageLayout);
     }
+
     private void receiveMessage(String response) {
         ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
         TextView messageText = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
@@ -359,20 +358,20 @@ public class MainActivity extends AppCompatActivity {
             continuation = null;
             inConversation = false;
             response.getAudioResponse();
-            receiveMessage();
+            //receiveMessage();
         }
 
         @Override
         public void promptUserToRespond(Response response, LexServiceContinuation continuation) {
             MainActivity.this.continuation = continuation;
-            receiveMessage();
+            //receiveMessage();
         }
 
         @Override
         public void onInteractionError(Response response, Exception e) {
             continuation = null;
             inConversation = false;
-            receiveMessage();
+            //receiveMessage();
         }
     }
     private Location getLocation() {
