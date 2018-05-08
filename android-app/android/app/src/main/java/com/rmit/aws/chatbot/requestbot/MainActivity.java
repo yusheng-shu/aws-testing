@@ -204,12 +204,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         transfermessage = message;
+        Map sessionAttributes=new HashMap();
         if(location!=null){
             System.out.println(location.getLatitude()+"啊啊啊啊啊");
-            Map sessionAttributes=new HashMap();
+
             sessionAttributes.put("latitude",location.getLatitude()+"");
             sessionAttributes.put("longitude",location.getLongitude()+"");
-            postTextRequest.setSessionAttributes(sessionAttributes);}
+        }
+        postTextRequest.setSessionAttributes(sessionAttributes);
+
 
     }
     private void receiveMessage() {

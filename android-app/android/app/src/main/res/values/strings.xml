@@ -3,5 +3,5 @@
     <string name="pool_id">us-east-1:6655ed99-76ae-47b1-a88b-6ff8ca5bf37e</string>
     <string name="region">us-east-1</string>
     <string name="bot_name">AnsBot</string>
-    <string name="bot_alias">$LATEST</string>
+    <string name="bot_alias">alisa</string>
 </resources>
