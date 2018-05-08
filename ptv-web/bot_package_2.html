@@ -405,6 +405,16 @@ p.userRequestI {
 						
 						
                         function showStartResponse() {
+				
+		
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function (position) {
+					sessionAttributes.latitude = position.coords.latitude.toString();
+					sessionAttributes.longitude = position.coords.longitude.toString();
+			});
+			} else {
+				alert('This browser does not support Geolocation.');
+			}
                             //$(".box-3 dl").find("ul").hide();
                             var conversationDiv = document.getElementById('conversation');
                             var responsePara = document.createElement("P");
