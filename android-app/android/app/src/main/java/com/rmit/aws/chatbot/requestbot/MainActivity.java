@@ -106,22 +106,7 @@ public class MainActivity extends AppCompatActivity {
         initPermission();
         initLex();
         if(isOpenLocService(this)){;}else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Undetected GPS service")
-                    .setMessage("you should open GPS service")
-                    .setNegativeButton("sure", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            gotoLocServiceSettings(MainActivity.this);
-                        }
-                    })
-                    .setPositiveButton("Of course", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            gotoLocServiceSettings(MainActivity.this);
-                        }
-                    })
-                    .create().show();
+            gotoLocServiceSettings(MainActivity.this);
         }
 
         chatBox = (LinearLayout) findViewById(R.id.chat_box);
