@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             primissions.add(Manifest.permission.RECORD_AUDIO);
             //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQ);
         }
+        if(primissions.size()>0)
         ActivityCompat.requestPermissions(this,primissions.toArray(new String[]{}), PERMISSION_REQ);
     }
 
