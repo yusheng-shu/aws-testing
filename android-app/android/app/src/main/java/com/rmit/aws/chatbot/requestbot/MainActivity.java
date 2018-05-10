@@ -144,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 chatBox.removeAllViews();
             }
         });
-        receiveMessage("Welcome to use PTV BOT\n" +
-                "We can provide you with all the information you need.\n" +
-                "You can enter all your questions in the input box");
         System.out.println("测试测asdadads");
 
         interactiveVoiceView.setInteractiveVoiceListener(new InteractiveVoiceView.InteractiveVoiceListener() {
