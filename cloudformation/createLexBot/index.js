@@ -37,9 +37,13 @@ function createBot(event, context, callback) {
         return;
     }
     
-    // Set lex bot name to what cloudfront sent LexBotName
     var lexbot = JSON.parse(lexbotjson);
+    // Set lex bot name to what cloudfront sent LexBotName
     lexbot.resource.name = event.ResourceProperties.LexBotName;
+    // Set intent names to use bot name as prefix
+    for (var i = 0; i < lexbot.resource.intents.length; i++) {
+        lexbot.resource.intents[i].name = event.ResourceProperties.LexBotName + lexbot.resource.intents[i].name;
+    }
     
     // Create a zip file containing file lexbot.json with contents of lexbot (with newly set lex bot name)
     var zip = new JSZip();
@@ -87,6 +91,7 @@ function deleteBot(event, context, callback) {
         };
         return lexmodelbuildingservice.getBot(params).promise();
     })
+    .then(sleeper(2000))
     // Save existing bot data, then delete bot (alias for bot currently unsupported)
     .then(function (response) {
         lexbot = response;
@@ -95,19 +100,21 @@ function deleteBot(event, context, callback) {
         };
         return lexmodelbuildingservice.deleteBot(params).promise();
     })
+    .then(sleeper(2000))
     // Delete all intents used by bot
     .then(function (response) {
         var deletePromises = [];
         
         for (var i = 0; i < lexbot.intents.length; i++) {
-            var deleteFunction = () => createDeletePromise(lexbot.intents[i].intentName, i * 2000, lexmodelbuildingservice);
+            var name = lexbot.intents[i].intentName;
+            var deleteFunction = () => createDeletePromise(name, i * 2000, lexmodelbuildingservice);
             deletePromises.push(deleteFunction);
         }
         
-        Promise.all(deletePromises)
+        Promise.all(deletePromises.map(t => t()))
         .then(function (response) {
             console.log(response);
-            cfnResponse(event, context, "SUCCESS", { FinalLexBotName: lexbot.resource.name });
+            cfnResponse(event, context, "SUCCESS", { FinalLexBotName: event.ResourceProperties.LexBotName });
             return;
         })
         .catch(function (err) {
@@ -139,6 +146,12 @@ function createDeletePromise(intentName, delay, lexmodelbuildingservice) {
             });
           }, delay);
   });
+}
+
+function sleeper(ms) {
+    return function (x) {
+        return new Promise(resolve => setTimeout(() => resolve(x), ms));
+    };
 }
 
 function cfnResponse(event, context, responseStatus, responseData, physicalResourceId, noEcho) {
