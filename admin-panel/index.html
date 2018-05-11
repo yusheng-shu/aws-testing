@@ -102,9 +102,9 @@
             </div>
             
         </div>
-    <div id="lightgray" style="display:">
+    <div id="lightgray" style="display:none">
     <div class="outdiv">
-          <form>
+
     
         <!--Bot-->
         <div class="form-row">
@@ -129,7 +129,7 @@
               <button id="submit-button" class="button bot-panel-input btn btn-primary btn-lg">Create Bot</button>
                 <span id="intent-status" class="text"></span>
             </div>
-    </form>
+
     </div>
 </div>
     <div class="bottom">
@@ -502,7 +502,7 @@
         function showLoginOk() {
             $('#login-status').text("Login successful"); // Removable
 			$('#lightgray').css('display','');
-			//$('#login-panel').css('display','none');
+			$('#login-panel').css('display','none');
         }
 
         // Called when login has either failed, or require further action (i.e. require new password)
