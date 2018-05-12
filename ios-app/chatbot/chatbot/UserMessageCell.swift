@@ -12,6 +12,7 @@ import UIKit
 class UserMessageCell: MessageCell {
     
     override public func setContent(chatMessage: ChatMessage) {
-        message.text = chatMessage.text
+        super.setContent(chatMessage: chatMessage)
+        message.textColor = UIColor.white
     }
 }

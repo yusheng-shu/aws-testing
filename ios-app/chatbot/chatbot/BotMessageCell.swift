@@ -14,7 +14,8 @@ class BotMessageCell: MessageCell {
     @IBOutlet weak var cardContainerBottomMargin: NSLayoutConstraint!
     
     override public func setContent(chatMessage: ChatMessage) {
-        message.text = chatMessage.text
+        super.setContent(chatMessage: chatMessage)
+        message.textColor = UIColor.black
         
         cardContainer.subviews.forEach { $0.removeFromSuperview() }
         

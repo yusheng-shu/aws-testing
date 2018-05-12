@@ -31,7 +31,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     internal var lexResponseReceived = false
     internal var locationReceived = false
-    internal let lexDispatch = DispatchGroup()
+    internal var messageReceived = false
+    //internal let lexDispatch = DispatchGroup()
     internal let locationDispatch = DispatchGroup()
     
     private var currentLocation: CLLocation!
@@ -103,25 +104,27 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // Send message as user
     public func sendMessage(chatMessage: UserChatMessage) {
-        insertNewMessage(chatMessage)
+        self.insertNewMessage(chatMessage)
+        
         
         guard let request = AWSLexPostTextRequest() else { return }
         request.botName = botName
         request.botAlias = botAlias
         request.userId = userId
         request.sessionAttributes = sessionAttributes
-        request.sessionAttributes?["latitude"] = String(currentLocation.coordinate.latitude)
-        request.sessionAttributes?["longitude"] = String(currentLocation.coordinate.longitude)
+        if (currentLocation != nil) {
+            request.sessionAttributes?["latitude"] = String(currentLocation.coordinate.latitude)
+            request.sessionAttributes?["longitude"] = String(currentLocation.coordinate.longitude)
+        }
         request.inputText = chatMessage.text
         
         AWSLex(forKey: chatKey).postText(request, completionHandler: receiveMessage(response:error:))
         
-        lexDispatch.enter()
+        messageReceived = false
         
         // Timeout for response
-        DispatchQueue.main.async {
-            let result = self.lexDispatch.wait(timeout: DispatchTime.now() + self.maxChatWait)
-            if (result == DispatchTimeoutResult.timedOut) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            if (!self.messageReceived) {
                 self.insertNewMessage(BotChatMessage(text: self.errorMessage, card: nil, sendMessageDelegate: self))
             }
         }
@@ -130,7 +133,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // Receive message callback
     private func receiveMessage(response: AWSLexPostTextResponse?, error: Error?) {
-        lexDispatch.leave()
+        messageReceived = true
+        
+        
         // Default response
         var responseMsg = "Sorry, I can't answer your question."
         var responseCard: AWSLexGenericAttachment?

@@ -15,8 +15,8 @@ class CallBotMessageCell: MessageCell {
     @IBOutlet weak var callButton: UIButton!
     
     override public func setContent(chatMessage: ChatMessage) {
-        message.text = chatMessage.text
-        
+        super.setContent(chatMessage: chatMessage)
+        message.textColor = UIColor.black
         
     }
     
