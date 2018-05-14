@@ -10,7 +10,14 @@
     <style>
         body {
             font-family: Consolas, Courier New, Courier, monospace;
-			background:url(bg_keylines.gif) repeat;
+			background: #FAFAFA;
+            
+        }
+        .wrapper {
+        height: 100vh;
+  width: 100%;
+        display:flex;
+  flex-direction:column;
         }
 		.black{
 		height:30%;
@@ -20,6 +27,19 @@
             width: 125px;
             float: left;
         }
+        
+        .input-login {
+            
+            margin: 10px auto;
+            width: 25%;
+            min-width: 100px
+            
+        }
+        
+        .button-login {
+            width: 25% !important;
+            min-width: 100px;
+        }
 
         .button {
             margin: 10px;
@@ -27,7 +47,6 @@
         }
 
         .text {
-            margin: 30px;
 			text-align: left;
         }
 
@@ -40,8 +59,16 @@
             background-color: #fafafa;
         }
 
+        
+        .top {
+            height: auto;
+        }
+        
         .bottom {
             clear: both;
+            background:url(bg_keylines.gif) repeat;
+            height: 100px;
+            width: 100%;
         }
 
         .log {
@@ -62,47 +89,48 @@
 		.login-panel{
 			 text-align: center;
 		}
-		.textmargain{ 
-		 	margin: 30px;
-			text-align: center;
-		}
 		.buttonmargain{ 
 			text-align: center;
 		}	
 		.outdiv{
 			width: 50%;
 		 	text-align: center;
-			margin:0 25%;
-	}
+			margin:auto;
+            min-width: 550px
+        }
+        .login {
+            text-align: center;
+        }
     </style>
     <!-- Style is removable -->
 </head>
 <body>
+<div class="wrapper">
 <div id="black">
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-</div>
+</div class="top">
 <!--Login-->
-        <div id="login-panel" class="container">
-            <div class="col-sm-10">
-            <h1 class="textmargain">Authentication</h1>
+        <div id="login-panel" class="container" style="flex:1;">
+            <div class="">
+            <h1 class="textmargain login">Authentication</h1>
             </div>
-            <div class="col-sm-10 textmargain" ><input id="username" type="text"  value="administrator" placeholder="Username" class="btn-lg" size="40" /></div>
-            <div class="col-sm-10 textmargain">
-              <input id="password" type="password" size="40" value="lexiconpassword" placeholder="Password" class="btn-lg" />
+            <div class="textmargain login" ><input id="username" type="text"  value="administrator" placeholder="Username" class="text form-control input-login" size="20" /></div>
+            <div class="textmargain login">
+              <input id="password" type="password" size="20" value="lexiconpassword" placeholder="Password" class="text  form-control input-login" />
             </div>
-            <div class="col-sm-10 buttonmargain">
+            <div class="buttonmargain">
              <span id="login-status" class="text"></span>
             </div>  
-            <div class="col-sm-10 buttonmargain"> 
-            <button id="login-button" class="btn btn-primary button btn-lg">Login</button>
+            <div class="buttonmargain"> 
+            <button id="login-button" class="button-login btn btn-primary button btn-lg  ">Login</button>
             </div>
             
         </div>
-    <div id="lightgray" style="display:none">
+    <div id="lightgray" style="display:none;flex:1;">
     <div class="outdiv">
 
     
@@ -125,9 +153,11 @@
             <div><h4 style="text-align:left;">Voice Response:</h4><textarea id="voice" class="text bot-panel-input form-control" rows="3" cols="50" placeholder="Voice response using SSML. Keep within 150 characters"></textarea></div>
             <div>
               <button id="submit-button" class="button bot-panel-input btn btn-primary btn-lg">Create Bot</button>
-                <span id="intent-status" class="text"></span>
+                
             </div>
-
+            <div style="height: 20px">
+            <span id="intent-status" class="text"></span>
+            </div>
     </div>
 </div>
     <div class="bottom">
@@ -135,7 +165,7 @@
         <h3 class="textmargain">References</h3>
         <span class="textmargain">1. Alexa-Utterance-Generator, tejashah88,</span> <a href="https://github.com/tejashah88/Alexa-Utterance-Generator">github.com/tejashah88/Alexa-Utterance-Generator</a>
     </div>
-    
+    </div>
     <script>
         // Global =================================================================================
         const REGION = "us-east-1";
@@ -491,9 +521,11 @@
         // Toggles if the bot panel should be enabled or disabled (boolean: toggle)
         // i.e. Before login toggleBotPanel(false), after login toggleBotPanel(true)
         function toggleBotPanel(toggle) {
+        /*
             $('.bot-panel-input').each(function () { // Removable
                 $(this).prop('disabled', !toggle); // Removable
             }); // Removable
+            */
         }
 
         // Called when login has completed
