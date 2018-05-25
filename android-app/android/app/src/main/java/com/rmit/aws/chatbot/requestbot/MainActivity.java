@@ -54,40 +54,39 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static int PERMISSION_REQ = 1;
-
+    public AmazonLexRuntimeClient clientlr;
     private InteractionClient client;
     private LexServiceContinuation continuation;
-
     private LinearLayout chatBox;
     private EditText inputText;
     private Button sendButton;
     private Button clearhisoryButton;
     private Button connectptvButton;
-    public AmazonLexRuntimeClient clientlr;
     private PostTextRequest postTextRequest;
     private ScrollView scrollView;
     private InteractiveVoiceView interactiveVoiceView;
-    private LexAudioListener lexAudioListener=new LexAudioListener();
+    private LexAudioListener lexAudioListener = new LexAudioListener();
     private CognitoCredentialsProvider credentialsProvider;
 
     private int userChatLayout = R.layout.user_chat_box;
     private int lexChatLayout = R.layout.lex_chat_box;
     private String buttonvalue;
-    private String transfermessage="";
-    private String murl="";
-    private String ssurl="";
+    private String transfermessage = "";
+    private String murl = "";
+    private String ssurl = "";
 
     private boolean inConversation = false;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.connectptv_item:
                 intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,16 +105,13 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("测试测asdadads");
         initPermission();
         initLex();
-        if(isOpenLocService(this)){;}else {
-            gotoLocServiceSettings(MainActivity.this);
-        }
 
         chatBox = (LinearLayout) findViewById(R.id.chat_box);
         inputText = (EditText) findViewById(R.id.input_text);
         sendButton = (Button) findViewById(R.id.send_button);
-        clearhisoryButton=(Button) findViewById(R.id.clear_history);
-        scrollView=(ScrollView)findViewById(R.id.scroll_view);
-        interactiveVoiceView=(InteractiveVoiceView)findViewById(R.id.voiceInterface);
+        clearhisoryButton = (Button) findViewById(R.id.clear_history);
+        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        interactiveVoiceView = (InteractiveVoiceView) findViewById(R.id.voiceInterface);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,15 +147,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         interactiveVoiceView.getViewAdapter().setCredentialProvider(credentialsProvider);
-        interactiveVoiceView.getViewAdapter().setInteractionConfig(new InteractionConfig(getString(R.string.bot_name),getString(R.string.bot_alias)));
+        interactiveVoiceView.getViewAdapter().setInteractionConfig(new InteractionConfig(getString(R.string.bot_name), getString(R.string.bot_alias)));
         interactiveVoiceView.getViewAdapter().setAwsRegion(getString(R.string.region));
     }
 
     private void initPermission() {
-        ArrayList<String> primissions=new ArrayList<>();
+        ArrayList<String> primissions = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
-           primissions.add(Manifest.permission.INTERNET);
-           //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET} , PERMISSION_REQ);
+            primissions.add(Manifest.permission.INTERNET);
+            //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET} , PERMISSION_REQ);
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_DENIED) {
             primissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
@@ -176,12 +173,12 @@ public class MainActivity extends AppCompatActivity {
             primissions.add(Manifest.permission.RECORD_AUDIO);
             //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQ);
         }
-        if(primissions.size()>0)
-        ActivityCompat.requestPermissions(this,primissions.toArray(new String[]{}), PERMISSION_REQ);
+        if (primissions.size() > 0)
+            ActivityCompat.requestPermissions(this, primissions.toArray(new String[]{}), PERMISSION_REQ);
     }
 
     private void initLex() {
-        credentialsProvider =  new CognitoCredentialsProvider(
+        credentialsProvider = new CognitoCredentialsProvider(
                 getString(R.string.pool_id),
                 Regions.fromName(getString(R.string.region)));
         InteractionConfig config = new InteractionConfig(
@@ -194,8 +191,8 @@ public class MainActivity extends AppCompatActivity {
                 config);
         client.setInteractionListener(new LexListener());
         client.setAudioPlaybackListener(lexAudioListener);
-        clientlr=new AmazonLexRuntimeClient(credentialsProvider);
-        postTextRequest=new PostTextRequest();
+        clientlr = new AmazonLexRuntimeClient(credentialsProvider);
+        postTextRequest = new PostTextRequest();
         postTextRequest.setBotAlias(getString(R.string.bot_alias));
         postTextRequest.setBotName(getString(R.string.bot_name));
         postTextRequest.setUserId(getString(R.string.pool_id));
@@ -219,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout userMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.user_chat_box, null);
         TextView messageText = (TextView) userMessageLayout.findViewById(R.id.messege_text);
         messageText.setBackgroundResource(R.drawable.text_view_request);
-        Location location=getLocation();
+        Location location = getLocation();
         messageText.setText(message);
         chatBox.addView(userMessageLayout);
         scrollView.post(new Runnable() {
@@ -230,12 +227,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         transfermessage = message;
-        Map sessionAttributes=new HashMap();
-        if(location!=null){
-            System.out.println(location.getLatitude()+"啊啊啊啊啊");
+        Map sessionAttributes = new HashMap();
+        if (location != null) {
+            System.out.println(location.getLatitude() + "啊啊啊啊啊");
 
-            sessionAttributes.put("latitude",location.getLatitude()+"");
-            sessionAttributes.put("longitude",location.getLongitude()+"");
+            sessionAttributes.put("latitude", location.getLatitude() + "");
+            sessionAttributes.put("longitude", location.getLongitude() + "");
         }
         postTextRequest.setSessionAttributes(sessionAttributes);
         postTextRequest.setInputText(transfermessage);
@@ -244,12 +241,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void receiveAudioMessage(Response response){
-        String resultText=response.getTextResponse();
+    public void receiveAudioMessage(Response response) {
+        String resultText = response.getTextResponse();
         if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
             TextView responsecardText = (TextView) ResponseCardLayout.findViewById(R.id.card_messege_text);
-            responsecardText.setText(resultText);
+            responsecardText.setText("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?");
             LinearLayout linearLayout = (LinearLayout) ResponseCardLayout.findViewById(R.id.buttonlayout);
 
             Button button = new Button(this);
@@ -264,56 +261,54 @@ public class MainActivity extends AppCompatActivity {
             });
             linearLayout.addView(button);
             chatBox.addView(ResponseCardLayout);
-        } else  {
+        } else {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
             //TRY SOME
-            Pattern p=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
-            Matcher m=p.matcher(resultText.toString());
-            boolean b=m.matches();
+            Pattern p = Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+            Matcher m = p.matcher(resultText.toString());
+            boolean b = m.matches();
             //TRY END
             //TRY SOME
-            Pattern p2=Pattern.compile(".*\\s(https:\\/\\/www\\.google\\.com\\S*)");
-            Matcher m2=p2.matcher(resultText.toString());
-            boolean b2=m2.matches();
-            System.out.println(b2+"敖德萨");
+            Pattern p2 = Pattern.compile(".*\\s(https:\\/\\/www\\.google\\.com\\S*)");
+            Matcher m2 = p2.matcher(resultText.toString());
+            boolean b2 = m2.matches();
+            System.out.println(b2 + "敖德萨");
             //TRY END
-            if(b){
-                resultText=resultText.replace(m.group(1),"");
-                messageTextre.setText(resultText);
+            if (b) {
+                resultText = resultText.replace(m.group(1), "");
+                messageTextre.setText("Audio response");
                 SpannableString spString = new SpannableString(m.group(1));
                 spString.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        String s=((TextView)widget).getText().toString();
-                        Pattern pss=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
-                        Matcher mss=pss.matcher(s);
+                        String s = ((TextView) widget).getText().toString();
+                        Pattern pss = Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+                        Matcher mss = pss.matcher(s);
                         mss.matches();
-                        Uri content_url = Uri.parse("https://"+mss.group(1));
+                        Uri content_url = Uri.parse("https://" + mss.group(1));
                         intent.setData(content_url);
                         startActivity(intent);
                     }
                 }, 0, m.group(1).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 messageTextre.append(spString);
                 messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
-            }else
-
-            if(b2){
+            } else if (b2) {
                 //Do something
-                ssurl=m2.group(1);
-                resultText=resultText.replace(ssurl,"");
-                messageTextre.setText(resultText);
-                String urls="see the Google Map";
+                ssurl = m2.group(1);
+                resultText = resultText.replace(ssurl, "");
+                messageTextre.setText("Audio response");
+                String urls = "see the Google Map";
                 SpannableString spString = new SpannableString(urls);
                 spString.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        System.out.println("url:"+ssurl);
+                        System.out.println("url:" + ssurl);
                         Uri content_url = Uri.parse(ssurl);
                         intent.setData(content_url);
                         startActivity(intent);
@@ -322,8 +317,8 @@ public class MainActivity extends AppCompatActivity {
                 messageTextre.append(spString);
                 messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
 
-            }else {
-                messageTextre.setText(resultText);
+            } else {
+                messageTextre.setText("Audio response");
             }
             chatBox.addView(lexMessageLayout);
         }
@@ -343,30 +338,30 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
-        String resultText=postTextResult.getMessage();
-        if(postTextResult.getResponseCard()!=null){
-            ResponseCard responseCard=postTextResult.getResponseCard();
+        String resultText = postTextResult.getMessage();
+        if (postTextResult.getResponseCard() != null) {
+            ResponseCard responseCard = postTextResult.getResponseCard();
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
             TextView responsecardText = (TextView) ResponseCardLayout.findViewById(R.id.card_messege_text);
             responsecardText.setText(resultText);
-            LinearLayout linearLayout=(LinearLayout)ResponseCardLayout.findViewById(R.id.buttonlayout);
-            List<com.amazonaws.services.lexrts.model.Button> buttons=responseCard.getGenericAttachments().get(0).getButtons();
-            for(int i=0;i<buttons.size()||i<1;i++){
-                Button button=new Button(this);
+            LinearLayout linearLayout = (LinearLayout) ResponseCardLayout.findViewById(R.id.buttonlayout);
+            List<com.amazonaws.services.lexrts.model.Button> buttons = responseCard.getGenericAttachments().get(0).getButtons();
+            for (int i = 0; i < buttons.size() || i < 1; i++) {
+                Button button = new Button(this);
                 button.setText(buttons.get(i).getValue());
-                buttonvalue=buttons.get(i).getValue();
+                buttonvalue = buttons.get(i).getValue();
                 button.setTag(buttonvalue);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String s=(String) v.getTag();
+                        String s = (String) v.getTag();
                         sendMessage(s);
                     }
                 });
                 linearLayout.addView(button);
             }
             chatBox.addView(ResponseCardLayout);
-        }else if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
+        } else if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
             TextView responsecardText = (TextView) ResponseCardLayout.findViewById(R.id.card_messege_text);
             responsecardText.setText(resultText);
@@ -384,23 +379,23 @@ public class MainActivity extends AppCompatActivity {
             });
             linearLayout.addView(button);
             chatBox.addView(ResponseCardLayout);
-        } else  {
+        } else {
             ConstraintLayout lexMessageLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lex_chat_box, null);
             TextView messageTextre = (TextView) lexMessageLayout.findViewById(R.id.messege_text);
             messageTextre.setBackgroundResource(R.drawable.text_view_border);
             //TRY SOME
-            Pattern p=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
-            Matcher m=p.matcher(resultText.toString());
-            boolean b=m.matches();
+            Pattern p = Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+            Matcher m = p.matcher(resultText.toString());
+            boolean b = m.matches();
             //TRY END
             //TRY SOME
-            Pattern p2=Pattern.compile(".*\\s(https:\\/\\/www\\.google\\.com\\S*)");
-            Matcher m2=p2.matcher(resultText.toString());
-            boolean b2=m2.matches();
-            System.out.println(b2+"敖德萨");
+            Pattern p2 = Pattern.compile(".*\\s(https:\\/\\/www\\.google\\.com\\S*)");
+            Matcher m2 = p2.matcher(resultText.toString());
+            boolean b2 = m2.matches();
+            System.out.println(b2 + "敖德萨");
             //TRY END
-            if(b){
-                resultText=resultText.replace(m.group(1),"");
+            if (b) {
+                resultText = resultText.replace(m.group(1), "");
                 messageTextre.setText(resultText);
                 SpannableString spString = new SpannableString(m.group(1));
                 spString.setSpan(new ClickableSpan() {
@@ -408,32 +403,30 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View widget) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        String s=((TextView)widget).getText().toString();
-                        Pattern pss=Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
-                        Matcher mss=pss.matcher(s);
+                        String s = ((TextView) widget).getText().toString();
+                        Pattern pss = Pattern.compile(".*(tinyurl\\.com\\/[0-9a-z-]+)");
+                        Matcher mss = pss.matcher(s);
                         mss.matches();
-                        Uri content_url = Uri.parse("https://"+mss.group(1));
+                        Uri content_url = Uri.parse("https://" + mss.group(1));
                         intent.setData(content_url);
                         startActivity(intent);
                     }
                 }, 0, m.group(1).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 messageTextre.append(spString);
                 messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
-            }else
-
-                if(b2){
+            } else if (b2) {
                 //Do something
-                    ssurl=m2.group(1);
-                resultText=resultText.replace(ssurl,"");
+                ssurl = m2.group(1);
+                resultText = resultText.replace(ssurl, "");
                 messageTextre.setText(resultText);
-                String urls="see the Google Map";
+                String urls = "see the Google Map";
                 SpannableString spString = new SpannableString(urls);
                 spString.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        System.out.println("url:"+ssurl);
+                        System.out.println("url:" + ssurl);
                         Uri content_url = Uri.parse(ssurl);
                         intent.setData(content_url);
                         startActivity(intent);
@@ -442,8 +435,8 @@ public class MainActivity extends AppCompatActivity {
                 messageTextre.append(spString);
                 messageTextre.setMovementMethod(LinkMovementMethod.getInstance());
 
-            }else {
-            messageTextre.setText(resultText);
+            } else {
+                messageTextre.setText(resultText);
             }
             chatBox.addView(lexMessageLayout);
         }
@@ -464,6 +457,61 @@ public class MainActivity extends AppCompatActivity {
         messageText.setBackgroundResource(R.drawable.text_view_border);
         messageText.setText(response);
         chatBox.addView(lexMessageLayout);
+    }
+
+    private Location getLocation() {
+
+        String provider = LocationManager.GPS_PROVIDER;
+        String serviceString = Context.LOCATION_SERVICE;
+        LocationManager locationManager = (LocationManager) getSystemService(serviceString);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("primission problems");
+            return null;
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location == null) {
+            provider = LocationManager.NETWORK_PROVIDER;
+            serviceString = Context.LOCATION_SERVICE;
+            locationManager = (LocationManager) getSystemService(serviceString);
+            location = locationManager.getLastKnownLocation(provider);
+        }
+        if (location != null) {
+            System.out.println(location.getLatitude() + "," + location.getLongitude());
+        } else {
+            System.out.println("can not get location");
+        }
+        return location;
+    }
+
+    public boolean isOpenLocService(Context context) {
+        boolean isGps = false; //判断GPS定位是否启动
+        boolean isNetwork = false; //判断网络定位是否启动
+        LocationManager locationManager
+                = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            //通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
+            isGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            //通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
+            isNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        if (isGps || isNetwork) {
+            return true;
+        }
+        return false;
+    }
+
+    public void gotoLocServiceSettings(Context context) {
+        final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void locationserveron(Context context) {
+        if (isOpenLocService(context)) {
+            ;
+        } else {
+            gotoLocServiceSettings(context);
+        }
     }
 
     private class LexListener implements InteractionListener {
@@ -490,7 +538,8 @@ public class MainActivity extends AppCompatActivity {
             //receiveMessage();
         }
     }
-    private class LexAudioListener implements AudioPlaybackListener{
+
+    private class LexAudioListener implements AudioPlaybackListener {
 
         @Override
         public void onAudioPlaybackStarted() {
@@ -504,60 +553,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onAudioPlaybackError(Exception e) {
 
-        }
-    }
-
-    private Location getLocation() {
-
-        String provider = LocationManager.GPS_PROVIDER;
-        String serviceString = Context.LOCATION_SERVICE;
-        LocationManager locationManager = (LocationManager) getSystemService(serviceString);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("primission problems");
-            return null;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
-        if(location==null){
-            provider = LocationManager.NETWORK_PROVIDER;
-            serviceString = Context.LOCATION_SERVICE;
-            locationManager = (LocationManager) getSystemService(serviceString);
-            location = locationManager.getLastKnownLocation(provider);
-        }
-        if(location!=null) {
-            System.out.println(location.getLatitude() + "," + location.getLongitude());
-        }else{
-            System.out.println("can not get location");
-        }
-            return location;
-    }
-
-
-    public boolean isOpenLocService(Context context) {
-        boolean isGps = false; //判断GPS定位是否启动
-        boolean isNetwork = false; //判断网络定位是否启动
-            LocationManager locationManager
-                    = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-            if (locationManager != null) {
-                //通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
-                isGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                //通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
-                isNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            }
-            if (isGps || isNetwork) {
-                return true;
-            }
-        return false;
-    }
-    public void gotoLocServiceSettings(Context context) {
-        final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-    public void locationserveron(Context context){
-        if(isOpenLocService(context)){
-            ;
-        }else{
-            gotoLocServiceSettings(context);
         }
     }
 }
