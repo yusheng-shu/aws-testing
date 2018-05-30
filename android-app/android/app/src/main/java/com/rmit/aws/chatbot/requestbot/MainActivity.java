@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String message) {
+        if(!isNetworkConnected(this)){
+            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
+            return;}
         if (message == null || message.isEmpty())
             return;
 
@@ -251,6 +254,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void receiveAudioMessage(Response response) {
+        if(!isNetworkConnected(this)){
+            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
+            return;}
         String resultText = response.getTextResponse();
         if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
@@ -343,7 +349,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void receiveMessage(PostTextResult postTextResult) {
-
+        if(!isNetworkConnected(this)){
+            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
+            return;}
 
         // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
