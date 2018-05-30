@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
@@ -30,6 +32,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.mobileconnectors.lex.interactionkit.InteractionClient;
@@ -102,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("测试测asdadads");
+
+
+
+        if(isNetworkConnected(this)){
         initPermission();
         initLex();
 
@@ -149,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
         interactiveVoiceView.getViewAdapter().setCredentialProvider(credentialsProvider);
         interactiveVoiceView.getViewAdapter().setInteractionConfig(new InteractionConfig(getString(R.string.bot_name), getString(R.string.bot_alias)));
         interactiveVoiceView.getViewAdapter().setAwsRegion(getString(R.string.region));
+        }else {
+            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initPermission() {
@@ -504,6 +513,18 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
     public void locationserveron(Context context) {
