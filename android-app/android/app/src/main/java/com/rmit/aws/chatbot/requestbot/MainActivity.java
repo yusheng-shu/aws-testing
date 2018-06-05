@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         interactiveVoiceView.getViewAdapter().setInteractionConfig(new InteractionConfig(getString(R.string.bot_name), getString(R.string.bot_alias)));
         interactiveVoiceView.getViewAdapter().setAwsRegion(getString(R.string.region));
         }else {
+            System.out.println("asdasdada");
             Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
         }
     }
@@ -254,9 +255,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void receiveAudioMessage(Response response) {
-        if(!isNetworkConnected(this)){
-            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
-            return;}
         String resultText = response.getTextResponse();
         if (resultText.equals("Sorry, I can't help you with that. Would you like to be transfered to a customer service rep?")) {
             ConstraintLayout ResponseCardLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.lexcard_chat_box, null);
@@ -349,10 +347,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void receiveMessage(PostTextResult postTextResult) {
-        if(!isNetworkConnected(this)){
-            Toast.makeText(MainActivity.this, "No network!", Toast.LENGTH_LONG).show();
-            return;}
-
         // TODO ASYNC Put this line of code in an AsyncTask class ================================================================================================================================
 
         String resultText = postTextResult.getMessage();
